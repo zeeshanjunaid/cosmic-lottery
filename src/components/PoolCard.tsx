@@ -13,10 +13,11 @@ interface PoolCardProps {
 const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const { isConnected } = useAccount();
   const [isHovered, setIsHovered] = useState(false);
+  const [isPurchasing, setIsPurchasing] = useState(false);
 
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 
-  const handleBuyTicket = () => {
+  const handleBuyTicket = async () => {
     if (!isConnected) {
       toast.error('Please connect your wallet first');
       return;
@@ -27,11 +28,20 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       return;
     }
 
+    if (pool.soldTickets >= pool.maxTickets) {
+      toast.error('All tickets have been sold');
+      return;
+    }
+
+    setIsPurchasing(true);
     toast.loading('Purchasing ticket...', { id: 'buy-ticket' });
     
+    // Simulate blockchain transaction
     setTimeout(() => {
-      toast.success('Ticket purchased successfully!', { id: 'buy-ticket' });
-    }, 2000);
+      toast.success(`Ticket purchased for ${pool.name}!`, { id: 'buy-ticket' });
+      setIsPurchasing(false);
+      // In real app, this would update the pool data from blockchain
+    }, 2500);
   };
 
   const formatAddress = (address: string) => {
@@ -78,12 +88,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         </div>
 
         {/* Prize Pool - Main Feature */}
-        <motion.div
-          className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 border border-purple-500/30 p-6"
-          whileHover={{ 
-            background: 'linear-gradient(to right, rgb(147 51 234 / 0.3), rgb(37 99 235 / 0.3), rgb(147 51 234 / 0.3))'
-          }}
-        >
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 border border-purple-500/30 p-6">
           {/* Lottery Wheel Icon */}
           <div className="absolute right-4 top-4">
             <motion.div
@@ -102,20 +107,18 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             <div className="text-white/60 text-sm">Get a cash prize of 1,00,000+ participants user.</div>
           </div>
           
-          <motion.button
+          <button
             onClick={handleBuyTicket}
-            disabled={!pool.isActive}
+            disabled={!pool.isActive || isPurchasing}
             className={`mt-4 w-full py-3 rounded-xl font-bold text-black transition-all duration-300 ${
-              pool.isActive
-                ? 'bg-[#2DE582] hover:bg-[#2DE582]/80'
+              pool.isActive && !isPurchasing
+                ? 'bg-[#2DE582] hover:bg-[#2DE582]/80 cursor-pointer'
                 : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
             }`}
-            whileHover={pool.isActive ? { scale: 1.02 } : {}}
-            whileTap={pool.isActive ? { scale: 0.98 } : {}}
           >
-            {pool.isActive ? 'Play' : 'Ended'}
-          </motion.button>
-        </motion.div>
+            {isPurchasing ? 'Purchasing...' : pool.isActive ? 'Play' : 'Ended'}
+          </button>
+        </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-3 gap-3">
@@ -165,11 +168,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             <CountdownTimer endTime={pool.endTime} />
           </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-xl p-4 border border-[#2DE582]/30"
-          >
+          <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-xl p-4 border border-[#2DE582]/30">
             <div className="flex items-center space-x-2 mb-2">
               <Trophy className="w-5 h-5 text-[#2DE582]" />
               <span className="text-[#2DE582] font-bold">🏆 WINNER!</span>
@@ -177,7 +176,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             <div className="text-white font-mono bg-[#2DE582]/20 px-3 py-2 rounded text-sm">
               {formatAddress(pool.winner!)}
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </motion.div>

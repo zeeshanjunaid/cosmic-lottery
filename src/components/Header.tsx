@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Wallet, Home, Trophy, Settings } from 'lucide-react';
+import { Menu, X, Wallet, Home, Trophy, Settings, Shield } from 'lucide-react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import toast from 'react-hot-toast';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onNavigate: (page: 'home' | 'admin') => void;
+  currentPage: 'home' | 'admin';
+}
+
+const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
   const handleWalletConnect = () => {
-    const connector = connectors[0];
+    const connector = connectors.find(c => c.name.includes('MetaMask')) || connectors[0];
     if (connector) {
-      connect({ connector });
-      toast.success('Wallet connected!');
+      connect({ connector }, {
+        onSuccess: () => {
+          toast.success('Wallet connected successfully!');
+        },
+        onError: (error) => {
+          toast.error('Failed to connect wallet: ' + error.message);
+        }
+      });
+    } else {
+      toast.error('No wallet connector available');
     }
   };
 
@@ -27,6 +40,14 @@ const Header: React.FC = () => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
 
+  const handleNavClick = (page: 'home' | 'admin') => {
+    onNavigate(page);
+    setIsMenuOpen(false);
+  };
+
+  // Mock admin check - in real app, this would check if connected address is admin
+  const isAdmin = address === '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88' || true; // Set to true for demo
+
   return (
     <motion.header
       initial={{ y: -50, opacity: 0 }}
@@ -38,21 +59,36 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
-          <motion.div 
-            className="flex items-center space-x-3"
-            whileHover={{ scale: 1.02 }}
-          >
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleNavClick('home')}>
             <div className="text-2xl font-bold text-white">
               Cosmic <span className="text-[#2DE582]">Lottery</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <button className="flex items-center space-x-2 text-[#2DE582] font-medium hover:text-white transition-colors">
+            <button 
+              onClick={() => handleNavClick('home')}
+              className={`flex items-center space-x-2 font-medium transition-colors ${
+                currentPage === 'home' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              }`}
+            >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </button>
+            
+            {isAdmin && (
+              <button 
+                onClick={() => handleNavClick('admin')}
+                className={`flex items-center space-x-2 font-medium transition-colors ${
+                  currentPage === 'admin' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                <Shield className="w-4 h-4" />
+                <span>Admin</span>
+              </button>
+            )}
+            
             <button className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors">
               <Trophy className="w-4 h-4" />
               <span>Winners</span>
@@ -70,32 +106,30 @@ const Header: React.FC = () => {
               <div className="hidden sm:flex items-center space-x-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
                 <div className="text-sm">
                   <span className="text-white/70">Balance: </span>
-                  <span className="text-[#2DE582] font-bold">6000</span>
+                  <span className="text-[#2DE582] font-bold">6000 USDT</span>
                 </div>
               </div>
             )}
 
             {/* Wallet Button */}
             {isConnected ? (
-              <motion.button
+              <button
                 onClick={handleWalletDisconnect}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-full text-black font-semibold transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                disabled={isPending}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-full text-black font-semibold transition-colors disabled:opacity-50"
               >
                 <Wallet className="w-4 h-4" />
                 <span className="hidden sm:inline">{formatAddress(address!)}</span>
-              </motion.button>
+              </button>
             ) : (
-              <motion.button
+              <button
                 onClick={handleWalletConnect}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-full text-black font-semibold transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                disabled={isPending}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-full text-black font-semibold transition-colors disabled:opacity-50"
               >
                 <Wallet className="w-4 h-4" />
-                <span>Connect</span>
-              </motion.button>
+                <span>{isPending ? 'Connecting...' : 'Connect'}</span>
+              </button>
             )}
 
             {/* Mobile Menu Button */}
@@ -120,10 +154,28 @@ const Header: React.FC = () => {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-white/10 py-4 space-y-2"
           >
-            <button className="w-full text-left px-4 py-2 text-[#2DE582] font-medium hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2">
+            <button 
+              onClick={() => handleNavClick('home')}
+              className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                currentPage === 'home' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </button>
+            
+            {isAdmin && (
+              <button 
+                onClick={() => handleNavClick('admin')}
+                className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                  currentPage === 'admin' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <Shield className="w-4 h-4" />
+                <span>Admin</span>
+              </button>
+            )}
+            
             <button className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2">
               <Trophy className="w-4 h-4" />
               <span>Winners</span>

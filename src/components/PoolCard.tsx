@@ -493,6 +493,13 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                   ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white cursor-not-allowed'
                   : 'bg-gradient-to-r from-gray-600/50 to-gray-700/50 text-gray-400 cursor-not-allowed'
               }`}
+            className={`mt-4 w-full py-3 rounded-xl font-bold text-base transition-all duration-300 shadow-xl ${
+                pool.isActive && !isPurchasing && !hasParticipated
+                  ? 'bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black cursor-pointer shadow-[0_10px_20px_rgba(45,229,130,0.3)]'
+                  : hasParticipated && pool.isActive
+                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white cursor-not-allowed'
+                  : 'bg-gradient-to-r from-gray-600/50 to-gray-700/50 text-gray-400 cursor-not-allowed'
+              }`}
             >
               {isPurchasing 
                 ? (

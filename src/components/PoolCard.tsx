@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, animated } from 'framer-motion';
+import { useSpring } from '@react-spring/web';
 import useSound from 'use-sound';
 import Confetti from 'react-confetti';
-import { useSpring, animated } from 'react-spring';
 import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target } from 'lucide-react';
 import { LotteryPool } from '../types/lottery';
 import { useAccount } from 'wagmi';
@@ -22,7 +22,31 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const [showCelebration, setShowCelebration] = useState(false);
 
   // Sound effects using use-sound
-  // Create audio context for better sound support
+  const [playFirecracker] = useSound(
+    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
+    { 
+      volume: 0.5,
+      onload: () => console.log('Firecracker sound loaded')
+    }
+  );
+  
+  const [playCelebration] = useSound(
+    'https://www.soundjay.com/misc/sounds/bell_tree.wav',
+    { 
+      volume: 0.4,
+      onload: () => console.log('Celebration sound loaded')
+    }
+  );
+  
+  const [playWinSound] = useSound(
+    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
+    { 
+      volume: 0.6,
+      onload: () => console.log('Win sound loaded')
+    }
+  );
+
+  // Create celebration sound function
   const createCelebrationSound = () => {
     try {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -32,44 +56,23 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
-      // Celebration melody
-      const notes = [523, 659, 783, 1047]; // C5, E5, G5, C6
-      let noteIndex = 0;
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
       
-      const playNote = () => {
-        if (noteIndex < notes.length) {
-          oscillator.frequency.setValueAtTime(notes[noteIndex], audioContext.currentTime);
-          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-          noteIndex++;
-          setTimeout(playNote, 200);
-        }
-      };
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
       
-      oscillator.start();
-      playNote();
-      
-      setTimeout(() => {
-        oscillator.stop();
-      }, 1000);
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
     } catch (error) {
-      console.log('Audio not supported:', error);
+      console.log('Web Audio API not supported:', error);
     }
   };
 
-  // Spring animation for graffiti text
+  // React Spring animation for graffiti text
   const graffitiSpring = useSpring({
-    from: { 
-      transform: 'scale(0) rotate(-180deg)',
-      opacity: 0 
-    },
-    to: showCelebration ? { 
-      transform: 'scale(1) rotate(0deg)',
-      opacity: 1 
-    } : { 
-      transform: 'scale(0) rotate(-180deg)',
-      opacity: 0 
-    },
+    from: { scale: 0, rotate: -20 },
+    to: { scale: 1, rotate: 0 },
     config: { tension: 300, friction: 10 }
   });
 
@@ -145,24 +148,15 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
     setIsClaiming(true);
     toast.loading('Processing reward claim...', { id: 'claim-reward' });
     
-    // Play firecracker sound immediately
-    try {
-      playFirecracker();
-    } catch (error) {
-      console.log('Firecracker sound failed:', error);
-    }
+    // Play celebration sound immediately
+    createCelebrationSound();
     
     setTimeout(() => {
       setIsClaiming(false);
       setShowCelebration(true);
       
-      // Play celebration and win sounds together
-      try {
-        playCelebration();
-        setTimeout(() => playWinSound(), 500); // Stagger the sounds
-      } catch (error) {
-        console.log('Celebration sounds failed:', error);
-      }
+      // Play another celebration sound
+      setTimeout(() => createCelebrationSound(), 500);
       
       toast.success(`🎉 Reward claimed! $${pool.prizePool} has been sent to your wallet!`, { 
         id: 'claim-reward',
@@ -191,211 +185,223 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       
       {/* Celebration Overlay */}
       {showCelebration && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/30 via-yellow-400/30 to-[#2DE582]/30 z-30 flex items-center justify-center rounded-2xl overflow-hidden"
-        >
-          {/* Graffiti-style background pattern */}
-          <motion.div
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: 1.5, rotate: 45 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: `
-                radial-gradient(circle at 20% 20%, #ff0080 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, #00ff80 0%, transparent 50%),
-                radial-gradient(circle at 40% 70%, #8000ff 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, #ff8000 0%, transparent 50%)
-              `
-            }}
-          />
-          
-          {/* Spray paint splashes */}
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={`splash-${i}`}
-              initial={{ 
-                scale: 0,
-                x: 0,
-                y: 0,
-                rotate: 0
-              }}
-              animate={{ 
-                scale: [0, 1.5, 0.8],
-                x: [(Math.random() - 0.5) * 300],
-                y: [(Math.random() - 0.5) * 200],
-                rotate: [0, Math.random() * 360]
-              }}
-              transition={{ 
-                duration: 1.2,
-                delay: i * 0.15,
-                ease: "easeOut"
-              }}
-              className={`absolute w-8 h-8 rounded-full ${
-                ['bg-pink-500', 'bg-purple-500', 'bg-yellow-400', 'bg-green-400', 'bg-blue-500', 'bg-red-500', 'bg-orange-500', 'bg-cyan-400'][i]
-              }`}
-              style={{
-                left: '50%',
-                top: '50%',
-                filter: 'blur(1px)',
-              }}
+        <>
+          {/* Confetti Effect */}
+          <div className="absolute inset-0 z-40 pointer-events-none">
+            <Confetti
+              width={400}
+              height={300}
+              numberOfPieces={100}
+              recycle={false}
+              colors={['#2DE582', '#ff0080', '#00ff80', '#8000ff', '#ff8000', '#ffff00']}
             />
-          ))}
-          
+          </div>
+
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            className="text-center space-y-4 relative z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/30 via-yellow-400/30 to-[#2DE582]/30 z-30 flex items-center justify-center rounded-2xl overflow-hidden"
           >
-            {/* Graffiti-style "BOOM" text */}
+            {/* Graffiti-style background pattern */}
             <motion.div
-              initial={{ scale: 0, rotate: -20 }}
-              animate={{ 
-                scale: [0, 1.3, 1],
-                rotate: [-20, 5, 0]
-              }}
-              transition={{ 
-                duration: 0.8,
-                ease: "backOut"
-              }}
-              className="relative"
-            >
-              <div 
-                className="text-6xl font-black text-transparent bg-clip-text"
-                style={{
-                  backgroundImage: 'linear-gradient(45deg, #ff0080, #ff8000, #00ff80, #8000ff)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))',
-                  fontFamily: 'Impact, Arial Black, sans-serif',
-                  textShadow: '3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000',
-                }}
-              >
-                BOOM!
-              </div>
-              {/* Graffiti outline effect */}
-              <div 
-                className="absolute inset-0 text-6xl font-black text-white opacity-20"
-                style={{
-                  fontFamily: 'Impact, Arial Black, sans-serif',
-                  transform: 'translate(2px, 2px)',
-                }}
-              >
-                BOOM!
-              </div>
-            </motion.div>
-            
-            <motion.div
-              animate={{ 
-                scale: [1, 1.3, 1],
-                rotate: [0, 15, -15, 0]
-              }}
-              transition={{ 
-                duration: 0.8,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-              className="text-7xl"
-            >
-              💰
-            </motion.div>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-white font-black text-xl tracking-wider"
+              initial={{ scale: 0, rotate: -45 }}
+              animate={{ scale: 1.5, rotate: 45 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="absolute inset-0 opacity-20"
               style={{
-                fontFamily: 'Impact, Arial Black, sans-serif',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              }}
-            >
-              JACKPOT WON!
-            </motion.div>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="text-yellow-300 font-black text-3xl"
-              style={{
-                fontFamily: 'Impact, Arial Black, sans-serif',
-                textShadow: '3px 3px 6px rgba(0,0,0,0.8)',
-                filter: 'drop-shadow(0 0 10px rgba(255, 255, 0, 0.5))',
-              }}
-            >
-              ${pool.prizePool}
-            </motion.div>
-          </motion.div>
-          
-          {/* Graffiti-style floating elements */}
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ 
-                scale: 0,
-                x: 0,
-                y: 0,
-                opacity: 1,
-                rotate: 0
-              }}
-              animate={{ 
-                scale: [0, 1, 0],
-                x: [0, (Math.random() - 0.5) * 300],
-                y: [0, -Math.random() * 200],
-                opacity: [1, 1, 0],
-                rotate: [0, Math.random() * 720]
-              }}
-              transition={{ 
-                duration: 2.5,
-                delay: i * 0.2,
-                ease: "easeOut"
-              }}
-              className="absolute text-3xl"
-              style={{
-                left: '50%',
-                top: '50%',
-                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))',
-              }}
-            >
-              {['💎', '⭐', '🎊', '✨', '🏆', '💰', '🔥', '⚡', '🌟', '💸', '🎯', '🚀'][i]}
-            </motion.div>
-          ))}
-          
-          {/* Electric sparks effect */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={`spark-${i}`}
-              initial={{ 
-                scale: 0,
-                x: 0,
-                y: 0,
-                opacity: 1
-              }}
-              animate={{ 
-                scale: [0, 0.5, 0],
-                x: [(Math.random() - 0.5) * 400],
-                y: [(Math.random() - 0.5) * 300],
-                opacity: [1, 0.8, 0]
-              }}
-              transition={{ 
-                duration: 1.5,
-                delay: i * 0.1,
-                ease: "easeOut"
-              }}
-              className="absolute w-1 h-1 bg-yellow-300 rounded-full"
-              style={{
-                left: '50%',
-                top: '50%',
-                boxShadow: '0 0 6px #fef08a',
+                background: `
+                  radial-gradient(circle at 20% 20%, #ff0080 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, #00ff80 0%, transparent 50%),
+                  radial-gradient(circle at 40% 70%, #8000ff 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, #ff8000 0%, transparent 50%)
+                `
               }}
             />
-          ))}
-        </motion.div>
+            
+            {/* Spray paint splashes */}
+            {[...Array(12)].map((_, i) => (
+              <motion.div
+                key={`splash-${i}`}
+                initial={{ 
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  rotate: 0
+                }}
+                animate={{ 
+                  scale: [0, 2, 1],
+                  x: [(Math.random() - 0.5) * 400],
+                  y: [(Math.random() - 0.5) * 300],
+                  rotate: [0, Math.random() * 720]
+                }}
+                transition={{ 
+                  duration: 1.5,
+                  delay: i * 0.1,
+                  ease: "easeOut"
+                }}
+                className={`absolute w-6 h-6 rounded-full ${
+                  ['bg-pink-500', 'bg-purple-500', 'bg-yellow-400', 'bg-green-400', 'bg-blue-500', 'bg-red-500', 'bg-orange-500', 'bg-cyan-400', 'bg-lime-400', 'bg-fuchsia-500', 'bg-amber-400', 'bg-emerald-400'][i]
+                }`}
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  filter: 'blur(0.5px)',
+                  boxShadow: '0 0 10px currentColor',
+                }}
+              />
+            ))}
+            
+            <div className="text-center space-y-4 relative z-10">
+              {/* Graffiti-style "BOOM" text with react-spring */}
+              <animated.div
+                style={graffitiSpring}
+                className="relative"
+              >
+                <div 
+                  className="text-6xl font-black text-transparent bg-clip-text"
+                  style={{
+                    backgroundImage: 'linear-gradient(45deg, #ff0080, #ff8000, #00ff80, #8000ff)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.8))',
+                    fontFamily: 'Impact, Arial Black, sans-serif',
+                    textShadow: '4px 4px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000',
+                  }}
+                >
+                  BOOM!
+                </div>
+                {/* Multiple outline layers for graffiti effect */}
+                <div 
+                  className="absolute inset-0 text-6xl font-black text-white opacity-30"
+                  style={{
+                    fontFamily: 'Impact, Arial Black, sans-serif',
+                    transform: 'translate(3px, 3px)',
+                  }}
+                >
+                  BOOM!
+                </div>
+                <div 
+                  className="absolute inset-0 text-6xl font-black text-black opacity-50"
+                  style={{
+                    fontFamily: 'Impact, Arial Black, sans-serif',
+                    transform: 'translate(1px, 1px)',
+                  }}
+                >
+                  BOOM!
+                </div>
+              </animated.div>
+              
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.4, 1],
+                  rotate: [0, 20, -20, 0]
+                }}
+                transition={{ 
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="text-8xl"
+              >
+                💰
+              </motion.div>
+              
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                className="text-white font-black text-xl tracking-wider"
+                style={{
+                  fontFamily: 'Impact, Arial Black, sans-serif',
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.9)',
+                  filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))',
+                }}
+              >
+                JACKPOT WON!
+              </motion.div>
+              
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                className="text-yellow-300 font-black text-4xl"
+                style={{
+                  fontFamily: 'Impact, Arial Black, sans-serif',
+                  textShadow: '4px 4px 8px rgba(0,0,0,0.9)',
+                  filter: 'drop-shadow(0 0 15px rgba(255, 255, 0, 0.7))',
+                }}
+              >
+                ${pool.prizePool}
+              </motion.div>
+            </div>
+            
+            {/* Enhanced floating elements */}
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={`float-${i}`}
+                initial={{ 
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 1,
+                  rotate: 0
+                }}
+                animate={{ 
+                  scale: [0, 1.5, 0],
+                  x: [0, (Math.random() - 0.5) * 400],
+                  y: [0, -Math.random() * 300],
+                  opacity: [1, 1, 0],
+                  rotate: [0, Math.random() * 1080]
+                }}
+                transition={{ 
+                  duration: 3,
+                  delay: i * 0.15,
+                  ease: "easeOut"
+                }}
+                className="absolute text-4xl"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))',
+                }}
+              >
+                {['💎', '⭐', '🎊', '✨', '🏆', '💰', '🔥', '⚡', '🌟', '💸', '🎯', '🚀', '🎉', '💵', '🎪'][i]}
+              </motion.div>
+            ))}
+            
+            {/* Electric sparks effect */}
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={`spark-${i}`}
+                initial={{ 
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 1
+                }}
+                animate={{ 
+                  scale: [0, 1, 0],
+                  x: [(Math.random() - 0.5) * 500],
+                  y: [(Math.random() - 0.5) * 400],
+                  opacity: [1, 0.9, 0]
+                }}
+                transition={{ 
+                  duration: 2,
+                  delay: i * 0.08,
+                  ease: "easeOut"
+                }}
+                className="absolute w-2 h-2 rounded-full"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  backgroundColor: ['#fef08a', '#2DE582', '#ff0080', '#00ff80', '#8000ff'][i % 5],
+                  boxShadow: '0 0 8px currentColor',
+                }}
+              />
+            ))}
+          </motion.div>
+        </>
       )}
 
       {/* Status Badge */}

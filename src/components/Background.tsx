@@ -5,12 +5,12 @@ const Background = () => {
   return (
     <div className="fixed inset-0 -z-10">
       {/* Main Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-fuchsia-600 to-purple-700" />
+      <div className="absolute inset-0 bg-gradient-to-br from-red-600 via-orange-600 to-yellow-500" />
       
       {/* Animated Orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-pink-400/30 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-red-400/30 rounded-full blur-3xl"
           animate={{
             x: [0, 100, 0],
             y: [0, -50, 0],
@@ -34,7 +34,7 @@ const Background = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-20 left-1/3 w-80 h-80 bg-yellow-400/25 rounded-full blur-3xl"
+          className="absolute bottom-20 left-1/3 w-80 h-80 bg-yellow-300/25 rounded-full blur-3xl"
           animate={{
             x: [0, -120, 0],
             y: [0, -40, 0],
@@ -60,8 +60,8 @@ const Background = () => {
       />
 
       {/* Light Effects */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-300/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-300/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-300/20 rounded-full blur-3xl" />
     </div>
   );
 };

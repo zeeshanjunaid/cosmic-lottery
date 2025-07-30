@@ -18,7 +18,7 @@ function App() {
           style: {
             background: '#1f2937',
             color: '#fff',
-            border: '1px solid #ec4899',
+            border: '1px solid #ef4444',
           },
         }}
       />

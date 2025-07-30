@@ -595,12 +595,35 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           {/* View Details Button */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button
-                variant="outline" 
-                className="w-full bg-[#1C1C1C]/60 hover:bg-[#1C1C1C]/80 border-white/10 text-white/70 hover:text-white"
+              <motion.button
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative w-full py-3 px-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 hover:from-purple-600/30 hover:to-blue-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-white/80 hover:text-white font-medium transition-all duration-300 overflow-hidden"
               >
-                View Details
-              </Button>
+                {/* Animated background effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Content */}
+                <div className="relative flex items-center justify-center space-x-2">
+                  <motion.div
+                    animate={{ rotate: isHovered ? 360 : 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Eye className="w-4 h-4 text-purple-400 group-hover:text-[#2DE582]" />
+                  </motion.div>
+                  <span className="text-sm">View Details</span>
+                  <motion.div
+                    animate={{ x: isHovered ? 3 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="opacity-60 group-hover:opacity-100"
+                  >
+                    →
+                  </motion.div>
+                </div>
+                
+                {/* Subtle glow effect */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300" />
+              </motion.button>
             </DialogTrigger>
             <DialogContent className="bg-[#181830] border-white/10 text-white max-w-2xl">
               <DialogHeader>

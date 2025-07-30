@@ -71,14 +71,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
           <motion.div 
             className="flex items-center cursor-pointer group py-4" 
             onClick={() => handleNavClick('home')}
-            whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             <div className="flex items-center space-x-3">
               <div className="p-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-                <Star className="w-7 h-7 text-black fill-current" />
+                <Star className="w-5 h-5 text-black fill-current" />
               </div>
-              <div className="text-3xl lg:text-4xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
+              <div className="text-xl lg:text-2xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
                 Cosmic <span className="text-[#2DE582]">Lottery</span>
               </div>
             </div>
@@ -86,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
-            <div className="flex items-center space-x-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-2">
+            <div className="flex items-center space-x-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
@@ -95,16 +94,29 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   <motion.button
                     key={item.id}
                     onClick={() => handleNavClick(item.id as any)}
-                    className={`flex items-center space-x-2.5 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    className={`relative flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 overflow-hidden ${
                       isActive 
                         ? 'text-black bg-[#2DE582] shadow-lg' 
                         : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={!isActive ? { 
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    } : {}}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
                   >
+                    {/* Subtle hover effect background */}
+                    {!isActive && (
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/0 via-[#2DE582]/5 to-[#2DE582]/0 opacity-0"
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                    <div className="relative z-10 flex items-center space-x-2">
                     <Icon className="w-4 h-4" />
                     <span>{item.label}</span>
+                    </div>
                   </motion.button>
                 );
               })}
@@ -124,25 +136,25 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             )}
 
             {/* Wallet Button */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <motion.div whileTap={{ scale: 0.98 }}>
               {isConnected ? (
                 <button
                   onClick={handleWalletDisconnect}
                   disabled={isPending}
-                  className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
+                  className="flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-sm font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
                 >
-                  <Wallet className="w-5 h-5" />
-                  <span className="hidden sm:inline font-mono text-lg">{formatAddress(address!)}</span>
+                  <Wallet className="w-4 h-4" />
+                  <span className="hidden sm:inline font-mono">{formatAddress(address!)}</span>
                   <span className="sm:hidden">Wallet</span>
                 </button>
               ) : (
                 <button
                   onClick={handleWalletConnect}
                   disabled={isPending}
-                  className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
+                  className="flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-sm font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
                 >
-                  <Wallet className="w-5 h-5" />
-                  <span className="text-lg">{isPending ? 'Connecting...' : 'Connect Wallet'}</span>
+                  <Wallet className="w-4 h-4" />
+                  <span>{isPending ? 'Connecting...' : 'Connect Wallet'}</span>
                 </button>
               )}
             </motion.div>
@@ -185,26 +197,25 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   <motion.button
                     key={item.id}
                     onClick={() => handleNavClick(item.id as any)}
-                    className={`w-full flex items-center space-x-4 px-6 py-4 rounded-xl transition-all duration-300 ${
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive 
                         ? 'text-black bg-[#2DE582] shadow-lg' 
                         : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
-                    whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium text-lg">{item.label}</span>
+                    <Icon className="w-4 h-4" />
+                    <span className="font-medium">{item.label}</span>
                   </motion.button>
                 );
               })}
               
               {/* Mobile Balance Display */}
               {isConnected && (
-                <div className="mx-6 px-6 py-4 bg-white/5 border border-white/10 rounded-xl">
+                <div className="mx-4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl">
                   <div className="text-center">
                     <span className="text-white/70 text-sm">Balance: </span>
-                    <span className="text-[#2DE582] font-bold text-xl">6,000 USDT</span>
+                    <span className="text-[#2DE582] font-bold text-lg">6,000 USDT</span>
                   </div>
                 </div>
               )}

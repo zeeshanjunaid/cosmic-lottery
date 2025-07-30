@@ -196,7 +196,7 @@ const CreatePoolForm: React.FC = () => {
             <Button
               type="submit" 
               disabled={isSubmitting}
-              className="w-full py-4 bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+              className="w-full py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
               variant={isSubmitting ? "secondary" : "default"}
             >
               <div className="flex items-center justify-center space-x-2">

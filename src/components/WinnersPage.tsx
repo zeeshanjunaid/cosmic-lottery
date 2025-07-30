@@ -90,7 +90,7 @@ const WinnersPage: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
-          <div className="p-3 bg-[#2DE582] rounded-xl">
+          <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
             <Trophy className="w-8 h-8 text-black" />
           </div>
           <h1 className="text-4xl font-bold text-white">

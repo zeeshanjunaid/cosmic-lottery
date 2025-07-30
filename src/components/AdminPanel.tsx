@@ -62,7 +62,7 @@ const AdminPanel: React.FC = () => {
                 key={tab.id}
                 variant={activeTab === tab.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-3 font-semibold transition-all duration-300 ${
+                className={`relative px-6 py-3 font-semibold transition-all duration-300 hover:scale-102 ${
                   activeTab === tab.id
                     ? 'text-black bg-[#2DE582] hover:bg-[#2DE582]/80'
                     : 'text-gray-400 hover:text-white'

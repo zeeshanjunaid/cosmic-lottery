@@ -79,7 +79,7 @@ const SettingsPage: React.FC = () => {
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
-          <div className="p-3 bg-[#2DE582] rounded-xl">
+          <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
             <Settings className="w-8 h-8 text-black" />
           </div>
           <h1 className="text-4xl font-bold text-white">
@@ -252,7 +252,7 @@ const SettingsPage: React.FC = () => {
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-8 py-4 bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+            className="px-8 py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
             variant={isSaving ? "secondary" : "default"}
           >
             <div className="flex items-center space-x-2">

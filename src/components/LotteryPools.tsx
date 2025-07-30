@@ -101,13 +101,24 @@ const LotteryPools: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-lg">
-              <Star className="w-6 h-6 text-yellow-400 fill-current" />
+          <div className="bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 border border-yellow-500/20 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl shadow-lg">
+                  <Star className="w-7 h-7 text-white fill-current" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">🌟 Featured Jackpot</h2>
+                  <p className="text-yellow-200/80 text-sm">The biggest prize pool waiting for you!</p>
+                </div>
+              </div>
+              <div className="hidden md:block text-right">
+                <div className="text-yellow-400 text-sm font-medium">PREMIUM</div>
+                <div className="text-yellow-200/60 text-xs">Highest Rewards</div>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Featured Jackpot</h2>
           </div>
           <PoolCard pool={featuredPool} />
         </motion.div>
@@ -119,14 +130,24 @@ const LotteryPools: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-[#2DE582]/20 to-green-400/20 rounded-lg">
-              <Zap className="w-6 h-6 text-[#2DE582]" />
+          <div className="bg-gradient-to-r from-[#2DE582]/10 via-green-500/10 to-emerald-500/10 border border-[#2DE582]/20 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
+                  <Zap className="w-7 h-7 text-black" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">⚡ Quick Draw</h2>
+                  <p className="text-green-200/80 text-sm">Jump in fast! Low cost, instant fun, quick results</p>
+                </div>
+              </div>
+              <div className="hidden md:block text-right">
+                <div className="text-[#2DE582] text-sm font-medium">FAST</div>
+                <div className="text-green-200/60 text-xs">Low Entry</div>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Quick Draw</h2>
-            <span className="text-sm text-gray-400">Low cost, fast action</span>
           </div>
           <div className="space-y-6">
             {quickDrawPools.map((pool, index) => (
@@ -149,14 +170,24 @@ const LotteryPools: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg">
-              <Trophy className="w-6 h-6 text-purple-400" />
+          <div className="bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-indigo-600/10 border border-purple-500/20 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-purple-500 to-blue-600 rounded-xl shadow-lg">
+                  <Trophy className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">🏆 High Stakes</h2>
+                  <p className="text-purple-200/80 text-sm">VIP experience with premium pools and mega prizes</p>
+                </div>
+              </div>
+              <div className="hidden md:block text-right">
+                <div className="text-purple-400 text-sm font-medium">VIP</div>
+                <div className="text-purple-200/60 text-xs">Big Rewards</div>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">High Stakes</h2>
-            <span className="text-sm text-gray-400">Premium pools, bigger rewards</span>
           </div>
           <div className="space-y-6">
             {highStakesPools.map((pool, index) => (
@@ -179,14 +210,24 @@ const LotteryPools: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-lg">
-              <Clock className="w-6 h-6 text-yellow-400" />
+          <div className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-rose-500/10 border border-orange-500/20 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl shadow-lg">
+                  <Clock className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">🎉 Recent Winners</h2>
+                  <p className="text-orange-200/80 text-sm">Celebrate with our lucky winners! You could be next</p>
+                </div>
+              </div>
+              <div className="hidden md:block text-right">
+                <div className="text-orange-400 text-sm font-medium">WINNERS</div>
+                <div className="text-orange-200/60 text-xs">Inspiration</div>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Recent Winners</h2>
-            <span className="text-sm text-gray-400">Congratulations!</span>
           </div>
           <div className="space-y-6">
             {endedPools.map((pool, index) => (

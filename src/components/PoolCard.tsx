@@ -640,8 +640,8 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           <Dialog>
             <DialogTrigger asChild>
               <motion.button
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{}}
+                whileTap={{}}
                 className="group relative w-full py-3 px-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 hover:from-purple-600/30 hover:to-blue-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-white/80 hover:text-white font-medium transition-all duration-300 overflow-hidden"
               >
                 {/* Animated background effect */}

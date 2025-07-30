@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
       className="w-full bg-[#181830]/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50"
     >
       {/* Main Header Content */}
-      <div className="w-full px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           
           {/* Logo Section */}
@@ -81,11 +81,11 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             transition={{ duration: 0.2 }}
           >
             <div className="flex items-center space-x-3">
-              <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg group-hover:shadow-[#2DE582]/25 transition-all duration-300">
-                <Star className="w-6 h-6 text-black fill-current" />
+              <div className="p-2 sm:p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg group-hover:shadow-[#2DE582]/25 transition-all duration-300">
+                <Star className="w-5 h-5 sm:w-6 sm:h-6 text-black fill-current" />
               </div>
-              <div className="text-2xl lg:text-3xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
-                Cosmic <span className="text-[#2DE582]">Lottery</span>
+              <div className="text-lg sm:text-2xl lg:text-3xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
+                <span className="hidden xs:inline">Cosmic </span><span className="text-[#2DE582]">Lottery</span>
               </div>
             </div>
           </motion.div>
@@ -137,10 +137,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
           <div className="flex items-center space-x-6">
             {/* User Balance - Desktop Only */}
             {isConnected && (
-              <div className="hidden xl:flex items-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl px-6 py-3">
-                <div className="text-sm font-medium">
+              <div className="hidden lg:flex items-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl px-3 sm:px-6 py-2 sm:py-3">
+                <div className="text-xs sm:text-sm font-medium">
                   <span className="text-white/70">Balance: </span>
-                  <span className="text-[#2DE582] font-bold text-lg">6,000 USDT</span>
+                  <span className="text-[#2DE582] font-bold text-sm sm:text-lg">6,000 USDT</span>
                 </div>
               </div>
             )}
@@ -161,9 +161,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                 <button
                   onClick={handleWalletConnect}
                   disabled={isPending}
-                  className="flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-sm font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
+                  className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-xs sm:text-sm font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
                 >
-                  <Wallet className="w-4 h-4" />
+                  <Wallet className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{isPending ? 'Connecting...' : 'Connect Wallet'}</span>
                 </button>
               )}
@@ -173,16 +173,16 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             <Button
               variant="ghost"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-3 text-white hover:bg-white/10 rounded-xl border border-white/10"
+              className="lg:hidden p-2 sm:p-3 text-white hover:bg-white/10 rounded-xl border border-white/10"
             >
               <motion.div
                 animate={{ rotate: isMenuOpen ? 90 : 0 }}
                 transition={{ duration: 0.2 }}
               >
                 {isMenuOpen ? (
-                  <X className="w-6 h-6 text-white" />
+                  <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 ) : (
-                  <Menu className="w-6 h-6 text-white" />
+                  <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 )}
               </motion.div>
             </Button>
@@ -196,9 +196,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden border-t border-white/10 py-8"
+            className="lg:hidden border-t border-white/10 py-4 sm:py-8"
           >
-            <div className="space-y-4">
+            <div className="space-y-2 sm:space-y-4">
               {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
@@ -209,12 +209,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                     onClick={() => handleNavClick(item.id as any)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive 
-                        ? 'text-black bg-[#2DE582] shadow-lg' 
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                        ? 'text-black bg-[#2DE582] shadow-lg text-sm sm:text-base' 
+                        : 'text-white/80 hover:text-white hover:bg-white/10 text-sm sm:text-base'
                     }`}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4 flex-shrink-0" />
                     <span className="font-medium">{item.label}</span>
                   </motion.button>
                 );
@@ -222,10 +222,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               
               {/* Mobile Balance Display */}
               {isConnected && (
-                <div className="mx-4 px-4 py-3 bg-white/5 border border-white/10 rounded-xl">
+                <div className="mx-4 px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/10 rounded-xl">
                   <div className="text-center">
-                    <span className="text-white/70 text-sm">Balance: </span>
-                    <span className="text-[#2DE582] font-bold text-lg">6,000 USDT</span>
+                    <span className="text-white/70 text-xs sm:text-sm">Balance: </span>
+                    <span className="text-[#2DE582] font-bold text-sm sm:text-lg">6,000 USDT</span>
                   </div>
                 </div>
               )}

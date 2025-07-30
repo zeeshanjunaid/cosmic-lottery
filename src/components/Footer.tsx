@@ -56,7 +56,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 The most fair and transparent decentralized lottery platform. 
                 Join thousands of players in our cosmic journey to the stars.
               </p>
-              <div className="flex items-center space-x-1 text-white/60 text-sm">
+              <div className="flex items-center justify-start space-x-2 text-white/60 text-sm whitespace-nowrap">
                 <span>Made with</span>
                 <Heart className="w-4 h-4 text-red-400 fill-current" />
                 <span>for the crypto community</span>

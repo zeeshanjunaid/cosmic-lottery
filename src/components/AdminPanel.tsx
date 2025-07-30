@@ -55,7 +55,7 @@ const AdminPanel: React.FC = () => {
 
       {/* Tab Navigation */}
       <div className="flex justify-center">
-        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 p-1 sm:p-2 w-full sm:w-fit max-w-lg">
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 w-full sm:w-fit max-w-lg sm:p-2">
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:justify-center p-1 sm:p-2">
             {tabs.map((tab) => (
               <Button

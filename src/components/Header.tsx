@@ -157,7 +157,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             </Button>
           </div>
         </div>
-      </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
@@ -165,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/10 py-4 space-y-2 container mx-auto px-4 sm:px-6 lg:px-8"
+            className="md:hidden border-t border-white/10 py-4 space-y-2"
           >
             <button 
               onClick={() => handleNavClick('home')}
@@ -209,6 +208,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             </button>
           </motion.div>
         )}
+      </div>
     </motion.header>
   );
 };

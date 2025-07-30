@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
       className="w-full bg-[#181830]/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50"
     >
       {/* Main Header Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           
           {/* Logo Section */}

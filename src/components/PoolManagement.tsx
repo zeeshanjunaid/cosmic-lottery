@@ -190,8 +190,6 @@ const PoolManagement: React.FC = () => {
                     <motion.button
                       onClick={() => handleTriggerPayout(pool.id)}
                       className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 rounded-lg font-semibold text-white transition-all duration-300"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       Trigger Payout
                     </motion.button>

@@ -225,8 +225,6 @@ const CreatePoolForm: React.FC = () => {
                   ? 'bg-gray-600 cursor-not-allowed'
                   : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-blue-500/25'
               }`}
-              whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-              whileTap={!isSubmitting ? { scale: 0.98 } : {}}
             >
               <div className="flex items-center justify-center space-x-2">
                 <Plus className="w-5 h-5" />

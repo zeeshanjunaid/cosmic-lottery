@@ -419,23 +419,23 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         )}
 
         {/* Main Card Content */}
-        <div className="relative z-10 p-6">
+        <div className="relative z-10 p-4 sm:p-6">
           
           {/* Header Section */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
             {/* Pool Name & Description */}
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
                 <motion.div
                   animate={{ rotate: isHovered ? 360 : 0 }}
                   transition={{ duration: 0.8 }}
                   className="p-3 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-xl border border-yellow-400/30 flex-shrink-0 shadow-lg"
                 >
-                  <Star className="w-6 h-6 text-yellow-400 fill-current" />
+                  <Star className="w-4 h-4 sm:w-6 sm:h-6 text-yellow-400 fill-current" />
                 </motion.div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">{pool.name}</h3>
+                <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">{pool.name}</h3>
               </div>
-              <p className="text-white/70 text-base lg:text-lg ml-0 lg:ml-[60px] leading-relaxed">Join the cosmic lottery for a chance to win big!</p>
+              <p className="text-white/70 text-sm sm:text-base lg:text-lg ml-0 lg:ml-[60px] leading-relaxed">Join the cosmic lottery for a chance to win big!</p>
             </div>
             
             {/* Status Badge */}
@@ -458,49 +458,49 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Left Section - Pool Stats */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="lg:col-span-1 space-y-4 sm:space-y-6">
               
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <DollarSign className="w-5 h-5 text-[#2DE582]" />
+                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
                   </div>
-                  <div className="text-lg font-bold text-white">${pool.ticketPrice}</div>
+                  <div className="text-sm sm:text-lg font-bold text-white">${pool.ticketPrice}</div>
                   <div className="text-xs text-white/60">per ticket</div>
                 </div>
                 
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Users className="w-5 h-5 text-blue-400" />
+                    <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   </div>
-                  <div className="text-lg font-bold text-white">{pool.soldTickets}/{pool.maxTickets}</div>
+                  <div className="text-sm sm:text-lg font-bold text-white">{pool.soldTickets}/{pool.maxTickets}</div>
                   <div className="text-xs text-white/60">sold</div>
                 </div>
                 
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Ticket className="w-5 h-5 text-purple-400" />
+                    <Ticket className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                   </div>
-                  <div className="text-lg font-bold text-white">{pool.maxTickets - pool.soldTickets}</div>
+                  <div className="text-sm sm:text-lg font-bold text-white">{pool.maxTickets - pool.soldTickets}</div>
                   <div className="text-xs text-white/60">remaining</div>
                 </div>
                 
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4 text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Trophy className="w-5 h-5 text-yellow-400" />
+                    <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
                   </div>
-                  <div className="text-lg font-bold text-white">1:{pool.maxTickets}</div>
+                  <div className="text-sm sm:text-lg font-bold text-white">1:{pool.maxTickets}</div>
                   <div className="text-xs text-white/60">win odds</div>
                 </div>
               </div>
               
               {/* Progress Bar */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
                   <span className="text-white/70">Progress</span>
                   <span className="text-[#2DE582] font-bold">{progressPercentage.toFixed(1)}%</span>
                 </div>
@@ -511,51 +511,51 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
               </div>
 
               {/* Pool ID */}
-              <div className="text-center text-xs text-white/50 font-mono">
+              <div className="text-center text-xs text-white/50 font-mono break-all">
                 Pool ID: {pool.id}
               </div>
             </div>
             
             {/* Center Section - Prize Pool */}
             <div className="lg:col-span-1 flex justify-center items-center">
-              <div className="relative bg-gradient-to-br from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/30 rounded-2xl p-8 text-center w-full max-w-xs">
+              <div className="relative bg-gradient-to-br from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/30 rounded-2xl p-4 sm:p-8 text-center w-full max-w-xs">
                 {/* Animated Target Icon */}
                 <motion.div
                   animate={{ rotate: isHovered ? 360 : 0 }}
                   transition={{ duration: 2, ease: "linear" }}
-                  className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 flex items-center justify-center shadow-lg"
+                  className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 flex items-center justify-center shadow-lg"
                 >
-                  <Target className="w-8 h-8 text-white" />
+                  <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </motion.div>
                 
                 <div className="space-y-2">
-                  <div className="text-[#2DE582] text-sm font-bold tracking-wide uppercase">Prize Pool</div>
-                  <div className="text-4xl font-black text-white">${pool.prizePool}</div>
-                  <div className="text-white/60 text-sm">USDT</div>
+                  <div className="text-[#2DE582] text-xs sm:text-sm font-bold tracking-wide uppercase">Prize Pool</div>
+                  <div className="text-2xl sm:text-4xl font-black text-white">${pool.prizePool}</div>
+                  <div className="text-white/60 text-xs sm:text-sm">USDT</div>
                 </div>
               </div>
             </div>
             
             {/* Right Section - Timer & Actions */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="lg:col-span-1 space-y-4 sm:space-y-6">
               
               {/* Timer or Winner Section */}
               <div className="w-full">
                 {pool.isActive ? (
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4">
                     <div className="flex items-center space-x-2 mb-4">
-                      <Timer className="w-5 h-5 text-[#2DE582]" />
-                      <span className="text-white text-base font-medium">Time Remaining</span>
+                      <Timer className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
+                      <span className="text-white text-sm sm:text-base font-medium">Time Remaining</span>
                     </div>
                     <CountdownTimer endTime={pool.endTime} />
                   </div>
                 ) : (
-                  <div className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border border-[#2DE582]/30 rounded-xl p-4">
+                  <div className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border border-[#2DE582]/30 rounded-xl p-3 sm:p-4">
                     <div className="flex items-center space-x-2 mb-3">
-                      <Trophy className="w-5 h-5 text-[#2DE582]" />
-                      <span className="text-[#2DE582] text-base font-bold">Winner</span>
+                      <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
+                      <span className="text-[#2DE582] text-sm sm:text-base font-bold">Winner</span>
                     </div>
-                    <div className="text-white font-mono text-sm bg-[#2DE582]/20 px-3 py-2 rounded-lg border border-[#2DE582]/30 mb-3">
+                    <div className="text-white font-mono text-xs sm:text-sm bg-[#2DE582]/20 px-2 sm:px-3 py-2 rounded-lg border border-[#2DE582]/30 mb-3 break-all">
                       {formatAddress(pool.winner)}
                     </div>
                     
@@ -583,7 +583,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                 <button
                   onClick={handleBuyTicket}
                   disabled={!pool.isActive || isPurchasing || hasParticipated}
-                  className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-300 ${
+                  className={`w-full py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 ${
                     pool.isActive && !isPurchasing && !hasParticipated
                       ? 'bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black hover:shadow-lg hover:shadow-[#2DE582]/25'
                       : hasParticipated && pool.isActive
@@ -611,9 +611,9 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                 {/* View Details Button */}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button className="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#2DE582]/30 rounded-xl text-white/80 hover:text-white text-sm font-medium transition-all duration-300">
+                    <button className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#2DE582]/30 rounded-xl text-white/80 hover:text-white text-xs sm:text-sm font-medium transition-all duration-300">
                       <div className="flex items-center justify-center space-x-2">
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>View Details</span>
                       </div>
                     </button>

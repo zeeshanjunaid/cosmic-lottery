@@ -83,21 +83,21 @@ const Terms: React.FC = () => {
       className="space-y-12"
     >
       {/* Header */}
-      <div className="text-center space-y-6">
+      <div className="text-center space-y-4 sm:space-y-6 px-4">
         <div className="flex items-center justify-center space-x-3">
           <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-            <FileText className="w-8 h-8 text-black" />
+            <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white">
             Terms of <span className="text-[#2DE582]">Service</span>
           </h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+        <p className="text-gray-400 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed px-4">
           Please read these Terms of Service carefully before using Cosmic Lottery. 
           By using our platform, you agree to comply with these terms and conditions.
         </p>
         <div className="flex justify-center">
-          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-4 py-2 text-sm font-semibold">
+          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold">
             Last Updated: January 2025
           </Badge>
         </div>
@@ -224,16 +224,16 @@ const Terms: React.FC = () => {
       </Card>
 
       {/* Contact Information */}
-      <div className="text-center space-y-6 py-8">
-        <h2 className="text-2xl font-bold text-white">Questions About These Terms?</h2>
-        <p className="text-gray-400 max-w-xl mx-auto">
+      <div className="text-center space-y-4 sm:space-y-6 py-6 sm:py-8 px-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-white">Questions About These Terms?</h2>
+        <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto px-4">
           If you have any questions about these Terms of Service, please contact our legal team 
           for clarification and assistance.
         </p>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-6 py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
+          className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold text-sm sm:text-base shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
         >
           Contact Legal Team
         </motion.button>

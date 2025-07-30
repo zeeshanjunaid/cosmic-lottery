@@ -152,16 +152,16 @@ const HowItWorks: React.FC = () => {
       className="space-y-12"
     >
       {/* Header */}
-      <div className="text-center space-y-6">
+      <div className="text-center space-y-4 sm:space-y-6 px-4">
         <div className="flex items-center justify-center space-x-3">
           <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-            <Star className="w-8 h-8 text-black fill-current" />
+            <Star className="w-6 h-6 sm:w-8 sm:h-8 text-black fill-current" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white">
             How It <span className="text-[#2DE582]">Works</span>
           </h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+        <p className="text-gray-400 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed px-4">
           Get started with Cosmic Lottery in just 5 simple steps. Our decentralized platform ensures 
           fair, transparent, and secure lottery experiences for everyone.
         </p>
@@ -170,7 +170,7 @@ const HowItWorks: React.FC = () => {
       {/* Steps */}
       <div className="space-y-8">
         <div className="text-center">
-          <Badge className="bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582] px-4 py-2 text-sm font-semibold">
+          <Badge className="bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold">
             STEP BY STEP GUIDE
           </Badge>
         </div>
@@ -193,14 +193,14 @@ const HowItWorks: React.FC = () => {
 
       {/* Features */}
       <div className="space-y-8">
-        <div className="text-center space-y-4">
-          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-4 py-2 text-sm font-semibold">
+        <div className="text-center space-y-4 px-4">
+          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold">
             WHY CHOOSE US
           </Badge>
-          <h2 className="text-3xl font-bold text-white">
+          <h2 className="text-xl sm:text-3xl font-bold text-white">
             Built on <span className="text-[#2DE582]">Trust</span>
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto px-4">
             Our platform is designed with security, fairness, and transparency at its core.
           </p>
         </div>
@@ -228,19 +228,19 @@ const HowItWorks: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="text-center space-y-6 py-12">
-        <div className="bg-gradient-to-r from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/20 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
+      <div className="text-center space-y-4 sm:space-y-6 py-8 sm:py-12 px-4">
+        <div className="bg-gradient-to-r from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/20 rounded-2xl p-4 sm:p-8">
+          <h2 className="text-xl sm:text-3xl font-bold text-white mb-4">
             Ready to Start Playing?
           </h2>
-          <p className="text-gray-400 mb-6 max-w-xl mx-auto">
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 max-w-xl mx-auto px-4">
             Join thousands of players in our cosmic lottery pools. Connect your wallet and 
             start your journey to the stars!
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-bold text-lg shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-bold text-base sm:text-lg shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
           >
             Get Started Now
           </motion.button>

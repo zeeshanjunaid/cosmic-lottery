@@ -129,16 +129,16 @@ const FAQ: React.FC = () => {
       className="space-y-12"
     >
       {/* Header */}
-      <div className="text-center space-y-6">
+      <div className="text-center space-y-4 sm:space-y-6 px-4">
         <div className="flex items-center justify-center space-x-3">
           <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-            <HelpCircle className="w-8 h-8 text-black" />
+            <HelpCircle className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white">
             Frequently Asked <span className="text-[#2DE582]">Questions</span>
           </h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+        <p className="text-gray-400 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed px-4">
           Find answers to common questions about Cosmic Lottery. Can't find what you're looking for? 
           Contact our support team for personalized assistance.
         </p>
@@ -147,12 +147,12 @@ const FAQ: React.FC = () => {
       {/* Category Filter */}
       <div className="space-y-6">
         <div className="text-center">
-          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-4 py-2 text-sm font-semibold">
+          <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold">
             BROWSE BY CATEGORY
           </Badge>
         </div>
         
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-4">
           {categories.map((category) => {
             const Icon = category.icon;
             const isActive = activeCategory === category.id;
@@ -161,7 +161,7 @@ const FAQ: React.FC = () => {
               <motion.button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
                   isActive
                     ? 'bg-[#2DE582] text-black'
                     : 'bg-[#181830]/60 text-white/70 hover:text-white hover:bg-[#181830]'
@@ -171,7 +171,7 @@ const FAQ: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{category.name}</span>
               </motion.button>
             );
@@ -259,26 +259,26 @@ const FAQ: React.FC = () => {
       </div>
 
       {/* Contact Section */}
-      <div className="text-center space-y-6 py-12">
-        <div className="bg-gradient-to-r from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/20 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
+      <div className="text-center space-y-4 sm:space-y-6 py-8 sm:py-12 px-4">
+        <div className="bg-gradient-to-r from-[#2DE582]/10 via-blue-500/10 to-purple-500/10 border border-[#2DE582]/20 rounded-2xl p-4 sm:p-8">
+          <h2 className="text-xl sm:text-3xl font-bold text-white mb-4">
             Still Have Questions?
           </h2>
-          <p className="text-gray-400 mb-6 max-w-xl mx-auto">
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 max-w-xl mx-auto px-4">
             Can't find the answer you're looking for? Our support team is here to help you 24/7.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black font-semibold text-sm sm:text-base shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300"
             >
               Contact Support
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#2DE582]/30 rounded-xl text-white font-semibold transition-all duration-300"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#2DE582]/30 rounded-xl text-white font-semibold text-sm sm:text-base transition-all duration-300"
             >
               Join Community
             </motion.button>

@@ -77,16 +77,16 @@ const SettingsPage: React.FC = () => {
       className="max-w-4xl mx-auto space-y-8"
     >
       {/* Header */}
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-4 px-4">
         <div className="flex items-center justify-center space-x-3">
           <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-            <Settings className="w-8 h-8 text-black" />
+            <Settings className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white">
             App <span className="text-[#2DE582]">Settings</span>
           </h1>
         </div>
-        <p className="text-gray-400 max-w-2xl mx-auto">
+        <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto px-4">
           Customize your Cosmic Lottery experience with these personalized settings.
         </p>
       </div>
@@ -97,20 +97,20 @@ const SettingsPage: React.FC = () => {
         {/* Notifications */}
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <Bell className="w-5 h-5 text-[#2DE582]" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h2 className="text-xl font-bold text-white">Notifications</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-white">Notifications</h2>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
               <div>
-                <div className="text-white font-medium">Push Notifications</div>
-                <div className="text-gray-400 text-sm">Get notified about lottery results and new pools</div>
+                <div className="text-white font-medium text-sm sm:text-base">Push Notifications</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Get notified about lottery results and new pools</div>
               </div>
               <ToggleSwitch 
                 enabled={settings.notifications} 
@@ -118,10 +118,10 @@ const SettingsPage: React.FC = () => {
               />
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
               <div>
-                <div className="text-white font-medium">Email Updates</div>
-                <div className="text-gray-400 text-sm">Receive weekly summaries and special offers</div>
+                <div className="text-white font-medium text-sm sm:text-base">Email Updates</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Receive weekly summaries and special offers</div>
               </div>
               <ToggleSwitch 
                 enabled={settings.emailUpdates} 
@@ -135,19 +135,19 @@ const SettingsPage: React.FC = () => {
         {/* Preferences */}
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <User className="w-5 h-5 text-[#2DE582]" />
+                <User className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h2 className="text-xl font-bold text-white">Preferences</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-white">Preferences</h2>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2 flex flex-col">
-              <Label className="text-white font-medium flex items-center space-x-2">
-                <Globe className="w-4 h-4 text-[#2DE582]" />
+              <Label className="text-white font-medium text-sm sm:text-base flex items-center space-x-2">
+                <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-[#2DE582]" />
                 <span>Language</span>
               </Label>
               <Select
@@ -167,7 +167,7 @@ const SettingsPage: React.FC = () => {
             </div>
 
             <div className="space-y-2 flex flex-col">
-              <Label className="text-white font-medium">Currency Display</Label>
+              <Label className="text-white font-medium text-sm sm:text-base">Currency Display</Label>
               <Select
                 value={settings.currency}
                 onValueChange={(value) => handleSelectChange('currency', value)}
@@ -190,18 +190,18 @@ const SettingsPage: React.FC = () => {
         {/* Appearance */}
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <Palette className="w-5 h-5 text-[#2DE582]" />
+                <Palette className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h2 className="text-xl font-bold text-white">Appearance</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-white">Appearance</h2>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
           
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label className="text-white font-medium">Theme</Label>
+              <Label className="text-white font-medium text-sm sm:text-base">Theme</Label>
               <Select
                 value={settings.theme}
                 onValueChange={(value) => handleSelectChange('theme', value)}
@@ -223,20 +223,20 @@ const SettingsPage: React.FC = () => {
         {/* Gaming */}
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <Shield className="w-5 h-5 text-[#2DE582]" />
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h2 className="text-xl font-bold text-white">Gaming</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-white">Gaming</h2>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
               <div>
-                <div className="text-white font-medium">Auto-Play Mode</div>
-                <div className="text-gray-400 text-sm">Automatically participate in selected lottery pools</div>
+                <div className="text-white font-medium text-sm sm:text-base">Auto-Play Mode</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Automatically participate in selected lottery pools</div>
               </div>
               <ToggleSwitch 
                 enabled={settings.autoPlay} 
@@ -252,11 +252,11 @@ const SettingsPage: React.FC = () => {
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-8 py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold text-sm sm:text-base shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
             variant={isSaving ? "secondary" : "default"}
           >
             <div className="flex items-center space-x-2">
-              <Save className="w-5 h-5" />
+              <Save className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>
             </div>
           </Button>

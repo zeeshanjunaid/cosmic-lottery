@@ -386,7 +386,7 @@ const PoolManagement: React.FC = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3 pt-4 pb-2">
+              <div className="flex flex-wrap gap-3 pt-2 pb-2">
                 {selectedPool.isActive && (
                   <Button
                     variant="outline"

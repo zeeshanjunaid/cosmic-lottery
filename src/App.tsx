@@ -35,6 +35,7 @@ function App() {
     <div className="min-h-screen relative overflow-hidden">
       <Background />
       <Header onNavigate={handleNavigate} currentPage={currentPage} />
+      <main>
         {renderCurrentPage()}
       </main>
       <Toaster 

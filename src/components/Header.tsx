@@ -93,13 +93,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
             <div className="flex items-center space-x-8">
-              {navItems.map((item, index) => {
+              {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
                 
                 return (
                   <motion.button
-                    key={`nav-${item.id}-${index}`}
+                    key={item.id}
                     onClick={() => handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive 
@@ -199,13 +199,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             className="lg:hidden border-t border-white/10 py-8"
           >
             <div className="space-y-4">
-              {navItems.map((item) => {
+              {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
                 
                 return (
                   <motion.button
-                    key={item.id}
+                    key={`mobile-nav-${item.id}-${index}`}
                     onClick={() => handleNavClick(item.id as any)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive 

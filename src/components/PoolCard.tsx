@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import useSound from 'use-sound';
 import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target } from 'lucide-react';
 import { LotteryPool } from '../types/lottery';
 import { useAccount } from 'wagmi';

@@ -178,8 +178,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             
             <button 
               onClick={() => handleNavClick('winners')}
-              className={`flex items-center space-x-2 font-medium transition-colors ${
-                currentPage === 'winners' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                currentPage === 'winners' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
             >
               <Trophy className="w-4 h-4" />
@@ -187,23 +187,16 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             </button>
             <button 
               onClick={() => handleNavClick('settings')}
-              className={`flex items-center space-x-2 font-medium transition-colors ${
-                currentPage === 'settings' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
-              }`}
-            >
-              onClick={() => handleNavClick('winners')}
               className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
-                currentPage === 'winners' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
+                currentPage === 'settings' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
             >
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </button>
           </motion.div>
-              onClick={() => handleNavClick('settings')}
-              className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
-                currentPage === 'settings' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
+        )}
+      </div>
     </motion.header>
   );
 };

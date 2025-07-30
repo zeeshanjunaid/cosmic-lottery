@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Background from './components/Background';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import LotteryPools from './components/LotteryPools';
 import AdminPanel from './components/AdminPanel';
 import WinnersPage from './components/WinnersPage';
@@ -38,6 +39,7 @@ function App() {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {renderCurrentPage()}
       </main>
+      <Footer />
       <Toaster 
         position="top-right"
         toastOptions={{

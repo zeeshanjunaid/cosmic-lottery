@@ -197,8 +197,6 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       <div className="relative overflow-hidden bg-gradient-to-br from-[#181830]/95 via-[#1C1C1C]/95 to-[#181830]/95 backdrop-blur-xl border border-white/10 hover:border-[#2DE582]/30 shadow-xl hover:shadow-[0_8px_32px_rgba(45,229,130,0.12)] transition-all duration-500 rounded-2xl">
         
         {/* Animated Gradient Border */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#2DE582]/20 via-blue-400/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-        
         {/* Celebration Overlay */}
         {showCelebration && (
           <>

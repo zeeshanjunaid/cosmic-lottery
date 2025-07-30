@@ -15,6 +15,8 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 
@@ -85,14 +87,23 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       return;
     }
     
+    setIsClaiming(true);
     toast.loading('Processing reward claim...', { id: 'claim-reward' });
     
     setTimeout(() => {
+      setIsClaiming(false);
+      setShowCelebration(true);
+      
       toast.success(`🎉 Reward claimed! $${pool.prizePool} has been sent to your wallet!`, { 
         id: 'claim-reward',
         duration: 6000,
         style: { background: '#1C1C1C', color: '#2DE582', border: '2px solid #2DE582' }
       });
+      
+      // Hide celebration after 4 seconds
+      setTimeout(() => {
+        setShowCelebration(false);
+      }, 4000);
     }, 3000);
   };
   const formatAddress = (address: string) => {
@@ -108,6 +119,85 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       className="relative overflow-hidden rounded-2xl bg-[#181830]/60 backdrop-blur-xl border border-white/10 shadow-2xl"
     >
       
+      {/* Celebration Overlay */}
+      {showCelebration && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/20 via-yellow-400/20 to-[#2DE582]/20 z-30 flex items-center justify-center rounded-2xl"
+        >
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+            className="text-center space-y-4"
+          >
+            <motion.div
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 10, -10, 0]
+              }}
+              transition={{ 
+                duration: 0.6,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+              className="text-6xl"
+            >
+              🎉
+            </motion.div>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-white font-bold text-lg"
+            >
+              REWARD CLAIMED!
+            </motion.div>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="text-[#2DE582] font-black text-2xl"
+            >
+              ${pool.prizePool}
+            </motion.div>
+          </motion.div>
+          
+          {/* Floating particles */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ 
+                scale: 0,
+                x: 0,
+                y: 0,
+                opacity: 1
+              }}
+              animate={{ 
+                scale: [0, 1, 0],
+                x: [0, (Math.random() - 0.5) * 200],
+                y: [0, -Math.random() * 150],
+                opacity: [1, 1, 0]
+              }}
+              transition={{ 
+                duration: 2,
+                delay: i * 0.2,
+                ease: "easeOut"
+              }}
+              className="absolute text-2xl"
+              style={{
+                left: '50%',
+                top: '50%',
+              }}
+            >
+              {['💎', '⭐', '🎊', '✨', '🏆', '💰'][i]}
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+
       {/* Status Badge */}
       <div className="absolute top-4 right-4 z-20">
         {pool.isActive ? (
@@ -231,12 +321,41 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
               
               {/* Check if current user is the winner */}
               {isConnected && address && address.toLowerCase() === pool.winner.toLowerCase() && (
-                <button
+                <motion.button
                   onClick={handleClaimReward}
-                  className="w-full py-2 px-4 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-lg font-semibold text-black transition-all duration-300"
+                  disabled={isClaiming || showCelebration}
+                  whileHover={{ scale: isClaiming ? 1 : 1.05 }}
+                  whileTap={{ scale: isClaiming ? 1 : 0.95 }}
+                  animate={isClaiming ? {
+                    backgroundColor: ["#2DE582", "#22c55e", "#16a34a", "#2DE582"],
+                    scale: [1, 1.02, 1]
+                  } : {}}
+                  transition={isClaiming ? {
+                    duration: 0.8,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  } : { duration: 0.2 }}
+                  className={`w-full py-2 px-4 rounded-lg font-semibold text-black transition-all duration-300 ${
+                    isClaiming || showCelebration
+                      ? 'bg-gray-500 cursor-not-allowed'
+                      : 'bg-[#2DE582] hover:bg-[#2DE582]/80'
+                  }`}
                 >
-                  🎉 Claim Your Reward: ${pool.prizePool}
-                </button>
+                  {isClaiming ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-4 h-4 border-2 border-black border-t-transparent rounded-full"
+                      />
+                      <span>Processing...</span>
+                    </div>
+                  ) : showCelebration ? (
+                    <span>✅ Claimed!</span>
+                  ) : (
+                    <span>🎉 Claim Your Reward: ${pool.prizePool}</span>
+                  )}
+                </motion.button>
               )}
             </div>
           </div>

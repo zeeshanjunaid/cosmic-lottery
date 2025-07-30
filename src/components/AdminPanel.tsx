@@ -56,7 +56,7 @@ const AdminPanel: React.FC = () => {
       {/* Tab Navigation */}
       <div className="flex justify-center">
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 p-1 sm:p-2 w-full max-w-2xl">
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:justify-center">
             {tabs.map((tab) => (
               <Button
                 key={tab.id}
@@ -68,7 +68,7 @@ const AdminPanel: React.FC = () => {
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                <div className="flex items-center justify-center sm:justify-start space-x-2">
+                <div className="flex items-center justify-center space-x-2">
                   <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{tab.name}</span>
                 </div>

@@ -1,22 +1,26 @@
 import React from 'react';
 import { Heart, ExternalLink } from 'lucide-react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate: (page: 'how-it-works' | 'faq' | 'terms' | 'privacy') => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const footerLinks = [
     {
       title: 'Platform',
       links: [
-        { name: 'How It Works', href: '#how-it-works' },
-        { name: 'FAQ', href: '#faq' },
+        { name: 'How It Works', action: () => onNavigate('how-it-works') },
+        { name: 'FAQ', action: () => onNavigate('faq') },
         { name: 'Winners', href: '#winners' },
-        { name: 'Support', href: '#support' }
+        { name: 'Support', href: '#support', external: true }
       ]
     },
     {
       title: 'Legal',
       links: [
-        { name: 'Terms of Service', href: '#terms' },
-        { name: 'Privacy Policy', href: '#privacy' },
+        { name: 'Terms of Service', action: () => onNavigate('terms') },
+        { name: 'Privacy Policy', action: () => onNavigate('privacy') },
         { name: 'Disclaimer', href: '#disclaimer' },
         { name: 'Responsible Gaming', href: '#responsible' }
       ]
@@ -68,15 +72,24 @@ const Footer: React.FC = () => {
                 <ul className="space-y-3">
                   {section.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
-                      <a
-                        href={link.href}
-                        className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center space-x-1 group"
-                      >
-                        <span>{link.name}</span>
-                        {link.external && (
-                          <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                        )}
-                      </a>
+                      {link.action ? (
+                        <button
+                          onClick={link.action}
+                          className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center space-x-1 group text-left"
+                        >
+                          <span>{link.name}</span>
+                        </button>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center space-x-1 group"
+                        >
+                          <span>{link.name}</span>
+                          {link.external && (
+                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                          )}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>

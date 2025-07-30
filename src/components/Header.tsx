@@ -56,8 +56,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
-    { id: 'faq', label: 'FAQ', icon: FileText },
     ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: Shield }] : []),
     { id: 'winners', label: 'Winners', icon: Trophy },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -96,12 +94,11 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
-                const isInfoPage = ['how-it-works', 'faq', 'terms', 'privacy'].includes(item.id);
                 
                 return (
                   <motion.button
                     key={item.id}
-                    onClick={() => isInfoPage ? handleInfoNavClick(item.id as any) : handleNavClick(item.id as any)}
+                    onClick={() => handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive 
                         ? 'text-[#2DE582]' 
@@ -203,12 +200,11 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
-                const isInfoPage = ['how-it-works', 'faq', 'terms', 'privacy'].includes(item.id);
                 
                 return (
                   <motion.button
                     key={item.id}
-                    onClick={() => isInfoPage ? handleInfoNavClick(item.id as any) : handleNavClick(item.id as any)}
+                    onClick={() => handleNavClick(item.id as any)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive 
                         ? 'text-black bg-[#2DE582] shadow-lg' 

@@ -757,4 +757,3 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
 };
 
 export default PoolCard;
-                      <div className="flex flex-wrap gap-3 pt-2">

@@ -631,9 +631,9 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       </div>
                     </DialogHeader>
                     
-                    <div className="px-6">
+                    <div className="px-6 space-y-6">
                       {/* Pool Status */}
-                      <div className="mb-6">
+                      <div>
                         <Badge 
                           variant={pool.isActive ? "default" : "destructive"}
                           className={`${pool.isActive 
@@ -647,7 +647,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       </div>
 
                       {/* Pool Stats Grid */}
-                      <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="grid grid-cols-2 gap-4">
                         <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-200">
                           <CardContent className="p-4 text-center">
                             <div className="p-1.5 bg-[#2DE582]/20 rounded-lg w-fit mx-auto mb-2">
@@ -690,7 +690,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       </div>
 
                       {/* Detailed Information */}
-                      <Card className="bg-white/5 border-white/10 mb-6">
+                      <Card className="bg-white/5 border-white/10">
                         <CardHeader>
                           <h3 className="text-base font-semibold text-white flex items-center space-x-2">
                             <div className="w-2 h-2 bg-[#2DE582] rounded-full"></div>
@@ -722,7 +722,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       </Card>
 
                       {/* Winner Info */}
-                      {pool.winner && (
+                      {selectedPool.winner && (
                         <Card className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border-[#2DE582]/30">
                           <CardHeader>
                             <h3 className="text-[#2DE582] font-semibold flex items-center space-x-2 text-base">
@@ -735,11 +735,11 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                           <CardContent className="space-y-2 text-sm">
                             <div className="flex justify-between items-center">
                               <span className="text-white/70">Winner Address:</span>
-                              <span className="text-white font-mono bg-[#2DE582]/20 px-2 py-1 rounded text-xs">{formatAddress(pool.winner)}</span>
+                              <span className="text-white font-mono bg-[#2DE582]/20 px-2 py-1 rounded text-xs">{formatAddress(selectedPool.winner)}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-white/70">Prize Amount:</span>
-                              <span className="text-[#2DE582] font-bold text-base">${pool.prizePool}</span>
+                              <span className="text-[#2DE582] font-bold text-base">${selectedPool.prizePool}</span>
                             </div>
                           </CardContent>
                         </Card>
@@ -757,3 +757,4 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
 };
 
 export default PoolCard;
+                      <div className="flex flex-wrap gap-3 pt-2">

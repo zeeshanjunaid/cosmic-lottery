@@ -145,7 +145,7 @@ const SettingsPage: React.FC = () => {
           <CardContent>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col">
               <Label className="text-white font-medium flex items-center space-x-2">
                 <Globe className="w-4 h-4 text-[#2DE582]" />
                 <span>Language</span>
@@ -166,7 +166,7 @@ const SettingsPage: React.FC = () => {
               </Select>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col">
               <Label className="text-white font-medium">Currency Display</Label>
               <Select
                 value={settings.currency}

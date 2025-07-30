@@ -82,7 +82,6 @@ const LotteryPools: React.FC = () => {
         <p className="text-gray-400">Choose your destiny among the stars</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
         {mockPools.map((pool, index) => (
           <motion.div
             key={pool.id}

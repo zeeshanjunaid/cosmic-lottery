@@ -500,6 +500,9 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
               <Users className="w-4 h-4 text-blue-400 mx-auto mb-1" />
               <div className="text-white font-bold text-sm">{pool.soldTickets}</div>
               <div className="text-white/60 text-xs">joined</div>
+              {hasParticipated && (
+                <div className="text-[#2DE582] text-xs font-semibold mt-1">You: {userTickets}</div>
+              )}
             </div>
             
             <div className="bg-white/5 rounded-xl p-3 text-center border border-white/10">

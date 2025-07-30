@@ -22,6 +22,8 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const { isConnected, address } = useAccount();
   const [isHovered, setIsHovered] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [userTickets, setUserTickets] = useState(0);
+  const [hasParticipated, setHasParticipated] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
@@ -117,6 +119,10 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
     // Simulate blockchain transaction with random outcome
     setTimeout(() => {
       const isWinner = Math.random() < 0.15; // 15% chance to win for better demo
+      
+      // Update user participation state
+      setUserTickets(prev => prev + 1);
+      setHasParticipated(true);
       
       if (isWinner) {
         toast.success(`🎉 CONGRATULATIONS! You won ${pool.name}! Prize: $${pool.prizePool}`, { 
@@ -462,14 +468,23 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             
             <button
               onClick={handleBuyTicket}
-              disabled={!pool.isActive || isPurchasing}
+              disabled={!pool.isActive || isPurchasing || hasParticipated}
               className={`mt-4 w-full py-3 rounded-xl font-bold text-black transition-all duration-300 ${
-                pool.isActive && !isPurchasing
+                pool.isActive && !isPurchasing && !hasParticipated
                   ? 'bg-[#2DE582] hover:bg-[#2DE582]/80 cursor-pointer'
+                  : hasParticipated && pool.isActive
+                  ? 'bg-blue-500/70 cursor-not-allowed'
                   : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
               }`}
             >
-              {isPurchasing ? 'Purchasing...' : pool.isActive ? 'Play' : 'Ended'}
+              {isPurchasing 
+                ? 'Purchasing...' 
+                : hasParticipated && pool.isActive
+                ? `✓ Joined (${userTickets} ticket${userTickets > 1 ? 's' : ''})`
+                : pool.isActive 
+                ? 'Play' 
+                : 'Ended'
+              }
             </button>
           </div>
 

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Wallet, Home, Trophy, Settings, Shield, Star } from 'lucide-react';
+import { Menu, X, Wallet, Home, Trophy, Settings, Shield, Star, HelpCircle, FileText } from 'lucide-react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
-  onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings') => void;
-  currentPage: 'home' | 'admin' | 'winners' | 'settings';
+  onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy') => void;
+  currentPage: 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy';
 }
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
@@ -46,11 +46,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     setIsMenuOpen(false);
   };
 
+  const handleInfoNavClick = (page: 'how-it-works' | 'faq' | 'terms' | 'privacy') => {
+    onNavigate(page);
+    setIsMenuOpen(false);
+  };
+
   // Mock admin check - in real app, this would check if connected address is admin
   const isAdmin = address === '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88' || true; // Set to true for demo
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
+    { id: 'how-it-works', label: 'How It Works', icon: HelpCircle },
+    { id: 'faq', label: 'FAQ', icon: FileText },
     ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: Shield }] : []),
     { id: 'winners', label: 'Winners', icon: Trophy },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -89,11 +96,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
+                const isInfoPage = ['how-it-works', 'faq', 'terms', 'privacy'].includes(item.id);
                 
                 return (
                   <motion.button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id as any)}
+                    onClick={() => isInfoPage ? handleInfoNavClick(item.id as any) : handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive 
                         ? 'text-[#2DE582]' 
@@ -195,11 +203,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
+                const isInfoPage = ['how-it-works', 'faq', 'terms', 'privacy'].includes(item.id);
                 
                 return (
                   <motion.button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id as any)}
+                    onClick={() => isInfoPage ? handleInfoNavClick(item.id as any) : handleNavClick(item.id as any)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive 
                         ? 'text-black bg-[#2DE582] shadow-lg' 

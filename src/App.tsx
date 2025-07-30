@@ -7,8 +7,12 @@ import LotteryPools from './components/LotteryPools';
 import AdminPanel from './components/AdminPanel';
 import WinnersPage from './components/WinnersPage';
 import SettingsPage from './components/SettingsPage';
+import HowItWorks from './components/HowItWorks';
+import FAQ from './components/FAQ';
+import Terms from './components/Terms';
+import Privacy from './components/Privacy';
 
-type PageType = 'home' | 'admin' | 'winners' | 'settings';
+type PageType = 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
@@ -27,6 +31,14 @@ function App() {
         return <WinnersPage />;
       case 'settings':
         return <SettingsPage />;
+      case 'how-it-works':
+        return <HowItWorks />;
+      case 'faq':
+        return <FAQ />;
+      case 'terms':
+        return <Terms />;
+      case 'privacy':
+        return <Privacy />;
       default:
         return <LotteryPools />;
     }

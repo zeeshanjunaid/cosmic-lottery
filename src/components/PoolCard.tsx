@@ -181,6 +181,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
       }, 4000);
     }, 3000);
   };
+  
   const formatAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
@@ -448,7 +449,6 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         </div>
 
         <CardContent className="p-8 pt-20 space-y-8">
-        <CardContent className="p-6 pt-16 space-y-6">
           {/* Header */}
           <div className="space-y-3">
             <h3 className="text-2xl font-bold text-white tracking-tight">{pool.name}</h3>

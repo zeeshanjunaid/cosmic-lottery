@@ -207,7 +207,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             </button>
           </motion.div>
         )}
-      </div>
     </motion.header>
   );
 };

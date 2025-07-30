@@ -271,9 +271,9 @@ const PoolManagement: React.FC = () => {
               </div>
             </DialogHeader>
             
-            <div className="px-6 space-y-6">
+            <div className="px-6 space-y-6 pb-6">
               {/* Pool Status */}
-              <div>
+              <div className="pt-2">
                 <Badge 
                   variant={selectedPool.isActive ? "default" : "destructive"}
                   className={`${selectedPool.isActive 

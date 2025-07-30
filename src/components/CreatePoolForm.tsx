@@ -155,7 +155,7 @@ const CreatePoolForm: React.FC = () => {
                     value={formData.durationType}
                     onValueChange={(value) => handleInputChange('durationType', value as 'hours' | 'days')}
                   >
-                    <SelectTrigger className="bg-[#1C1C1C]/60 border-white/10 text-white">
+                    <SelectTrigger className="w-24 bg-[#1C1C1C]/60 border-white/10 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1C1C1C] border-white/10">

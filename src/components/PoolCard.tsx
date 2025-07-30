@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import useSound from 'use-sound';
+import Confetti from 'react-confetti';
+import { useSpring, animated } from 'react-spring';
 import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target } from 'lucide-react';
 import { LotteryPool } from '../types/lottery';
 import { useAccount } from 'wagmi';
@@ -20,29 +22,56 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const [showCelebration, setShowCelebration] = useState(false);
 
   // Sound effects using use-sound
-  const [playFirecracker] = useSound(
-    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
-    { 
-      volume: 0.5,
-      onload: () => console.log('Firecracker sound loaded')
+  // Create audio context for better sound support
+  const createCelebrationSound = () => {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Celebration melody
+      const notes = [523, 659, 783, 1047]; // C5, E5, G5, C6
+      let noteIndex = 0;
+      
+      const playNote = () => {
+        if (noteIndex < notes.length) {
+          oscillator.frequency.setValueAtTime(notes[noteIndex], audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          noteIndex++;
+          setTimeout(playNote, 200);
+        }
+      };
+      
+      oscillator.start();
+      playNote();
+      
+      setTimeout(() => {
+        oscillator.stop();
+      }, 1000);
+    } catch (error) {
+      console.log('Audio not supported:', error);
     }
-  );
-  
-  const [playCelebration] = useSound(
-    'https://www.soundjay.com/misc/sounds/bell_tree.wav',
-    { 
-      volume: 0.4,
-      onload: () => console.log('Celebration sound loaded')
-    }
-  );
-  
-  const [playWinSound] = useSound(
-    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
-    { 
-      volume: 0.6,
-      onload: () => console.log('Win sound loaded')
-    }
-  );
+  };
+
+  // Spring animation for graffiti text
+  const graffitiSpring = useSpring({
+    from: { 
+      transform: 'scale(0) rotate(-180deg)',
+      opacity: 0 
+    },
+    to: showCelebration ? { 
+      transform: 'scale(1) rotate(0deg)',
+      opacity: 1 
+    } : { 
+      transform: 'scale(0) rotate(-180deg)',
+      opacity: 0 
+    },
+    config: { tension: 300, friction: 10 }
+  });
 
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 

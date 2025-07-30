@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Menu, X, Wallet, Home, Trophy, Settings, Shield } from 'lucide-react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
   onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings') => void;

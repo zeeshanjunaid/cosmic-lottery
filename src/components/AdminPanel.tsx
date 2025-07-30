@@ -55,21 +55,21 @@ const AdminPanel: React.FC = () => {
 
       {/* Tab Navigation */}
       <div className="flex justify-center">
-        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 p-2">
-          <div className="flex space-x-2">
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 p-1 sm:p-2 w-full max-w-2xl">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
             {tabs.map((tab) => (
               <Button
                 key={tab.id}
                 variant={activeTab === tab.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-3 font-semibold transition-all duration-300 hover:scale-102 ${
+                className={`relative px-4 sm:px-6 py-2.5 sm:py-3 font-semibold transition-all duration-300 hover:scale-102 text-sm sm:text-base w-full sm:w-auto ${
                   activeTab === tab.id
                     ? 'text-black bg-[#2DE582] hover:bg-[#2DE582]/80'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                <div className="flex items-center space-x-2">
-                  <tab.icon className="w-5 h-5" />
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
+                  <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{tab.name}</span>
                 </div>
               </Button>

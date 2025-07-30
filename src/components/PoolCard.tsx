@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion, animated } from 'framer-motion';
-import { useSpring } from '@react-spring/web';
+import { motion } from 'framer-motion';
+import { useSpring, animated } from '@react-spring/web';
 import useSound from 'use-sound';
 import Confetti from 'react-confetti';
 import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target } from 'lucide-react';

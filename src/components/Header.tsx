@@ -89,11 +89,21 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               </button>
             )}
             
-            <button className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors">
+            <button 
+              onClick={() => handleNavClick('winners')}
+              className={`flex items-center space-x-2 font-medium transition-colors ${
+                currentPage === 'winners' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              }`}
+            >
               <Trophy className="w-4 h-4" />
               <span>Winners</span>
             </button>
-            <button className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors">
+            <button 
+              onClick={() => handleNavClick('settings')}
+              className={`flex items-center space-x-2 font-medium transition-colors ${
+                currentPage === 'settings' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              }`}
+            >
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </button>

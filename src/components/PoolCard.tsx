@@ -11,39 +11,90 @@ interface PoolCardProps {
 }
 
 const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const [isHovered, setIsHovered] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 
   const handleBuyTicket = async () => {
     if (!isConnected) {
-      toast.error('Please connect your wallet first');
+      toast.error('Please connect your wallet first', {
+        icon: '🔌',
+        style: { background: '#1C1C1C', color: '#fff', border: '1px solid #2DE582' }
+      });
       return;
     }
     
     if (!pool.isActive) {
-      toast.error('This lottery has ended');
+      toast.error('This lottery has ended', {
+        icon: '⏰',
+        style: { background: '#1C1C1C', color: '#fff', border: '1px solid #ef4444' }
+      });
       return;
     }
 
     if (pool.soldTickets >= pool.maxTickets) {
-      toast.error('All tickets have been sold');
+      toast.error('All tickets have been sold', {
+        icon: '🎫',
+        style: { background: '#1C1C1C', color: '#fff', border: '1px solid #ef4444' }
+      });
       return;
     }
 
     setIsPurchasing(true);
-    toast.loading('Purchasing ticket...', { id: 'buy-ticket' });
+    toast.loading('Purchasing ticket...', { 
+      id: 'buy-ticket',
+      style: { background: '#1C1C1C', color: '#fff', border: '1px solid #2DE582' }
+    });
     
-    // Simulate blockchain transaction
+    // Simulate blockchain transaction with random outcome
     setTimeout(() => {
-      toast.success(`Ticket purchased for ${pool.name}!`, { id: 'buy-ticket' });
+      const isWinner = Math.random() < 0.1; // 10% chance to win
+      
+      if (isWinner) {
+        toast.success(`🎉 CONGRATULATIONS! You won ${pool.name}! Prize: $${pool.prizePool}`, { 
+          id: 'buy-ticket',
+          duration: 6000,
+          style: { background: '#1C1C1C', color: '#2DE582', border: '2px solid #2DE582' }
+        });
+      } else {
+        toast.success(`Ticket purchased for ${pool.name}! Good luck! 🍀`, { 
+          id: 'buy-ticket',
+          style: { background: '#1C1C1C', color: '#fff', border: '1px solid #2DE582' }
+        });
+        
+        // Show "didn't win" message after a delay
+        setTimeout(() => {
+          toast(`Sorry, you didn't win this time. Try again! 🎲`, {
+            icon: '😔',
+            duration: 4000,
+            style: { background: '#1C1C1C', color: '#fbbf24', border: '1px solid #fbbf24' }
+          });
+        }, 3000);
+      }
+      
       setIsPurchasing(false);
-      // In real app, this would update the pool data from blockchain
     }, 2500);
   };
 
+  const handleClaimReward = () => {
+    if (!isConnected) {
+      toast.error('Please connect your wallet to claim rewards');
+      return;
+    }
+    
+    toast.loading('Processing reward claim...', { id: 'claim-reward' });
+    
+    setTimeout(() => {
+      toast.success(`🎉 Reward claimed! $${pool.prizePool} has been sent to your wallet!`, { 
+        id: 'claim-reward',
+        duration: 6000,
+        style: { background: '#1C1C1C', color: '#2DE582', border: '2px solid #2DE582' }
+      });
+    }, 3000);
+  };
   const formatAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
@@ -168,13 +219,57 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             <CountdownTimer endTime={pool.endTime} />
           </div>
         ) : (
-          <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-xl p-4 border border-[#2DE582]/30">
-            <div className="flex items-center space-x-2 mb-2">
-              <Trophy className="w-5 h-5 text-[#2DE582]" />
-              <span className="text-[#2DE582] font-bold">🏆 WINNER!</span>
+          <div className="space-y-3">
+            <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-xl p-4 border border-[#2DE582]/30">
+              <div className="flex items-center space-x-2 mb-2">
+                <Trophy className="w-5 h-5 text-[#2DE582]" />
+                <span className="text-[#2DE582] font-bold">🏆 WINNER!</span>
+              </div>
+              <div className="text-white font-mono bg-[#2DE582]/20 px-3 py-2 rounded text-sm mb-3">
+                {formatAddress(pool.winner)}
+              </div>
+              
+              {/* Check if current user is the winner */}
+              {isConnected && address && address.toLowerCase() === pool.winner.toLowerCase() && (
+                <button
+                  onClick={handleClaimReward}
+                  className="w-full py-2 px-4 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-lg font-semibold text-black transition-all duration-300"
+                >
+                  🎉 Claim Your Reward: ${pool.prizePool}
+                </button>
+              )}
             </div>
-            <div className="text-white font-mono bg-[#2DE582]/20 px-3 py-2 rounded text-sm">
-              {formatAddress(pool.winner!)}
+          </div>
+        ) : (
+          <div className="bg-[#1C1C1C]/40 rounded-xl p-4 border border-white/5">
+        )}
+        
+        {/* View Details Button */}
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="w-full py-2 px-4 bg-[#1C1C1C]/60 hover:bg-[#1C1C1C]/80 border border-white/10 rounded-lg text-white/70 hover:text-white transition-all duration-300 text-sm"
+        >
+          {showDetails ? 'Hide Details' : 'View Details'}
+        </button>
+        
+        {/* Details Panel */}
+        {showDetails && (
+          <div className="bg-[#1C1C1C]/60 rounded-xl p-4 border border-white/10 space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-white/60">Pool ID:</span>
+              <span className="text-white">{pool.id}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-white/60">Start Date:</span>
+              <span className="text-white">{new Date(pool.endTime.getTime() - 24*60*60*1000).toLocaleDateString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-white/60">End Date:</span>
+              <span className="text-white">{pool.endTime.toLocaleDateString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-white/60">Odds:</span>
+              <span className="text-white">1 in {pool.maxTickets}</span>
             </div>
           </div>
         )}

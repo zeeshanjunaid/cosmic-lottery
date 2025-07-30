@@ -85,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
-            <div className="flex items-center space-x-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-1.5">
+            <div className="flex items-center space-x-8">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
@@ -94,29 +94,32 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   <motion.button
                     key={item.id}
                     onClick={() => handleNavClick(item.id as any)}
-                    className={`relative flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 overflow-hidden ${
+                    className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive 
-                        ? 'text-black bg-[#2DE582] shadow-lg' 
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                        ? 'text-[#2DE582]' 
+                        : 'text-white/70 hover:text-white'
                     }`}
-                    whileHover={!isActive ? { 
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    } : {}}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {/* Subtle hover effect background */}
-                    {!isActive && (
+                    <Icon className={`w-4 h-4 transition-colors duration-300 ${
+                      isActive ? 'text-[#2DE582]' : 'text-white/60 group-hover:text-white'
+                    }`} />
+                    <span className="transition-colors duration-300">{item.label}</span>
+                    
+                    {/* Active indicator */}
+                    {isActive && (
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/0 via-[#2DE582]/5 to-[#2DE582]/0 opacity-0"
-                        whileHover={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
+                        layoutId="activeTab"
+                        className="absolute -bottom-2 left-0 right-0 h-0.5 bg-[#2DE582] rounded-full"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
-                    <div className="relative z-10 flex items-center space-x-2">
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                    </div>
+                    
+                    {/* Hover indicator */}
+                    {!isActive && (
+                      <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white/30 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                    )}
                   </motion.button>
                 );
               })}

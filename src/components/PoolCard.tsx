@@ -189,7 +189,6 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
     <motion.div
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ y: -8 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="relative group"
     >

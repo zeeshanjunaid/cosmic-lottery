@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Settings, Plus, BarChart3, Shield } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import CreatePoolForm from './CreatePoolForm';
 import PoolManagement from './PoolManagement';
@@ -53,15 +55,16 @@ const AdminPanel: React.FC = () => {
 
       {/* Tab Navigation */}
       <div className="flex justify-center">
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-2">
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 p-2">
           <div className="flex space-x-2">
             {tabs.map((tab) => (
-              <button
+              <Button
                 key={tab.id}
+                variant={activeTab === tab.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                className={`relative px-6 py-3 font-semibold transition-all duration-300 ${
                   activeTab === tab.id
-                    ? 'text-black bg-[#2DE582]'
+                    ? 'text-black bg-[#2DE582] hover:bg-[#2DE582]/80'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -69,10 +72,10 @@ const AdminPanel: React.FC = () => {
                   <tab.icon className="w-5 h-5" />
                   <span>{tab.name}</span>
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Tab Content */}

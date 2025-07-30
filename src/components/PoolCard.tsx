@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 
 interface PoolCardProps {
   pool: LotteryPool;
@@ -500,14 +501,10 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
               <span className="text-[#2DE582] font-bold text-sm">{progressPercentage.toFixed(0)}%</span>
             </div>
             
-            <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-[#2DE582] to-blue-400"
-                initial={{ width: 0 }}
-                animate={{ width: `${progressPercentage}%` }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-              />
-            </div>
+            <Progress 
+              value={progressPercentage} 
+              className="h-2 bg-white/10 [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:to-blue-400"
+            />
           </div>
 
           {/* Timer or Winner */}

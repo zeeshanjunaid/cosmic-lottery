@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Calendar, DollarSign, User, Crown, Star } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface Winner {
   id: string;
@@ -102,29 +104,35 @@ const WinnersPage: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
-          <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
-            <DollarSign className="w-6 h-6 text-[#2DE582]" />
-          </div>
-          <div className="text-2xl font-bold text-white mb-1">${totalPrizes.toLocaleString()}</div>
-          <div className="text-gray-400">Total Prizes Won</div>
-        </div>
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 text-center">
+          <CardContent className="p-6">
+            <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
+              <DollarSign className="w-6 h-6 text-[#2DE582]" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-1">${totalPrizes.toLocaleString()}</div>
+            <div className="text-gray-400">Total Prizes Won</div>
+          </CardContent>
+        </Card>
 
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
-          <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
-            <Crown className="w-6 h-6 text-[#2DE582]" />
-          </div>
-          <div className="text-2xl font-bold text-white mb-1">{mockWinners.length}</div>
-          <div className="text-gray-400">Total Winners</div>
-        </div>
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 text-center">
+          <CardContent className="p-6">
+            <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
+              <Crown className="w-6 h-6 text-[#2DE582]" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-1">{mockWinners.length}</div>
+            <div className="text-gray-400">Total Winners</div>
+          </CardContent>
+        </Card>
 
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
-          <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
-            <Star className="w-6 h-6 text-[#2DE582]" />
-          </div>
-          <div className="text-2xl font-bold text-white mb-1">{recentWinners.length}</div>
-          <div className="text-gray-400">Recent Winners</div>
-        </div>
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 text-center">
+          <CardContent className="p-6">
+            <div className="p-3 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-4">
+              <Star className="w-6 h-6 text-[#2DE582]" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-1">{recentWinners.length}</div>
+            <div className="text-gray-400">Recent Winners</div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Winners List */}
@@ -143,14 +151,14 @@ const WinnersPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   {winner.isRecent && (
-                    <div className="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#2DE582]/20 border border-[#2DE582]/30">
+                    <Badge className="bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582] hover:bg-[#2DE582]/30">
                       <motion.div
-                        className="w-2 h-2 bg-[#2DE582] rounded-full"
+                        className="w-2 h-2 bg-[#2DE582] rounded-full mr-2"
                         animate={{ opacity: [0.5, 1, 0.5] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
-                      <span className="text-[#2DE582] text-xs font-bold">NEW</span>
-                    </div>
+                      NEW
+                    </Badge>
                   )}
                   
                   <div>

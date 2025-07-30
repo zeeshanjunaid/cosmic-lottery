@@ -92,7 +92,6 @@ const LotteryPools: React.FC = () => {
             <PoolCard pool={pool} />
           </motion.div>
         ))}
-      </div>
     </motion.div>
   );
 };

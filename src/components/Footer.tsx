@@ -96,22 +96,20 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Bottom Footer */}
         <div className="border-t border-white/10 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-              <div className="text-white/60 text-sm">
+            <div className="text-center md:text-left">
+              <div className="text-white/60 text-sm mb-2">
                 © 2025 Cosmic Lottery. All rights reserved.
               </div>
-              <div className="flex items-center space-x-2 text-white/60 text-sm">
+              <div className="flex items-center justify-center md:justify-start space-x-2 text-white/50 text-xs">
                 <span>Made with</span>
-                <Heart className="w-4 h-4 text-red-400 fill-current" />
+                <Heart className="w-3 h-3 text-red-400 fill-current" />
                 <span>for the crypto community</span>
               </div>
             </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <span>Built on Ethereum</span>
-              <span>•</span>
-              <span>Provably Fair</span>
-              <span>•</span>
-              <span>Instant Payouts</span>
+            <div className="flex items-center space-x-3 text-sm text-gray-400">
+              <span className="px-2 py-1 bg-white/5 rounded">Built on Ethereum</span>
+              <span className="px-2 py-1 bg-white/5 rounded">Provably Fair</span>
+              <span className="px-2 py-1 bg-white/5 rounded">Instant Payouts</span>
             </div>
           </div>
         </div>

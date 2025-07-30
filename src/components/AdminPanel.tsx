@@ -42,13 +42,13 @@ const AdminPanel: React.FC = () => {
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-3">
           <div className="p-3 bg-[#2DE582] rounded-xl">
-            <Shield className="w-8 h-8 text-black" />
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
           </div>
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-4xl font-bold text-white">
             Admin <span className="text-[#2DE582]">Dashboard</span>
           </h1>
         </div>
-        <p className="text-gray-400 max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto px-4">
           Manage your Cosmic Lottery platform with complete control over pools, analytics, and system settings.
         </p>
       </div>

@@ -78,25 +78,25 @@ const AnalyticsDashboard: React.FC = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
         {/* Revenue Chart Placeholder */}
         <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
           <CardHeader>
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <Activity className="w-5 h-5 text-[#2DE582]" />
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h3 className="text-xl font-bold text-white">Revenue Trend</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white">Revenue Trend</h3>
             </div>
           </CardHeader>
           <CardContent>
           
-            <div className="h-64 flex items-center justify-center">
+            <div className="h-40 sm:h-64 flex items-center justify-center">
               <div className="text-center space-y-3">
-                <div className="w-16 h-16 bg-[#2DE582]/20 rounded-full mx-auto flex items-center justify-center">
-                  <Activity className="w-8 h-8 text-[#2DE582]" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#2DE582]/20 rounded-full mx-auto flex items-center justify-center">
+                  <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-[#2DE582]" />
                 </div>
-                <p className="text-gray-400">Revenue chart will be integrated with real analytics data</p>
+                <p className="text-sm sm:text-base text-gray-400 px-4">Revenue chart will be integrated with real analytics data</p>
               </div>
             </div>
           </CardContent>
@@ -107,9 +107,9 @@ const AnalyticsDashboard: React.FC = () => {
           <CardHeader>
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-                <Trophy className="w-5 h-5 text-[#2DE582]" />
+                <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
               </div>
-              <h3 className="text-xl font-bold text-white">Recent Winners</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white">Recent Winners</h3>
             </div>
           </CardHeader>
           <CardContent>
@@ -121,14 +121,14 @@ const AnalyticsDashboard: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center justify-between p-4 bg-[#1C1C1C]/60 rounded-xl border border-white/5"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-[#1C1C1C]/60 rounded-xl border border-white/5 space-y-2 sm:space-y-0"
                 >
-                  <div className="space-y-1">
-                    <div className="font-semibold text-white">{winner.pool}</div>
-                    <div className="text-sm text-gray-400 font-mono">{winner.winner}</div>
+                  <div className="space-y-1 flex-1">
+                    <div className="text-sm sm:text-base font-semibold text-white">{winner.pool}</div>
+                    <div className="text-xs sm:text-sm text-gray-400 font-mono break-all">{winner.winner}</div>
                   </div>
-                  <div className="text-right space-y-1">
-                    <div className="font-bold text-[#2DE582]">${winner.amount}</div>
+                  <div className="text-left sm:text-right space-y-1">
+                    <div className="text-sm sm:text-base font-bold text-[#2DE582]">${winner.amount}</div>
                     <div className="text-xs text-gray-500">{winner.time}</div>
                   </div>
                 </motion.div>

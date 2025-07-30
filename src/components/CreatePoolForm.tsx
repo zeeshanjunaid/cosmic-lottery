@@ -85,13 +85,13 @@ const CreatePoolForm: React.FC = () => {
         <CardContent>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Left Column */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Pool Name */}
               <div className="space-y-2">
-                <Label className="text-white font-semibold flex items-center space-x-2">
-                  <Sparkles className="w-4 h-4 text-[#2DE582]" />
+                <Label className="text-sm sm:text-base text-white font-semibold flex items-center space-x-2">
+                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-[#2DE582]" />
                   <span>Pool Name</span>
                 </Label>
                 <Input
@@ -104,8 +104,8 @@ const CreatePoolForm: React.FC = () => {
 
               {/* Ticket Price */}
               <div className="space-y-2">
-                <Label className="text-white font-semibold flex items-center space-x-2">
-                  <DollarSign className="w-4 h-4 text-[#2DE582]" />
+                <Label className="text-sm sm:text-base text-white font-semibold flex items-center space-x-2">
+                  <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-[#2DE582]" />
                   <span>Ticket Price (USDT)</span>
                 </Label>
                 <Input
@@ -120,8 +120,8 @@ const CreatePoolForm: React.FC = () => {
 
               {/* Max Tickets */}
               <div className="space-y-2">
-                <Label className="text-white font-semibold flex items-center space-x-2">
-                  <Users className="w-4 h-4 text-[#2DE582]" />
+                <Label className="text-sm sm:text-base text-white font-semibold flex items-center space-x-2">
+                  <Users className="w-3 h-3 sm:w-4 sm:h-4 text-[#2DE582]" />
                   <span>Maximum Tickets</span>
                 </Label>
                 <Input
@@ -135,11 +135,11 @@ const CreatePoolForm: React.FC = () => {
             </div>
 
             {/* Right Column */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Duration */}
               <div className="space-y-2">
-                <Label className="text-white font-semibold flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-[#2DE582]" />
+                <Label className="text-sm sm:text-base text-white font-semibold flex items-center space-x-2">
+                  <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-[#2DE582]" />
                   <span>Duration</span>
                 </Label>
                 <div className="flex space-x-3">
@@ -155,7 +155,7 @@ const CreatePoolForm: React.FC = () => {
                     value={formData.durationType}
                     onValueChange={(value) => handleInputChange('durationType', value as 'hours' | 'days')}
                   >
-                    <SelectTrigger className="w-24 bg-[#1C1C1C]/60 border-white/10 text-white">
+                    <SelectTrigger className="w-20 sm:w-24 bg-[#1C1C1C]/60 border-white/10 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1C1C1C] border-white/10">
@@ -169,21 +169,21 @@ const CreatePoolForm: React.FC = () => {
               {/* Preview Information */}
               <Card className="bg-[#1C1C1C]/60 border-white/10">
                 <CardHeader>
-                  <h3 className="text-white font-semibold">Pool Preview</h3>
+                  <h3 className="text-sm sm:text-base text-white font-semibold">Pool Preview</h3>
                 </CardHeader>
-                <CardContent className="space-y-2 text-sm">
+                <CardContent className="space-y-2 text-xs sm:text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-400">Est. Prize Pool:</span>
-                    <span className="text-[#2DE582] font-semibold">${estimatedPrizePool} USDT</span>
+                    <span className="text-[#2DE582] font-semibold break-all">${estimatedPrizePool} USDT</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Platform Fee (5%):</span>
-                    <span className="text-red-400">${(parseFloat(estimatedPrizePool) * 0.0526).toFixed(0) || '0'}</span>
+                    <span className="text-red-400 break-all">${(parseFloat(estimatedPrizePool) * 0.0526).toFixed(0) || '0'}</span>
                   </div>
                   {calculateEndTime() && (
-                    <div className="flex justify-between">
+                    <div className="flex flex-col sm:flex-row sm:justify-between space-y-1 sm:space-y-0">
                       <span className="text-gray-400">Ends At:</span>
-                      <span className="text-blue-400">{calculateEndTime()}</span>
+                      <span className="text-blue-400 text-xs sm:text-sm break-all">{calculateEndTime()}</span>
                     </div>
                   )}
                 </CardContent>
@@ -196,11 +196,11 @@ const CreatePoolForm: React.FC = () => {
             <Button
               type="submit" 
               disabled={isSubmitting}
-              className="w-full py-4 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
+              className="w-full py-3 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-semibold shadow-lg hover:shadow-[#2DE582]/25 transition-all duration-300 hover:scale-102"
               variant={isSubmitting ? "secondary" : "default"}
             >
               <div className="flex items-center justify-center space-x-2">
-                <Plus className="w-5 h-5" />
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>{isSubmitting ? 'Creating Pool...' : 'Create Lottery Pool'}</span>
               </div>
             </Button>

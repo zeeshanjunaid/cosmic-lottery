@@ -134,8 +134,8 @@ const PoolManagement: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">Pool Management</h2>
-        <p className="text-gray-400">Manage all lottery pools and trigger payouts</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Pool Management</h2>
+        <p className="text-sm sm:text-base text-gray-400 px-4">Manage all lottery pools and trigger payouts</p>
       </div>
       <div className="grid grid-cols-1 gap-6">
         {pools.map((pool) => {
@@ -150,38 +150,38 @@ const PoolManagement: React.FC = () => {
               className="space-y-4"
             >
               <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 space-y-2 sm:space-y-0">
                     <div className="space-y-2">
                       <div className="flex items-center space-x-3">
-                        <h3 className="text-xl font-bold text-white">{pool.name}</h3>
+                        <h3 className="text-lg sm:text-xl font-bold text-white">{pool.name}</h3>
                         <Badge 
                           variant="outline"
                           className={`${statusInfo.color} border-current`}
                         >
-                          <StatusIcon className="w-3 h-3 mr-1" />
+                          <StatusIcon className="w-2 h-2 sm:w-3 sm:h-3 mr-1" />
                           {statusInfo.status}
                         </Badge>
                       </div>
-                      <div className="flex items-center space-x-6 text-sm text-gray-400">
-                        <span>ID: {pool.id}</span>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-6 text-xs sm:text-sm text-gray-400">
+                        <span className="bg-white/5 px-2 py-1 rounded">ID: {pool.id}</span>
                         <span>${pool.ticketPrice} USDT per ticket</span>
                         <span>{pool.soldTickets}/{pool.maxTickets} tickets sold</span>
                         <span>${pool.prizePool} prize pool</span>
                       </div>
                     </div>
-                    <StatusIcon className="w-4 h-4" />
+                    <StatusIcon className="w-4 h-4 flex-shrink-0" />
                   </div>
                   
                   {/* Winner Information */}
                   {pool.winner && (
                     <Card className="bg-[#2DE582]/10 border-[#2DE582]/30 mb-4">
-                      <CardContent className="p-4">
-                        <div className="flex items-center space-x-3">
-                          <Trophy className="w-5 h-5 text-[#2DE582]" />
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3">
+                          <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582] flex-shrink-0" />
                           <div>
-                            <span className="text-[#2DE582] font-semibold">Winner: </span>
-                            <span className="text-white font-mono">{formatAddress(pool.winner)}</span>
+                            <span className="text-sm sm:text-base text-[#2DE582] font-semibold">Winner: </span>
+                            <span className="text-xs sm:text-sm text-white font-mono break-all">{formatAddress(pool.winner)}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -191,15 +191,15 @@ const PoolManagement: React.FC = () => {
                   {/* Payout Trigger */}
                   {pool.canTriggerPayout && (
                     <Card className="bg-yellow-500/10 border-yellow-500/30 mb-4">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                            <span className="text-yellow-400 font-semibold">Pool ended - Ready for payout</span>
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
+                          <div className="flex items-center space-x-2 sm:space-x-3">
+                            <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0" />
+                            <span className="text-sm sm:text-base text-yellow-400 font-semibold">Pool ended - Ready for payout</span>
                           </div>
                           <Button
                             onClick={() => handleTriggerPayout(pool.id)}
-                            className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+                            className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold text-sm px-3 py-2 w-full sm:w-auto"
                           >
                             Trigger Payout
                           </Button>
@@ -209,13 +209,13 @@ const PoolManagement: React.FC = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex items-center space-x-3">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                     <Button
                       variant="outline"
                       onClick={() => handleViewDetails(pool)}
-                      className="border-white/10 text-gray-300 hover:text-white hover:bg-white/10"
+                      className="border-white/10 text-gray-300 hover:text-white hover:bg-white/10 text-sm px-3 py-2 w-full sm:w-auto"
                     >
-                      <Eye className="w-4 h-4 mr-2" />
+                      <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                       View Details
                     </Button>
 
@@ -223,18 +223,18 @@ const PoolManagement: React.FC = () => {
                       <Button
                         variant="outline"
                         onClick={() => handlePausePool(pool.id)}
-                        className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
+                        className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20 text-sm px-3 py-2 w-full sm:w-auto"
                       >
-                        <Pause className="w-4 h-4 mr-2" />
+                        <Pause className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                         Pause
                       </Button>
                     ) : !pool.winner && !pool.canTriggerPayout ? (
                       <Button
                         variant="outline"
                         onClick={() => handleResumePool(pool.id)}
-                        className="border-[#2DE582]/30 text-[#2DE582] hover:text-white hover:bg-[#2DE582]/20"
+                        className="border-[#2DE582]/30 text-[#2DE582] hover:text-white hover:bg-[#2DE582]/20 text-sm px-3 py-2 w-full sm:w-auto"
                       >
-                        <Play className="w-4 h-4 mr-2" />
+                        <Play className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                         Resume
                       </Button>
                     ) : null}
@@ -242,9 +242,9 @@ const PoolManagement: React.FC = () => {
                     <Button
                       variant="outline"
                       onClick={() => handleDeletePool(pool.id)}
-                      className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
+                      className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20 text-sm px-3 py-2 w-full sm:w-auto"
                     >
-                      <Trash2 className="w-4 h-4 mr-2" />
+                      <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                       Delete
                     </Button>
                   </div>

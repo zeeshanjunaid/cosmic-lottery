@@ -184,11 +184,17 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               </button>
             )}
             
-            <button className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2">
+            <button 
+              onClick={handleWinnersClick}
+              className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2"
+            >
               <Trophy className="w-4 h-4" />
               <span>Winners</span>
             </button>
-            <button className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2">
+            <button 
+              onClick={handleSettingsClick}
+              className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2"
+            >
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </button>

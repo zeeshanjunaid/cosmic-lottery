@@ -135,315 +135,118 @@ const PoolManagement: React.FC = () => {
         <p className="text-gray-400">Manage all lottery pools and trigger payouts</p>
       </div>
       <div className="grid grid-cols-1 gap-6">
-                  <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-3">
-                            <h3 className="text-xl font-bold text-white">{pool.name}</h3>
-                            <Badge 
-                              variant="outline"
-                              className={`${statusInfo.color} border-current`}
-                            >
-                              <StatusIcon className="w-3 h-3 mr-1" />
-                              {statusInfo.status}
-                            </Badge>
-                          </div>
-                          <div className="flex items-center space-x-6 text-sm text-gray-400">
-                            <span>ID: {pool.id}</span>
-                            <span>${pool.ticketPrice} USDT per ticket</span>
-                            <span>{pool.soldTickets}/{pool.maxTickets} tickets sold</span>
-                            <span>${pool.prizePool} prize pool</span>
-                          </div>
+        {pools.map((pool) => {
+          const statusInfo = getPoolStatus(pool);
+          const StatusIcon = statusInfo.icon;
+          
+          return (
+            <motion.div
+              key={pool.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-                      <StatusIcon className="w-4 h-4" />
-                      {/* Winner Information */}
-                      {pool.winner && (
-                        <Card className="bg-[#2DE582]/10 border-[#2DE582]/30 mb-4">
-                          <CardContent className="p-4">
-                            <div className="flex items-center space-x-3">
-                              <Trophy className="w-5 h-5 text-[#2DE582]" />
-                              <div>
-                                <span className="text-[#2DE582] font-semibold">Winner: </span>
-                                <span className="text-white font-mono">{formatAddress(pool.winner)}</span>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-
-                      {/* Payout Trigger */}
-                      {pool.canTriggerPayout && (
-                        <Card className="bg-yellow-500/10 border-yellow-500/30 mb-4">
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-3">
-                                <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                                <span className="text-yellow-400 font-semibold">Pool ended - Ready for payout</span>
-                              </div>
-                              <Button
-                                onClick={() => handleTriggerPayout(pool.id)}
-                                className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
-                              >
-                                Trigger Payout
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-
-                      {/* Action Buttons */}
+              className="space-y-4"
+            >
+              <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-2">
                       <div className="flex items-center space-x-3">
-                        <Button
+                        <h3 className="text-xl font-bold text-white">{pool.name}</h3>
+                        <Badge 
                           variant="outline"
-                          onClick={() => handleViewDetails(pool)}
-                          className="border-white/10 text-gray-300 hover:text-white hover:bg-white/10"
+                          className={`${statusInfo.color} border-current`}
                         >
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Details
-                        </Button>
-
-                        {pool.isActive && !pool.winner ? (
-                          <Button
-                            variant="outline"
-                            onClick={() => handlePausePool(pool.id)}
-                            className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
-                          >
-                            <Pause className="w-4 h-4 mr-2" />
-                            Pause
-                          </Button>
-                        ) : !pool.winner && !pool.canTriggerPayout ? (
-                          <Button
-                            variant="outline"
-                            onClick={() => handleResumePool(pool.id)}
-                            className="border-[#2DE582]/30 text-[#2DE582] hover:text-white hover:bg-[#2DE582]/20"
-                          >
-                            <Play className="w-4 h-4 mr-2" />
-                            Resume
-                          </Button>
-                        ) : null}
-
-                        <Button
-                          variant="outline"
-                          onClick={() => handleDeletePool(pool.id)}
-                          className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
-                        >
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </Button>
+                          <StatusIcon className="w-3 h-3 mr-1" />
+                          {statusInfo.status}
+                        </Badge>
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Pool Details Modal */}
-          {selectedPool && (
-            <Dialog open={!!selectedPool} onOpenChange={() => closeModal()}>
-              <DialogContent className="bg-[#181830] border-white/10 text-white max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-white">{selectedPool.name}</DialogTitle>
-                </DialogHeader>
-                
-                {/* Pool Status */}
-                <div className="mb-6">
-                  <Badge 
-                    variant={selectedPool.isActive ? "default" : "destructive"}
-                    className={selectedPool.isActive 
-                      ? 'bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582]'
-                      : 'bg-red-500/20 border-red-500/30 text-red-400'
-                    }
-                  >
-                    <div className={`w-2 h-2 rounded-full mr-2 ${selectedPool.isActive ? 'bg-[#2DE582]' : 'bg-red-400'}`} />
-                    {selectedPool.isActive ? 'Active' : 'Ended'}
-                  </Badge>
-                </div>
-
-                {/* Pool Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <Card className="bg-[#1C1C1C]/60 border-white/10">
-                    <CardContent className="p-4 text-center">
-                      <DollarSign className="w-6 h-6 text-[#2DE582] mx-auto mb-2" />
-                      <div className="text-xl font-bold text-white">${selectedPool.ticketPrice}</div>
-                      <div className="text-sm text-gray-400">Ticket Price</div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-[#1C1C1C]/60 border-white/10">
-                    <CardContent className="p-4 text-center">
-                      <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                      <div className="text-xl font-bold text-white">{selectedPool.soldTickets}</div>
-                      <div className="text-sm text-gray-400">Tickets Sold</div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-[#1C1C1C]/60 border-white/10">
-                    <CardContent className="p-4 text-center">
-                      <Ticket className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                      <div className="text-xl font-bold text-white">{selectedPool.maxTickets}</div>
-                      <div className="text-sm text-gray-400">Max Tickets</div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-[#1C1C1C]/60 border-white/10">
-                    <CardContent className="p-4 text-center">
-                      <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                      <div className="text-xl font-bold text-white">${selectedPool.prizePool}</div>
-                      <div className="text-sm text-gray-400">Prize Pool</div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Detailed Information */}
-                <div className="space-y-4 mb-6">
-                  <Card className="bg-[#1C1C1C]/60 border-white/10">
-                    <CardHeader>
-                      <h3 className="text-lg font-semibold text-white">Pool Information</h3>
-                    </CardHeader>
-                    <CardContent className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Pool ID:</span>
-                        <span className="text-white font-mono">{selectedPool.id}</span>
+                      <div className="flex items-center space-x-6 text-sm text-gray-400">
+                        <span>ID: {pool.id}</span>
+                        <span>${pool.ticketPrice} USDT per ticket</span>
+                        <span>{pool.soldTickets}/{pool.maxTickets} tickets sold</span>
+                        <span>${pool.prizePool} prize pool</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Progress:</span>
-                        <span className="text-white">{((selectedPool.soldTickets / selectedPool.maxTickets) * 100).toFixed(1)}%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Remaining Tickets:</span>
-                        <span className="text-white">{selectedPool.maxTickets - selectedPool.soldTickets}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Win Odds:</span>
-                        <span className="text-white">1 in {selectedPool.maxTickets}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">End Time:</span>
-                        <span className="text-white">{selectedPool.endTime.toLocaleString()}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Winner Information */}
-                  {selectedPool.winner && (
-                    <Card className="bg-[#2DE582]/10 border-[#2DE582]/30">
-                      <CardHeader>
-                        <h3 className="text-lg font-semibold text-[#2DE582] flex items-center space-x-2">
-                          <Trophy className="w-5 h-5" />
-                          <span>Winner Information</span>
-                        </h3>
-                      </CardHeader>
-                      <CardContent className="text-sm space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-gray-300">Winner Address:</span>
-                          <span className="text-white font-mono">{selectedPool.winner}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-300">Prize Amount:</span>
-                          <span className="text-[#2DE582] font-bold">${selectedPool.prizePool}</span>
+                    </div>
+                    <StatusIcon className="w-4 h-4" />
                   </div>
+                  
+                  {/* Winner Information */}
+                  {pool.winner && (
+                    <Card className="bg-[#2DE582]/10 border-[#2DE582]/30 mb-4">
+                      <CardContent className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <Trophy className="w-5 h-5 text-[#2DE582]" />
+                          <div>
+                            <span className="text-[#2DE582] font-semibold">Winner: </span>
+                            <span className="text-white font-mono">{formatAddress(pool.winner)}</span>
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                   )}
-                </div>
-                      <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3">
-                  {selectedPool.isActive && (
+
+                  {/* Payout Trigger */}
+                  {pool.canTriggerPayout && (
+                    <Card className="bg-yellow-500/10 border-yellow-500/30 mb-4">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <AlertTriangle className="w-5 h-5 text-yellow-400" />
+                            <span className="text-yellow-400 font-semibold">Pool ended - Ready for payout</span>
+                          </div>
+                          <Button
+                            onClick={() => handleTriggerPayout(pool.id)}
+                            className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+                          >
+                            Trigger Payout
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center space-x-3">
                     <Button
                       variant="outline"
-                      onClick={() => {
-                        handlePausePool(selectedPool.id);
-                        closeModal();
-                      }}
-                      className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
+                      onClick={() => handleViewDetails(pool)}
+                      className="border-white/10 text-gray-300 hover:text-white hover:bg-white/10"
                     >
-                      <Pause className="w-4 h-4 mr-2" />
-                      Pause Pool
+                      <Eye className="w-4 h-4 mr-2" />
+                      View Details
                     </Button>
-                  )}
-                  
-                  {selectedPool.canTriggerPayout && (
+
+                    {pool.isActive && !pool.winner ? (
+                      <Button
+                        variant="outline"
+                        onClick={() => handlePausePool(pool.id)}
+                        className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
+                      >
+                        <Pause className="w-4 h-4 mr-2" />
+                        Pause
+                      </Button>
+                    ) : !pool.winner && !pool.canTriggerPayout ? (
+                      <Button
+                        variant="outline"
+                        onClick={() => handleResumePool(pool.id)}
+                        className="border-[#2DE582]/30 text-[#2DE582] hover:text-white hover:bg-[#2DE582]/20"
+                      >
+                        <Play className="w-4 h-4 mr-2" />
+                        Resume
+                      </Button>
+                    ) : null}
+
                     <Button
-                      onClick={() => {
-                        handleTriggerPayout(selectedPool.id);
-                        closeModal();
-                      }}
-                      className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+                      variant="outline"
+                      onClick={() => handleDeletePool(pool.id)}
+                      className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
                     >
-                      <Trophy className="w-4 h-4 mr-2" />
-                      Trigger Payout
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
                     </Button>
-                  )}
-                  
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      handleDeletePool(selectedPool.id);
-                      closeModal();
-                    }}
-                    className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    Delete Pool
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-      );
-    };
-
-    export default PoolManagement;
-                      onClick={() => handleTriggerPayout(pool.id)}
-                      className="px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-lg font-semibold text-black transition-all duration-300"
-                    >
-                      Trigger Payout
-                    </button>
                   </div>
-                </div>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={() => handleViewDetails(pool)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-[#1C1C1C]/60 hover:bg-[#1C1C1C]/80 border border-white/10 rounded-lg text-gray-300 hover:text-white transition-all duration-300"
-                >
-                  <Eye className="w-4 h-4" />
-                  <span>View Details</span>
-                </button>
-
-                {pool.isActive && !pool.winner ? (
-                  <button
-                    onClick={() => handlePausePool(pool.id)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/30 rounded-lg text-orange-400 hover:text-orange-300 transition-all duration-300"
-                  >
-                    <Pause className="w-4 h-4" />
-                    <span>Pause</span>
-                  </button>
-                ) : !pool.winner && !pool.canTriggerPayout ? (
-                  <button
-                    onClick={() => handleResumePool(pool.id)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582]/20 hover:bg-[#2DE582]/30 border border-[#2DE582]/30 rounded-lg text-[#2DE582] hover:text-white transition-all duration-300"
-                  >
-                    <Play className="w-4 h-4" />
-                    <span>Resume</span>
-                  </button>
-                ) : null}
-
-                <button
-                  onClick={() => handleDeletePool(pool.id)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 rounded-lg text-red-400 hover:text-red-300 transition-all duration-300"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  <span>Delete</span>
-                </button>
-              </div>
+                </CardContent>
+              </Card>
             </motion.div>
           );
         })}
@@ -451,68 +254,68 @@ const PoolManagement: React.FC = () => {
 
       {/* Pool Details Modal */}
       {selectedPool && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-[#181830] border border-white/10 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">{selectedPool.name}</h2>
-              <button
-                onClick={closeModal}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5 text-gray-400" />
-              </button>
-            </div>
-
+        <Dialog open={!!selectedPool} onOpenChange={() => closeModal()}>
+          <DialogContent className="bg-[#181830] border-white/10 text-white max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-white">{selectedPool.name}</DialogTitle>
+            </DialogHeader>
+            
             {/* Pool Status */}
             <div className="mb-6">
-              <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full ${
-                selectedPool.isActive 
-                  ? 'bg-[#2DE582]/20 border border-[#2DE582]/30 text-[#2DE582]'
-                  : 'bg-red-500/20 border border-red-500/30 text-red-400'
-              }`}>
-                <div className={`w-2 h-2 rounded-full ${selectedPool.isActive ? 'bg-[#2DE582]' : 'bg-red-400'}`} />
-                <span className="font-semibold">{selectedPool.isActive ? 'Active' : 'Ended'}</span>
-              </div>
+              <Badge 
+                variant={selectedPool.isActive ? "default" : "destructive"}
+                className={selectedPool.isActive 
+                  ? 'bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582]'
+                  : 'bg-red-500/20 border-red-500/30 text-red-400'
+                }
+              >
+                <div className={`w-2 h-2 rounded-full mr-2 ${selectedPool.isActive ? 'bg-[#2DE582]' : 'bg-red-400'}`} />
+                {selectedPool.isActive ? 'Active' : 'Ended'}
+              </Badge>
             </div>
 
             {/* Pool Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-[#1C1C1C]/60 rounded-xl p-4 text-center">
-                <DollarSign className="w-6 h-6 text-[#2DE582] mx-auto mb-2" />
-                <div className="text-xl font-bold text-white">${selectedPool.ticketPrice}</div>
-                <div className="text-sm text-gray-400">Ticket Price</div>
-              </div>
+              <Card className="bg-[#1C1C1C]/60 border-white/10">
+                <CardContent className="p-4 text-center">
+                  <DollarSign className="w-6 h-6 text-[#2DE582] mx-auto mb-2" />
+                  <div className="text-xl font-bold text-white">${selectedPool.ticketPrice}</div>
+                  <div className="text-sm text-gray-400">Ticket Price</div>
+                </CardContent>
+              </Card>
               
-              <div className="bg-[#1C1C1C]/60 rounded-xl p-4 text-center">
-                <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                <div className="text-xl font-bold text-white">{selectedPool.soldTickets}</div>
-                <div className="text-sm text-gray-400">Tickets Sold</div>
-              </div>
+              <Card className="bg-[#1C1C1C]/60 border-white/10">
+                <CardContent className="p-4 text-center">
+                  <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                  <div className="text-xl font-bold text-white">{selectedPool.soldTickets}</div>
+                  <div className="text-sm text-gray-400">Tickets Sold</div>
+                </CardContent>
+              </Card>
               
-              <div className="bg-[#1C1C1C]/60 rounded-xl p-4 text-center">
-                <Ticket className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                <div className="text-xl font-bold text-white">{selectedPool.maxTickets}</div>
-                <div className="text-sm text-gray-400">Max Tickets</div>
-              </div>
+              <Card className="bg-[#1C1C1C]/60 border-white/10">
+                <CardContent className="p-4 text-center">
+                  <Ticket className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+                  <div className="text-xl font-bold text-white">{selectedPool.maxTickets}</div>
+                  <div className="text-sm text-gray-400">Max Tickets</div>
+                </CardContent>
+              </Card>
               
-              <div className="bg-[#1C1C1C]/60 rounded-xl p-4 text-center">
-                <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <div className="text-xl font-bold text-white">${selectedPool.prizePool}</div>
-                <div className="text-sm text-gray-400">Prize Pool</div>
-              </div>
+              <Card className="bg-[#1C1C1C]/60 border-white/10">
+                <CardContent className="p-4 text-center">
+                  <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+                  <div className="text-xl font-bold text-white">${selectedPool.prizePool}</div>
+                  <div className="text-sm text-gray-400">Prize Pool</div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Detailed Information */}
             <div className="space-y-4 mb-6">
-              <div className="bg-[#1C1C1C]/60 rounded-xl p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Pool Information</h3>
-                <div className="space-y-2 text-sm">
+              <Card className="bg-[#1C1C1C]/60 border-white/10">
+                <CardHeader>
+                  <h3 className="text-lg font-semibold text-white">Pool Information</h3>
+                </CardHeader>
+                <CardContent className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-400">Pool ID:</span>
                     <span className="text-white font-mono">{selectedPool.id}</span>
@@ -533,17 +336,19 @@ const PoolManagement: React.FC = () => {
                     <span className="text-gray-400">End Time:</span>
                     <span className="text-white">{selectedPool.endTime.toLocaleString()}</span>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Winner Information */}
               {selectedPool.winner && (
-                <div className="bg-[#2DE582]/10 border border-[#2DE582]/30 rounded-xl p-4">
-                  <h3 className="text-lg font-semibold text-[#2DE582] mb-3 flex items-center space-x-2">
-                    <Trophy className="w-5 h-5" />
-                    <span>Winner Information</span>
-                  </h3>
-                  <div className="space-y-2 text-sm">
+                <Card className="bg-[#2DE582]/10 border-[#2DE582]/30">
+                  <CardHeader>
+                    <h3 className="text-lg font-semibold text-[#2DE582] flex items-center space-x-2">
+                      <Trophy className="w-5 h-5" />
+                      <span>Winner Information</span>
+                    </h3>
+                  </CardHeader>
+                  <CardContent className="text-sm space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-300">Winner Address:</span>
                       <span className="text-white font-mono">{selectedPool.winner}</span>
@@ -552,52 +357,54 @@ const PoolManagement: React.FC = () => {
                       <span className="text-gray-300">Prize Amount:</span>
                       <span className="text-[#2DE582] font-bold">${selectedPool.prizePool}</span>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               )}
             </div>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3">
               {selectedPool.isActive && (
-                <button
+                <Button
+                  variant="outline"
                   onClick={() => {
                     handlePausePool(selectedPool.id);
                     closeModal();
                   }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/30 rounded-lg text-orange-400 hover:text-orange-300 transition-all duration-300"
+                  className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
                 >
-                  <Pause className="w-4 h-4" />
-                  <span>Pause Pool</span>
-                </button>
+                  <Pause className="w-4 h-4 mr-2" />
+                  Pause Pool
+                </Button>
               )}
               
               {selectedPool.canTriggerPayout && (
-                <button
+                <Button
                   onClick={() => {
                     handleTriggerPayout(selectedPool.id);
                     closeModal();
                   }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-lg font-semibold text-black transition-all duration-300"
+                  className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
                 >
-                  <Trophy className="w-4 h-4" />
-                  <span>Trigger Payout</span>
-                </button>
+                  <Trophy className="w-4 h-4 mr-2" />
+                  Trigger Payout
+                </Button>
               )}
               
-              <button
+              <Button
+                variant="outline"
                 onClick={() => {
                   handleDeletePool(selectedPool.id);
                   closeModal();
                 }}
-                className="flex items-center space-x-2 px-4 py-2 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 rounded-lg text-red-400 hover:text-red-300 transition-all duration-300"
+                className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
               >
-                <Trash2 className="w-4 h-4" />
-                <span>Delete Pool</span>
-              </button>
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete Pool
+              </Button>
             </div>
-          </motion.div>
-        </div>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );

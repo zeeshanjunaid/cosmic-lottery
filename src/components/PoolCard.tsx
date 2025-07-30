@@ -18,6 +18,31 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
 
+  // Sound effects using use-sound
+  const [playFirecracker] = useSound(
+    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
+    { 
+      volume: 0.5,
+      onload: () => console.log('Firecracker sound loaded')
+    }
+  );
+  
+  const [playCelebration] = useSound(
+    'https://www.soundjay.com/misc/sounds/bell_tree.wav',
+    { 
+      volume: 0.4,
+      onload: () => console.log('Celebration sound loaded')
+    }
+  );
+  
+  const [playWinSound] = useSound(
+    'https://www.soundjay.com/misc/sounds/magic_chime_02.wav',
+    { 
+      volume: 0.6,
+      onload: () => console.log('Win sound loaded')
+    }
+  );
+
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 
   const handleBuyTicket = async () => {
@@ -90,37 +115,24 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
     setIsClaiming(true);
     toast.loading('Processing reward claim...', { id: 'claim-reward' });
     
-    // Play celebration sound
+    // Play firecracker sound immediately
     try {
-      const audio = new Audio('https://www.soundjay.com/misc/sounds/magic_chime_02.wav');
-      audio.volume = 0.3;
-      audio.play().catch(() => {
-        // Fallback: create a synthetic celebration sound using Web Audio API
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
-        oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.3); // C6
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
-      });
+      playFirecracker();
     } catch (error) {
-      console.log('Audio not supported');
+      console.log('Firecracker sound failed:', error);
     }
     
     setTimeout(() => {
       setIsClaiming(false);
       setShowCelebration(true);
+      
+      // Play celebration and win sounds together
+      try {
+        playCelebration();
+        setTimeout(() => playWinSound(), 500); // Stagger the sounds
+      } catch (error) {
+        console.log('Celebration sounds failed:', error);
+      }
       
       toast.success(`🎉 Reward claimed! $${pool.prizePool} has been sent to your wallet!`, { 
         id: 'claim-reward',

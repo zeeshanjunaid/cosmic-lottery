@@ -240,8 +240,6 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
               )}
             </div>
           </div>
-        ) : (
-          <div className="bg-[#1C1C1C]/40 rounded-xl p-4 border border-white/5">
         )}
         
         {/* View Details Button */}

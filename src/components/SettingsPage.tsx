@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Settings, Bell, Shield, Palette, Globe, User, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 interface SettingsFormData {
   notifications: boolean;
@@ -50,11 +55,18 @@ const SettingsPage: React.FC = () => {
   };
 
   const ToggleSwitch: React.FC<{ enabled: boolean; onChange: () => void }> = ({ enabled, onChange }) => (
-    <Switch
-      checked={enabled}
-      onCheckedChange={onChange}
-      className={enabled ? 'data-[state=checked]:bg-[#2DE582]' : ''}
-    />
+    <button
+      onClick={onChange}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+        enabled ? 'bg-[#2DE582]' : 'bg-gray-600'
+      }`}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+          enabled ? 'translate-x-6' : 'translate-x-1'
+        }`}
+      />
+    </button>
   );
 
   return (

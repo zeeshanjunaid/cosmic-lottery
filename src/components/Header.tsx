@@ -15,6 +15,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
+  const handleWinnersClick = () => {
+    toast.info('Winners history feature coming soon!');
+  };
+
+  const handleSettingsClick = () => {
+    toast.info('Settings panel coming soon!');
+  };
+
   const handleWalletConnect = () => {
     const connector = connectors.find(c => c.name.includes('MetaMask')) || connectors[0];
     if (connector) {

@@ -5,8 +5,8 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import toast from 'react-hot-toast';
 
 interface HeaderProps {
-  onNavigate: (page: 'home' | 'admin') => void;
-  currentPage: 'home' | 'admin';
+  onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings') => void;
+  currentPage: 'home' | 'admin' | 'winners' | 'settings';
 }
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
@@ -14,14 +14,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
-
-  const handleWinnersClick = () => {
-    toast.info('Winners history feature coming soon!');
-  };
-
-  const handleSettingsClick = () => {
-    toast.info('Settings panel coming soon!');
-  };
 
   const handleWalletConnect = () => {
     const connector = connectors.find(c => c.name.includes('MetaMask')) || connectors[0];
@@ -48,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
 
-  const handleNavClick = (page: 'home' | 'admin') => {
+  const handleNavClick = (page: 'home' | 'admin' | 'winners' | 'settings') => {
     onNavigate(page);
     setIsMenuOpen(false);
   };
@@ -185,22 +177,33 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             )}
             
             <button 
-              onClick={handleWinnersClick}
-              className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2"
+              onClick={() => handleNavClick('winners')}
+              className={`flex items-center space-x-2 font-medium transition-colors ${
+                currentPage === 'winners' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              }`}
             >
               <Trophy className="w-4 h-4" />
               <span>Winners</span>
             </button>
             <button 
-              onClick={handleSettingsClick}
-              className="w-full text-left px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center space-x-2"
+              onClick={() => handleNavClick('settings')}
+              className={`flex items-center space-x-2 font-medium transition-colors ${
+                currentPage === 'settings' ? 'text-[#2DE582]' : 'text-white/70 hover:text-white'
+              }`}
+            >
+              onClick={() => handleNavClick('winners')}
+              className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                currentPage === 'winners' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
             >
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </button>
           </motion.div>
-        )}
-      </div>
+              onClick={() => handleNavClick('settings')}
+              className={`w-full text-left px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                currentPage === 'settings' ? 'text-[#2DE582] bg-[#2DE582]/10' : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
     </motion.header>
   );
 };

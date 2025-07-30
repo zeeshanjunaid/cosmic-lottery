@@ -93,13 +93,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
             <div className="flex items-center space-x-8">
-              {navItems.map((item) => {
+              {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
                 
                 return (
                   <motion.button
-                    key={item.id}
+                    key={`nav-${item.id}-${index}`}
                     onClick={() => handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive 

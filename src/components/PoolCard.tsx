@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
 import useSound from 'use-sound';
 import Confetti from 'react-confetti';
-import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target } from 'lucide-react';
+import { Clock, Users, Trophy, Ticket, DollarSign, Star, Target, Eye } from 'lucide-react';
 import { LotteryPool } from '../types/lottery';
 import { useAccount } from 'wagmi';
 import toast from 'react-hot-toast';

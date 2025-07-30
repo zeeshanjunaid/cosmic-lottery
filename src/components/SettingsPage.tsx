@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Bell, Shield, Palette, Globe, User, Save } from 'lucide-react';
+import { Settings, Bell, Shield, Palette, Globe, User, Save, DollarSign } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

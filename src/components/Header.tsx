@@ -56,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
       transition={{ duration: 0.5 }}
       className="bg-[#181830]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50"
     >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
@@ -156,6 +157,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             </Button>
           </div>
         </div>
+      </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
@@ -163,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/10 py-4 space-y-2"
+            className="md:hidden border-t border-white/10 py-4 space-y-2 container mx-auto px-4 sm:px-6 lg:px-8"
           >
             <button 
               onClick={() => handleNavClick('home')}

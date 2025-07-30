@@ -14,7 +14,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   const { isConnected, address } = useAccount();
   const [isHovered, setIsHovered] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
 
@@ -51,7 +51,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
     
     // Simulate blockchain transaction with random outcome
     setTimeout(() => {
-      const isWinner = Math.random() < 0.1; // 10% chance to win
+      const isWinner = Math.random() < 0.15; // 15% chance to win for better demo
       
       if (isWinner) {
         toast.success(`🎉 CONGRATULATIONS! You won ${pool.name}! Prize: $${pool.prizePool}`, { 
@@ -67,16 +67,16 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         
         // Show "didn't win" message after a delay
         setTimeout(() => {
-          toast(`Sorry, you didn't win this time. Try again! 🎲`, {
+          toast(`😔 Sorry, you didn't win this time. Better luck next time! 🎲`, {
             icon: '😔',
             duration: 4000,
             style: { background: '#1C1C1C', color: '#fbbf24', border: '1px solid #fbbf24' }
           });
-        }, 3000);
+        }, 2000);
       }
       
       setIsPurchasing(false);
-    }, 2500);
+    }, 2000);
   };
 
   const handleClaimReward = () => {

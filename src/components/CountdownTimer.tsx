@@ -57,9 +57,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       }}
     >
       <motion.div 
-        className="bg-white/10 backdrop-blur-sm rounded-lg p-2 min-w-[40px] border border-white/20 relative overflow-hidden"
+        className="bg-[#181830]/60 backdrop-blur-sm rounded-lg p-2 min-w-[40px] border border-white/20 relative overflow-hidden"
         animate={hasChanged ? {
-          backgroundColor: ["rgba(255, 255, 255, 0.1)", "rgba(59, 130, 246, 0.2)", "rgba(255, 255, 255, 0.1)"]
+          backgroundColor: ["rgba(24, 24, 48, 0.6)", "rgba(45, 229, 130, 0.2)", "rgba(24, 24, 48, 0.6)"]
         } : {}}
         transition={{ duration: 0.5, delay: index * 0.05 }}
       >
@@ -76,7 +76,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
         {/* Subtle glow effect when value changes */}
         {hasChanged && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg"
+            className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/20 to-blue-500/20 rounded-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.8, 0] }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
@@ -93,7 +93,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center text-red-400 font-semibold"
+        className="text-center text-white/70 font-semibold"
       >
         Lottery Ended
       </motion.div>

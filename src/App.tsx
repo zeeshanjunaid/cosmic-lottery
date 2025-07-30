@@ -16,9 +16,9 @@ function App() {
         position="top-right"
         toastOptions={{
           style: {
-            background: '#1f2937',
+            background: '#181830',
             color: '#fff',
-            border: '1px solid #ef4444',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
           },
         }}
       />

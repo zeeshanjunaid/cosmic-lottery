@@ -244,34 +244,102 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         
         {/* View Details Button */}
         <button
-          onClick={() => setShowDetails(!showDetails)}
+          onClick={() => setShowDetailsModal(true)}
           className="w-full py-2 px-4 bg-[#1C1C1C]/60 hover:bg-[#1C1C1C]/80 border border-white/10 rounded-lg text-white/70 hover:text-white transition-all duration-300 text-sm"
         >
-          {showDetails ? 'Hide Details' : 'View Details'}
+          View Details
         </button>
-        
-        {/* Details Panel */}
-        {showDetails && (
-          <div className="bg-[#1C1C1C]/60 rounded-xl p-4 border border-white/10 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-white/60">Pool ID:</span>
-              <span className="text-white">{pool.id}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">Start Date:</span>
-              <span className="text-white">{new Date(pool.endTime.getTime() - 24*60*60*1000).toLocaleDateString()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">End Date:</span>
-              <span className="text-white">{pool.endTime.toLocaleDateString()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">Odds:</span>
-              <span className="text-white">1 in {pool.maxTickets}</span>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Details Modal */}
+      {showDetailsModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-[#181830] border border-white/10 rounded-2xl p-6 max-w-md w-full"
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-white">{pool.name}</h2>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <div className="w-4 h-4 text-gray-400">✕</div>
+              </button>
+            </div>
+
+            {/* Pool Details */}
+            <div className="space-y-4">
+              <div className="bg-[#1C1C1C]/60 rounded-xl p-4 space-y-3">
+                <h3 className="text-white font-semibold mb-3">Pool Information</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Pool ID:</span>
+                    <span className="text-white font-mono">{pool.id}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Ticket Price:</span>
+                    <span className="text-white">${pool.ticketPrice} USDT</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Total Tickets:</span>
+                    <span className="text-white">{pool.maxTickets}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Sold:</span>
+                    <span className="text-white">{pool.soldTickets}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Remaining:</span>
+                    <span className="text-white">{pool.maxTickets - pool.soldTickets}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Win Odds:</span>
+                    <span className="text-white">1 in {pool.maxTickets}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Progress:</span>
+                    <span className="text-[#2DE582]">{progressPercentage.toFixed(1)}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">End Date:</span>
+                    <span className="text-white">{pool.endTime.toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/60">End Time:</span>
+                    <span className="text-white">{pool.endTime.toLocaleTimeString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Winner Info */}
+              {pool.winner && (
+                <div className="bg-[#2DE582]/10 border border-[#2DE582]/30 rounded-xl p-4">
+                  <h3 className="text-[#2DE582] font-semibold mb-2 flex items-center space-x-2">
+                    <Trophy className="w-4 h-4" />
+                    <span>Winner</span>
+                  </h3>
+                  <div className="text-sm space-y-1">
+                    <div className="text-white font-mono">{formatAddress(pool.winner)}</div>
+                    <div className="text-[#2DE582] font-bold">Prize: ${pool.prizePool}</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Close Button */}
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="w-full py-3 px-4 bg-[#2DE582] hover:bg-[#2DE582]/80 rounded-xl font-semibold text-black transition-all duration-300"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 };

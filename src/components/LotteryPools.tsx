@@ -39,13 +39,13 @@ const mockPools: LotteryPool[] = [
   },
   {
     id: '4',
-    name: 'Cosmic Fortune',
+    name: '🎉 Lucky Winner Pool',
     ticketPrice: 50,
     maxTickets: 20,
     soldTickets: 20,
     endTime: new Date(Date.now() - 1 * 60 * 60 * 1000), // Ended 1 hour ago
     isActive: false,
-    winner: '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88',
+    winner: '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88', // This will match the connected wallet
     prizePool: 950,
   },
 ];

@@ -631,9 +631,9 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       </div>
                     </DialogHeader>
                     
-                    <div className="px-6 space-y-6">
+                    <div className="px-6 space-y-6 pb-6">
                       {/* Pool Status */}
-                      <div>
+                      <div className="pt-2">
                         <Badge 
                           variant={pool.isActive ? "default" : "destructive"}
                           className={`${pool.isActive 

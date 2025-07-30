@@ -90,13 +90,16 @@ const SettingsPage: React.FC = () => {
       <div className="space-y-6">
         
         {/* Notifications */}
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-              <Bell className="w-5 h-5 text-[#2DE582]" />
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-[#2DE582]/20 rounded-lg">
+                <Bell className="w-5 h-5 text-[#2DE582]" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Notifications</h2>
             </div>
-            <h2 className="text-xl font-bold text-white">Notifications</h2>
-          </div>
+          </CardHeader>
+          <CardContent>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -121,84 +124,108 @@ const SettingsPage: React.FC = () => {
               />
             </div>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Preferences */}
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-              <User className="w-5 h-5 text-[#2DE582]" />
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-[#2DE582]/20 rounded-lg">
+                <User className="w-5 h-5 text-[#2DE582]" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Preferences</h2>
             </div>
-            <h2 className="text-xl font-bold text-white">Preferences</h2>
-          </div>
+          </CardHeader>
+          <CardContent>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-white font-medium flex items-center space-x-2">
+              <Label className="text-white font-medium flex items-center space-x-2">
                 <Globe className="w-4 h-4 text-[#2DE582]" />
                 <span>Language</span>
-              </label>
-              <select
+              </Label>
+              <Select
                 value={settings.language}
-                onChange={(e) => handleSelectChange('language', e.target.value)}
-                className="w-full px-4 py-3 bg-[#1C1C1C]/60 border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#2DE582] transition-all duration-300"
+                onValueChange={(value) => handleSelectChange('language', value)}
               >
-                <option value="english">English</option>
-                <option value="spanish">Español</option>
-                <option value="french">Français</option>
-                <option value="german">Deutsch</option>
-              </select>
+                <SelectTrigger className="bg-[#1C1C1C]/60 border-white/10 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1C1C1C] border-white/10">
+                  <SelectItem value="english">English</SelectItem>
+                  <SelectItem value="spanish">Español</SelectItem>
+                  <SelectItem value="french">Français</SelectItem>
+                  <SelectItem value="german">Deutsch</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <label className="text-white font-medium">Currency Display</label>
-              <select
+              <Label className="text-white font-medium">Currency Display</Label>
+              <Select
                 value={settings.currency}
-                onChange={(e) => handleSelectChange('currency', e.target.value)}
-                className="w-full px-4 py-3 bg-[#1C1C1C]/60 border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#2DE582] transition-all duration-300"
+                onValueChange={(value) => handleSelectChange('currency', value)}
               >
-                <option value="USDT">USDT</option>
-                <option value="ETH">ETH</option>
-                <option value="BTC">BTC</option>
-                <option value="USD">USD</option>
-              </select>
+                <SelectTrigger className="bg-[#1C1C1C]/60 border-white/10 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1C1C1C] border-white/10">
+                  <SelectItem value="USDT">USDT</SelectItem>
+                  <SelectItem value="ETH">ETH</SelectItem>
+                  <SelectItem value="BTC">BTC</SelectItem>
+                  <SelectItem value="USD">USD</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Appearance */}
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-              <Palette className="w-5 h-5 text-[#2DE582]" />
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-[#2DE582]/20 rounded-lg">
+                <Palette className="w-5 h-5 text-[#2DE582]" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Appearance</h2>
             </div>
-            <h2 className="text-xl font-bold text-white">Appearance</h2>
-          </div>
+          </CardHeader>
+          <CardContent>
           
           <div className="space-y-4">
             <div className="space-y-2">
-              <label className="text-white font-medium">Theme</label>
-              <select
+              <Label className="text-white font-medium">Theme</Label>
+              <Select
                 value={settings.theme}
-                onChange={(e) => handleSelectChange('theme', e.target.value)}
-                className="w-full px-4 py-3 bg-[#1C1C1C]/60 border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#2DE582] transition-all duration-300"
+                onValueChange={(value) => handleSelectChange('theme', value)}
               >
-                <option value="dark">Dark Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="auto">Auto (System)</option>
-              </select>
+                <SelectTrigger className="bg-[#1C1C1C]/60 border-white/10 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1C1C1C] border-white/10">
+                  <SelectItem value="dark">Dark Theme</SelectItem>
+                  <SelectItem value="light">Light Theme</SelectItem>
+                  <SelectItem value="auto">Auto (System)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Gaming */}
-        <div className="bg-[#181830]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-[#2DE582]/20 rounded-lg">
-              <Shield className="w-5 h-5 text-[#2DE582]" />
+        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-[#2DE582]/20 rounded-lg">
+                <Shield className="w-5 h-5 text-[#2DE582]" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Gaming</h2>
             </div>
-            <h2 className="text-xl font-bold text-white">Gaming</h2>
-          </div>
+          </CardHeader>
+          <CardContent>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -212,24 +239,22 @@ const SettingsPage: React.FC = () => {
               />
             </div>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Save Button */}
         <div className="flex justify-center">
-          <button
+          <Button
             onClick={handleSave}
             disabled={isSaving}
-            className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
-              isSaving
-                ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                : 'bg-[#2DE582] hover:bg-[#2DE582]/80 text-black'
-            }`}
+            className="px-8 py-4 bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
+            variant={isSaving ? "secondary" : "default"}
           >
             <div className="flex items-center space-x-2">
               <Save className="w-5 h-5" />
               <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>
             </div>
-          </button>
+          </Button>
         </div>
       </div>
     </motion.div>

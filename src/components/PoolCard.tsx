@@ -186,14 +186,17 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
   };
 
   return (
-    <Card className="relative overflow-hidden bg-[#181830]/60 backdrop-blur-xl border-white/10 shadow-2xl">
-      <motion.div
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        whileHover={{ y: -5 }}
-        transition={{ duration: 0.3 }}
-        className="relative overflow-hidden rounded-2xl bg-[#181830]/60 backdrop-blur-xl border border-white/10 shadow-2xl"
-      >
+    <motion.div
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      whileHover={{ y: -8, scale: 1.02 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="relative group"
+    >
+      <Card className="relative overflow-hidden bg-gradient-to-br from-[#1a1a2e]/90 via-[#181830]/90 to-[#16213e]/90 backdrop-blur-xl border border-white/20 shadow-2xl hover:shadow-[0_20px_40px_rgba(45,229,130,0.1)] transition-all duration-500 rounded-3xl">
+        
+        {/* Animated border gradient */}
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#2DE582]/20 via-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
         
         {/* Celebration Overlay */}
         {showCelebration && (
@@ -416,132 +419,168 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           </>
         )}
 
-        {/* Status Badge */}
-        <div className="absolute top-4 right-4 z-20">
+        {/* Top Row: Status Badge and Featured */}
+        <div className="absolute top-6 inset-x-6 flex items-center justify-between z-20">
+          <motion.div
+            animate={{ 
+              rotate: isHovered ? 360 : 0,
+              scale: isHovered ? 1.1 : 1
+            }}
+            transition={{ duration: 0.8 }}
+            className="p-2 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-xl border border-yellow-400/30 backdrop-blur-sm"
+          >
+            <Star className="w-5 h-5 text-yellow-400 fill-current drop-shadow-sm" />
+          </motion.div>
+
           {pool.isActive ? (
-            <div className="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#2DE582]/20 border border-[#2DE582]/30">
+            <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 border border-[#2DE582]/40 backdrop-blur-sm shadow-lg">
               <motion.div
                 className="w-2 h-2 bg-[#2DE582] rounded-full"
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              <span className="text-[#2DE582] text-xs font-bold">LIVE</span>
+              <span className="text-[#2DE582] text-sm font-bold tracking-wide">LIVE</span>
             </div>
           ) : (
-            <div className="px-3 py-1 rounded-full bg-white/10 border border-white/20">
-              <span className="text-white/70 text-xs font-bold">ENDED</span>
+            <div className="px-4 py-2 rounded-full bg-gradient-to-r from-gray-600/20 to-gray-500/20 border border-gray-500/40 backdrop-blur-sm">
+              <span className="text-gray-300 text-sm font-bold tracking-wide">ENDED</span>
             </div>
           )}
         </div>
 
-        {/* Featured Badge */}
-        <div className="absolute top-4 left-4 z-20">
-          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-        </div>
-
-        <CardContent className="p-6 space-y-6">
+        <CardContent className="p-8 pt-20 space-y-8">
           {/* Header */}
-          <div className="space-y-3">
-            <h3 className="text-xl font-bold text-white">{pool.name}</h3>
-            <p className="text-white/60 text-sm">Get a cash prize with lucky participants</p>
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-white tracking-tight">{pool.name}</h3>
+            <p className="text-white/60 text-base">Join the cosmic lottery for a chance to win big!</p>
           </div>
 
           {/* Prize Pool - Main Feature */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 border border-purple-500/30 p-6">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/30 via-blue-600/30 to-indigo-600/30 border border-purple-400/40 p-8 shadow-xl">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/5 via-transparent to-purple-500/5" />
+            
             {/* Lottery Wheel Icon */}
-            <div className="absolute right-4 top-4">
+            <div className="absolute right-6 top-6">
               <motion.div
-                animate={{ rotate: isHovered ? 360 : 0 }}
+                animate={{ 
+                  rotate: isHovered ? 360 : 0,
+                  scale: isHovered ? 1.1 : 1
+                }}
                 transition={{ duration: 2, ease: "linear" }}
-                className="w-16 h-16 rounded-full border-4 border-yellow-400 bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center justify-center"
+                className="w-20 h-20 rounded-full border-4 border-gradient-to-r from-yellow-400 to-orange-400 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 flex items-center justify-center shadow-2xl"
               >
-                <Target className="w-8 h-8 text-white" />
+                <Target className="w-10 h-10 text-white drop-shadow-lg" />
               </motion.div>
             </div>
             
-            <div className="space-y-2">
-              <div className="text-white/70 text-sm font-medium">{pool.name}</div>
-              <div className="text-white/60 text-xs">Lucky Draw</div>
-              <div className="text-3xl font-black text-white">${pool.prizePool}</div>
-              <div className="text-white/60 text-sm">Get a cash prize of 1,00,000+ participants user.</div>
+            <div className="space-y-4 relative">
+              <div className="space-y-2">
+                <div className="text-white/80 text-lg font-semibold">{pool.name}</div>
+                <div className="text-[#2DE582] text-sm font-bold tracking-wide">🎯 COSMIC JACKPOT</div>
+              </div>
+              <div className="text-5xl font-black text-white tracking-tight drop-shadow-lg">${pool.prizePool}</div>
+              <div className="text-white/70 text-base max-w-xs">Join thousands of cosmic travelers competing for the ultimate prize!</div>
             </div>
             
             <button
               onClick={handleBuyTicket}
               disabled={!pool.isActive || isPurchasing || hasParticipated}
-              className={`mt-4 w-full py-3 rounded-xl font-bold text-black transition-all duration-300 ${
+              className={`mt-6 w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl ${
                 pool.isActive && !isPurchasing && !hasParticipated
-                  ? 'bg-[#2DE582] hover:bg-[#2DE582]/80 cursor-pointer'
+                  ? 'bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black cursor-pointer shadow-[0_10px_20px_rgba(45,229,130,0.3)]'
                   : hasParticipated && pool.isActive
-                  ? 'bg-blue-500/70 cursor-not-allowed'
-                  : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white cursor-not-allowed'
+                  : 'bg-gradient-to-r from-gray-600/50 to-gray-700/50 text-gray-400 cursor-not-allowed'
               }`}
             >
               {isPurchasing 
-                ? 'Purchasing...' 
+                ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="w-5 h-5 border-2 border-black border-t-transparent rounded-full"
+                    />
+                    <span>Processing...</span>
+                  </div>
+                )
                 : hasParticipated && pool.isActive
-                ? `✓ Joined (${userTickets} ticket${userTickets > 1 ? 's' : ''})`
+                ? `✨ Joined (${userTickets} ticket${userTickets > 1 ? 's' : ''})`
                 : pool.isActive 
-                ? 'Play' 
-                : 'Ended'
+                ? '🚀 Join the Hunt' 
+                : '⏰ Draw Ended'
               }
             </button>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-white/5 rounded-xl p-3 text-center border border-white/10">
-              <DollarSign className="w-4 h-4 text-[#2DE582] mx-auto mb-1" />
-              <div className="text-white font-bold text-sm">${pool.ticketPrice}</div>
-              <div className="text-white/60 text-xs">per ticket</div>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-[#2DE582]/30 transition-colors">
+              <div className="p-2 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-3">
+                <DollarSign className="w-5 h-5 text-[#2DE582]" />
+              </div>
+              <div className="text-white font-bold text-lg">${pool.ticketPrice}</div>
+              <div className="text-white/60 text-sm font-medium">per ticket</div>
             </div>
             
-            <div className="bg-white/5 rounded-xl p-3 text-center border border-white/10">
-              <Users className="w-4 h-4 text-blue-400 mx-auto mb-1" />
-              <div className="text-white font-bold text-sm">{pool.soldTickets}</div>
-              <div className="text-white/60 text-xs">joined</div>
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-blue-400/30 transition-colors">
+              <div className="p-2 bg-blue-400/20 rounded-xl w-fit mx-auto mb-3">
+                <Users className="w-5 h-5 text-blue-400" />
+              </div>
+              <div className="text-white font-bold text-lg">{pool.soldTickets}</div>
+              <div className="text-white/60 text-sm font-medium">explorers</div>
               {hasParticipated && (
-                <div className="text-[#2DE582] text-xs font-semibold mt-1">You: {userTickets}</div>
+                <div className="text-[#2DE582] text-sm font-bold mt-2 bg-[#2DE582]/10 rounded-lg py-1">You: {userTickets}</div>
               )}
             </div>
             
-            <div className="bg-white/5 rounded-xl p-3 text-center border border-white/10">
-              <Ticket className="w-4 h-4 text-purple-400 mx-auto mb-1" />
-              <div className="text-white font-bold text-sm">{pool.maxTickets - pool.soldTickets}</div>
-              <div className="text-white/60 text-xs">left</div>
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-purple-400/30 transition-colors">
+              <div className="p-2 bg-purple-400/20 rounded-xl w-fit mx-auto mb-3">
+                <Ticket className="w-5 h-5 text-purple-400" />
+              </div>
+              <div className="text-white font-bold text-lg">{pool.maxTickets - pool.soldTickets}</div>
+              <div className="text-white/60 text-sm font-medium">spots left</div>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="space-y-2">
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-white/70 text-sm">Progress</span>
-              <span className="text-[#2DE582] font-bold text-sm">{progressPercentage.toFixed(0)}%</span>
+              <span className="text-white/80 text-base font-medium">Mission Progress</span>
+              <span className="text-[#2DE582] font-bold text-lg">{progressPercentage.toFixed(0)}%</span>
             </div>
             
-            <Progress 
-              value={progressPercentage} 
-              className="h-2 bg-white/10 [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:to-blue-400"
-            />
+            <div className="relative">
+              <Progress 
+                value={progressPercentage} 
+                className="h-3 bg-white/10 rounded-full [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:via-green-400 [&>div]:to-blue-400 [&>div]:rounded-full shadow-lg"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/20 to-blue-400/20 rounded-full blur-sm" />
+            </div>
           </div>
 
           {/* Timer or Winner */}
           {pool.isActive ? (
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <div className="flex items-center space-x-2 mb-2">
-                <Clock className="w-4 h-4 text-[#2DE582]" />
-                <span className="text-white/70 font-medium text-sm">Ends In</span>
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-6 border border-white/20 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-[#2DE582]/20 rounded-xl">
+                  <Clock className="w-5 h-5 text-[#2DE582]" />
+                </div>
+                <span className="text-white font-semibold text-lg">Mission Countdown</span>
               </div>
               <CountdownTimer endTime={pool.endTime} />
             </div>
           ) : (
-            <div className="space-y-3">
-              <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-xl p-4 border border-[#2DE582]/30">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Trophy className="w-5 h-5 text-[#2DE582]" />
-                  <span className="text-[#2DE582] font-bold">🏆 WINNER!</span>
+            <div className="space-y-4">
+              <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-3xl p-6 border border-[#2DE582]/40 shadow-2xl">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-2 bg-[#2DE582]/30 rounded-xl">
+                    <Trophy className="w-6 h-6 text-[#2DE582]" />
+                  </div>
+                  <span className="text-[#2DE582] font-bold text-xl">🏆 COSMIC CHAMPION!</span>
                 </div>
-                <div className="text-white font-mono bg-[#2DE582]/20 px-3 py-2 rounded text-sm mb-3">
+                <div className="text-white font-mono bg-[#2DE582]/20 px-4 py-3 rounded-xl text-base mb-4 border border-[#2DE582]/30">
                   {formatAddress(pool.winner)}
                 </div>
                 
@@ -549,18 +588,16 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                 {isConnected && address && address.toLowerCase() === pool.winner.toLowerCase() && (
                   <Button
                     asChild
-                    className={`w-full ${
+                    className={`w-full py-4 text-lg font-bold rounded-2xl shadow-xl ${
                       isClaiming || showCelebration
-                        ? 'bg-gray-500 cursor-not-allowed'
-                        : 'bg-[#2DE582] hover:bg-[#2DE582]/80'
+                        ? 'bg-gradient-to-r from-gray-500 to-gray-600 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black transform hover:scale-105 active:scale-95'
                     }`}
                     disabled={isClaiming || showCelebration}
                   >
                     <motion.button
                       onClick={handleClaimReward}
                       disabled={isClaiming || showCelebration}
-                      whileHover={{ scale: isClaiming ? 1 : 1.05 }}
-                      whileTap={{ scale: isClaiming ? 1 : 0.95 }}
                       animate={isClaiming ? {
                         backgroundColor: ["#2DE582", "#22c55e", "#16a34a", "#2DE582"],
                         scale: [1, 1.02, 1]
@@ -583,7 +620,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                       ) : showCelebration ? (
                         <span>✅ Claimed!</span>
                       ) : (
-                        <span>🎉 Claim Your Reward: ${pool.prizePool}</span>
+                        <span>🎉 Claim Your Cosmic Reward: ${pool.prizePool}</span>
                       )}
                     </motion.button>
                   </Button>
@@ -596,7 +633,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           <Dialog>
             <DialogTrigger asChild>
               <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className="group relative w-full py-3 px-4 bg-gradient-to-r from-purple-600/20 to-blue-600/20 hover:from-purple-600/30 hover:to-blue-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-white/80 hover:text-white font-medium transition-all duration-300 overflow-hidden"
               >
@@ -611,7 +648,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
                   >
                     <Eye className="w-4 h-4 text-purple-400 group-hover:text-[#2DE582]" />
                   </motion.div>
-                  <span className="text-sm">View Details</span>
+                  <span className="text-sm font-semibold">Mission Details</span>
                   <motion.div
                     animate={{ x: isHovered ? 3 : 0 }}
                     transition={{ duration: 0.2 }}
@@ -730,8 +767,8 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
             </DialogContent>
           </Dialog>
         </CardContent>
-      </motion.div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 };
 

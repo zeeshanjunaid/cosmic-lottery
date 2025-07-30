@@ -48,7 +48,7 @@ function App() {
     <div className="min-h-screen relative overflow-hidden">
       <Background />
       <Header onNavigate={handleNavigate} currentPage={currentPage} />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-8">
         {renderCurrentPage()}
       </main>
       <Footer onNavigate={handleNavigate} />

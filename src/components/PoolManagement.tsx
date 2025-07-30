@@ -195,6 +195,7 @@ const PoolManagement: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex items-center space-x-3">
+                <button
                   onClick={() => handleViewDetails(pool)}
                   className="flex items-center space-x-2 px-4 py-2 bg-[#1C1C1C]/60 hover:bg-[#1C1C1C]/80 border border-white/10 rounded-lg text-gray-300 hover:text-white transition-all duration-300"
                 >

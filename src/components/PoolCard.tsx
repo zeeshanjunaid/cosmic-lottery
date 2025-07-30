@@ -448,44 +448,45 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         </div>
 
         <CardContent className="p-8 pt-20 space-y-8">
+        <CardContent className="p-6 pt-16 space-y-6">
           {/* Header */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h3 className="text-2xl font-bold text-white tracking-tight">{pool.name}</h3>
-            <p className="text-white/60 text-base">Join the cosmic lottery for a chance to win big!</p>
+            <p className="text-white/60 text-sm">Join the cosmic lottery for a chance to win big!</p>
           </div>
 
           {/* Prize Pool - Main Feature */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/30 via-blue-600/30 to-indigo-600/30 border border-purple-400/40 p-8 shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600/30 via-blue-600/30 to-indigo-600/30 border border-purple-400/40 p-6 shadow-xl">
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/5 via-transparent to-purple-500/5" />
             
             {/* Lottery Wheel Icon */}
-            <div className="absolute right-6 top-6">
+            <div className="absolute right-4 top-4">
               <motion.div
                 animate={{ 
                   rotate: isHovered ? 360 : 0,
                   scale: isHovered ? 1.1 : 1
                 }}
                 transition={{ duration: 2, ease: "linear" }}
-                className="w-20 h-20 rounded-full border-4 border-gradient-to-r from-yellow-400 to-orange-400 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 flex items-center justify-center shadow-2xl"
+                className="w-16 h-16 rounded-full border-3 border-gradient-to-r from-yellow-400 to-orange-400 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 flex items-center justify-center shadow-2xl"
               >
-                <Target className="w-10 h-10 text-white drop-shadow-lg" />
+                <Target className="w-8 h-8 text-white drop-shadow-lg" />
               </motion.div>
             </div>
             
-            <div className="space-y-4 relative">
-              <div className="space-y-2">
+            <div className="space-y-3 relative">
+              <div className="space-y-1">
                 <div className="text-white/80 text-lg font-semibold">{pool.name}</div>
                 <div className="text-[#2DE582] text-sm font-bold tracking-wide">🎯 COSMIC JACKPOT</div>
               </div>
-              <div className="text-5xl font-black text-white tracking-tight drop-shadow-lg">${pool.prizePool}</div>
-              <div className="text-white/70 text-base max-w-xs">Join thousands of cosmic travelers competing for the ultimate prize!</div>
+              <div className="text-4xl font-black text-white tracking-tight drop-shadow-lg">${pool.prizePool}</div>
+              <div className="text-white/70 text-sm max-w-xs">Join thousands of cosmic travelers competing for the ultimate prize!</div>
             </div>
             
             <button
               onClick={handleBuyTicket}
               disabled={!pool.isActive || isPurchasing || hasParticipated}
-              className={`mt-6 w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl ${
+              className={`mt-4 w-full py-3 rounded-xl font-bold text-base transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl ${
                 pool.isActive && !isPurchasing && !hasParticipated
                   ? 'bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black cursor-pointer shadow-[0_10px_20px_rgba(45,229,130,0.3)]'
                   : hasParticipated && pool.isActive
@@ -514,46 +515,46 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-[#2DE582]/30 transition-colors">
-              <div className="p-2 bg-[#2DE582]/20 rounded-xl w-fit mx-auto mb-3">
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-xl p-3 text-center border border-white/20 backdrop-blur-sm hover:border-[#2DE582]/30 transition-colors">
+              <div className="p-1.5 bg-[#2DE582]/20 rounded-lg w-fit mx-auto mb-2">
                 <DollarSign className="w-5 h-5 text-[#2DE582]" />
               </div>
-              <div className="text-white font-bold text-lg">${pool.ticketPrice}</div>
+              <div className="text-white font-bold text-base">${pool.ticketPrice}</div>
               <div className="text-white/60 text-sm font-medium">per ticket</div>
             </div>
             
-            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-blue-400/30 transition-colors">
-              <div className="p-2 bg-blue-400/20 rounded-xl w-fit mx-auto mb-3">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-xl p-3 text-center border border-white/20 backdrop-blur-sm hover:border-blue-400/30 transition-colors">
+              <div className="p-1.5 bg-blue-400/20 rounded-lg w-fit mx-auto mb-2">
                 <Users className="w-5 h-5 text-blue-400" />
               </div>
-              <div className="text-white font-bold text-lg">{pool.soldTickets}</div>
+              <div className="text-white font-bold text-base">{pool.soldTickets}</div>
               <div className="text-white/60 text-sm font-medium">explorers</div>
               {hasParticipated && (
-                <div className="text-[#2DE582] text-sm font-bold mt-2 bg-[#2DE582]/10 rounded-lg py-1">You: {userTickets}</div>
+                <div className="text-[#2DE582] text-xs font-bold mt-1 bg-[#2DE582]/10 rounded px-2 py-1">You: {userTickets}</div>
               )}
             </div>
             
-            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 text-center border border-white/20 backdrop-blur-sm hover:border-purple-400/30 transition-colors">
-              <div className="p-2 bg-purple-400/20 rounded-xl w-fit mx-auto mb-3">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-xl p-3 text-center border border-white/20 backdrop-blur-sm hover:border-purple-400/30 transition-colors">
+              <div className="p-1.5 bg-purple-400/20 rounded-lg w-fit mx-auto mb-2">
                 <Ticket className="w-5 h-5 text-purple-400" />
               </div>
-              <div className="text-white font-bold text-lg">{pool.maxTickets - pool.soldTickets}</div>
+              <div className="text-white font-bold text-base">{pool.maxTickets - pool.soldTickets}</div>
               <div className="text-white/60 text-sm font-medium">spots left</div>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-white/80 text-base font-medium">Mission Progress</span>
-              <span className="text-[#2DE582] font-bold text-lg">{progressPercentage.toFixed(0)}%</span>
+              <span className="text-white/80 text-sm font-medium">Mission Progress</span>
+              <span className="text-[#2DE582] font-bold text-base">{progressPercentage.toFixed(0)}%</span>
             </div>
             
             <div className="relative">
               <Progress 
                 value={progressPercentage} 
-                className="h-3 bg-white/10 rounded-full [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:via-green-400 [&>div]:to-blue-400 [&>div]:rounded-full shadow-lg"
+                className="h-2.5 bg-white/10 rounded-full [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:via-green-400 [&>div]:to-blue-400 [&>div]:rounded-full shadow-lg"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/20 to-blue-400/20 rounded-full blur-sm" />
             </div>
@@ -561,25 +562,25 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
 
           {/* Timer or Winner */}
           {pool.isActive ? (
-            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-6 border border-white/20 backdrop-blur-sm">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="p-2 bg-[#2DE582]/20 rounded-xl">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 border border-white/20 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="p-1.5 bg-[#2DE582]/20 rounded-lg">
                   <Clock className="w-5 h-5 text-[#2DE582]" />
                 </div>
-                <span className="text-white font-semibold text-lg">Mission Countdown</span>
+                <span className="text-white font-semibold text-base">Mission Countdown</span>
               </div>
               <CountdownTimer endTime={pool.endTime} />
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-3xl p-6 border border-[#2DE582]/40 shadow-2xl">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="p-2 bg-[#2DE582]/30 rounded-xl">
+            <div className="space-y-3">
+              <div className="bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 rounded-2xl p-4 border border-[#2DE582]/40 shadow-2xl">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="p-1.5 bg-[#2DE582]/30 rounded-lg">
                     <Trophy className="w-6 h-6 text-[#2DE582]" />
                   </div>
-                  <span className="text-[#2DE582] font-bold text-xl">🏆 COSMIC CHAMPION!</span>
+                  <span className="text-[#2DE582] font-bold text-lg">🏆 COSMIC CHAMPION!</span>
                 </div>
-                <div className="text-white font-mono bg-[#2DE582]/20 px-4 py-3 rounded-xl text-base mb-4 border border-[#2DE582]/30">
+                <div className="text-white font-mono bg-[#2DE582]/20 px-3 py-2 rounded-lg text-sm mb-3 border border-[#2DE582]/30">
                   {formatAddress(pool.winner)}
                 </div>
                 

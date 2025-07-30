@@ -76,13 +76,15 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
           <motion.div 
             className="flex items-center cursor-pointer group py-4" 
             onClick={() => handleNavClick('home')}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
           >
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-                <Star className="w-5 h-5 text-black fill-current" />
+              <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg group-hover:shadow-[#2DE582]/25 transition-all duration-300">
+                <Star className="w-6 h-6 text-black fill-current" />
               </div>
-              <div className="text-xl lg:text-2xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
+              <div className="text-2xl lg:text-3xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
                 Cosmic <span className="text-[#2DE582]">Lottery</span>
               </div>
             </div>

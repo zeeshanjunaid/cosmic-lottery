@@ -57,14 +57,14 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       }}
     >
       <motion.div 
-        className="bg-[#181830]/60 backdrop-blur-sm rounded-lg p-2 min-w-[40px] border border-white/20 relative overflow-hidden"
+        className="bg-[#181830]/80 backdrop-blur-xl rounded-xl p-3 min-w-[48px] border border-white/20 relative overflow-hidden shadow-lg"
         animate={hasChanged ? {
           backgroundColor: ["rgba(24, 24, 48, 0.6)", "rgba(45, 229, 130, 0.2)", "rgba(24, 24, 48, 0.6)"]
         } : {}}
         transition={{ duration: 0.5, delay: index * 0.05 }}
       >
         <motion.div 
-          className="text-lg font-bold text-white"
+          className="text-xl font-bold text-white"
           key={value}
           initial={hasChanged ? { y: -20, opacity: 0 } : false}
           animate={{ y: 0, opacity: 1 }}

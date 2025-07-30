@@ -45,14 +45,14 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             {/* Brand Section */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-                  <Heart className="w-5 h-5 text-black fill-current" />
+                <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
+                  <Heart className="w-6 h-6 text-black fill-current" />
                 </div>
-                <div className="text-xl font-bold text-white">
+                <div className="text-2xl font-bold text-white">
                   Cosmic <span className="text-[#2DE582]">Lottery</span>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <p className="text-gray-400 leading-relaxed mb-6">
                 The most fair and transparent decentralized lottery platform. 
                 Join thousands of players in our cosmic journey to the stars.
               </p>

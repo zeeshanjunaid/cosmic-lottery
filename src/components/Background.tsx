@@ -52,13 +52,13 @@ const Background = () => {
 
       {/* Subtle Grid Overlay */}
       <div 
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
             linear-gradient(rgba(45, 229, 130, 0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(45, 229, 130, 0.1) 1px, transparent 1px)
           `,
-          backgroundSize: '50px 50px'
+          backgroundSize: '80px 80px'
         }}
       />
     </div>

@@ -422,20 +422,20 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool }) => {
         <div className="relative z-10 p-6">
           
           {/* Header Section */}
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-8">
             {/* Pool Name & Description */}
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <motion.div
                   animate={{ rotate: isHovered ? 360 : 0 }}
                   transition={{ duration: 0.8 }}
-                  className="p-2.5 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-xl border border-yellow-400/30 flex-shrink-0"
+                  className="p-3 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-xl border border-yellow-400/30 flex-shrink-0 shadow-lg"
                 >
-                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                  <Star className="w-6 h-6 text-yellow-400 fill-current" />
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{pool.name}</h3>
+                <h3 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">{pool.name}</h3>
               </div>
-              <p className="text-white/60 text-sm sm:text-base ml-0 sm:ml-12">Join the cosmic lottery for a chance to win big!</p>
+              <p className="text-white/70 text-base lg:text-lg ml-0 lg:ml-[60px] leading-relaxed">Join the cosmic lottery for a chance to win big!</p>
             </div>
             
             {/* Status Badge */}

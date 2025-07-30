@@ -255,153 +255,178 @@ const PoolManagement: React.FC = () => {
       {/* Pool Details Modal */}
       {selectedPool && (
         <Dialog open={!!selectedPool} onOpenChange={() => closeModal()}>
-          <DialogContent className="bg-[#181830] border-white/10 text-white max-w-2xl">
+          <DialogContent className="text-white max-w-3xl">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">{selectedPool.name}</DialogTitle>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-gradient-to-r from-[#2DE582]/20 to-blue-500/20 rounded-xl border border-[#2DE582]/30">
+                    <Settings className="w-6 h-6 text-[#2DE582]" />
+                  </div>
+                  <div>
+                    <DialogTitle>{selectedPool.name}</DialogTitle>
+                    <p className="text-white/60 text-sm mt-1">Administrative pool management and details</p>
+                  </div>
+                </div>
+              </div>
             </DialogHeader>
             
-            {/* Pool Status */}
-            <div className="mb-6">
-              <Badge 
-                variant={selectedPool.isActive ? "default" : "destructive"}
-                className={selectedPool.isActive 
-                  ? 'bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582]'
-                  : 'bg-red-500/20 border-red-500/30 text-red-400'
-                }
-              >
-                <div className={`w-2 h-2 rounded-full mr-2 ${selectedPool.isActive ? 'bg-[#2DE582]' : 'bg-red-400'}`} />
-                {selectedPool.isActive ? 'Active' : 'Ended'}
-              </Badge>
-            </div>
+            <div className="px-8">
+              {/* Pool Status */}
+              <div className="mb-8">
+                <Badge 
+                  variant={selectedPool.isActive ? "default" : "destructive"}
+                  className={`${selectedPool.isActive 
+                    ? 'bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582] px-4 py-2'
+                    : 'bg-red-500/20 border-red-500/30 text-red-400 px-4 py-2'
+                  } text-sm font-medium`}
+                >
+                  <div className={`w-2 h-2 rounded-full mr-2 ${selectedPool.isActive ? 'bg-[#2DE582]' : 'bg-red-400'}`} />
+                  {selectedPool.isActive ? 'Active' : 'Ended'}
+                </Badge>
+              </div>
 
-            {/* Pool Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <Card className="bg-[#1C1C1C]/60 border-white/10">
-                <CardContent className="p-4 text-center">
-                  <DollarSign className="w-6 h-6 text-[#2DE582] mx-auto mb-2" />
-                  <div className="text-xl font-bold text-white">${selectedPool.ticketPrice}</div>
-                  <div className="text-sm text-gray-400">Ticket Price</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-[#1C1C1C]/60 border-white/10">
-                <CardContent className="p-4 text-center">
-                  <Users className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                  <div className="text-xl font-bold text-white">{selectedPool.soldTickets}</div>
-                  <div className="text-sm text-gray-400">Tickets Sold</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-[#1C1C1C]/60 border-white/10">
-                <CardContent className="p-4 text-center">
-                  <Ticket className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                  <div className="text-xl font-bold text-white">{selectedPool.maxTickets}</div>
-                  <div className="text-sm text-gray-400">Max Tickets</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-[#1C1C1C]/60 border-white/10">
-                <CardContent className="p-4 text-center">
-                  <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                  <div className="text-xl font-bold text-white">${selectedPool.prizePool}</div>
-                  <div className="text-sm text-gray-400">Prize Pool</div>
-                </CardContent>
-              </Card>
-            </div>
+              {/* Pool Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-200">
+                  <CardContent className="p-5 text-center">
+                    <div className="p-2 bg-[#2DE582]/20 rounded-lg w-fit mx-auto mb-3">
+                      <DollarSign className="w-5 h-5 text-[#2DE582]" />
+                    </div>
+                    <div className="text-xl font-bold text-white">${selectedPool.ticketPrice}</div>
+                    <div className="text-sm text-gray-400 mt-1">Ticket Price</div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-200">
+                  <CardContent className="p-5 text-center">
+                    <div className="p-2 bg-blue-500/20 rounded-lg w-fit mx-auto mb-3">
+                      <Users className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div className="text-xl font-bold text-white">{selectedPool.soldTickets}</div>
+                    <div className="text-sm text-gray-400 mt-1">Tickets Sold</div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-200">
+                  <CardContent className="p-5 text-center">
+                    <div className="p-2 bg-purple-500/20 rounded-lg w-fit mx-auto mb-3">
+                      <Ticket className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <div className="text-xl font-bold text-white">{selectedPool.maxTickets}</div>
+                    <div className="text-sm text-gray-400 mt-1">Max Tickets</div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-200">
+                  <CardContent className="p-5 text-center">
+                    <div className="p-2 bg-yellow-500/20 rounded-lg w-fit mx-auto mb-3">
+                      <Trophy className="w-5 h-5 text-yellow-400" />
+                    </div>
+                    <div className="text-xl font-bold text-white">${selectedPool.prizePool}</div>
+                    <div className="text-sm text-gray-400 mt-1">Prize Pool</div>
+                  </CardContent>
+                </Card>
+              </div>
 
-            {/* Detailed Information */}
-            <div className="space-y-4 mb-6">
-              <Card className="bg-[#1C1C1C]/60 border-white/10">
-                <CardHeader>
-                  <h3 className="text-lg font-semibold text-white">Pool Information</h3>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Pool ID:</span>
-                    <span className="text-white font-mono">{selectedPool.id}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Progress:</span>
-                    <span className="text-white">{((selectedPool.soldTickets / selectedPool.maxTickets) * 100).toFixed(1)}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Remaining Tickets:</span>
-                    <span className="text-white">{selectedPool.maxTickets - selectedPool.soldTickets}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Win Odds:</span>
-                    <span className="text-white">1 in {selectedPool.maxTickets}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">End Time:</span>
-                    <span className="text-white">{selectedPool.endTime.toLocaleString()}</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Winner Information */}
-              {selectedPool.winner && (
-                <Card className="bg-[#2DE582]/10 border-[#2DE582]/30">
+              {/* Detailed Information */}
+              <div className="space-y-6 mb-8">
+                <Card className="bg-white/5 border-white/10">
                   <CardHeader>
-                    <h3 className="text-lg font-semibold text-[#2DE582] flex items-center space-x-2">
-                      <Trophy className="w-5 h-5" />
-                      <span>Winner Information</span>
+                    <h3 className="text-lg font-semibold text-white flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-[#2DE582] rounded-full"></div>
+                      <span>Pool Information</span>
                     </h3>
                   </CardHeader>
-                  <CardContent className="text-sm space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Winner Address:</span>
-                      <span className="text-white font-mono">{selectedPool.winner}</span>
+                  <CardContent className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b border-white/5">
+                      <span className="text-gray-400">Pool ID:</span>
+                      <span className="text-white font-mono bg-white/10 px-2 py-1 rounded">{selectedPool.id}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Prize Amount:</span>
-                      <span className="text-[#2DE582] font-bold">${selectedPool.prizePool}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-white/5">
+                      <span className="text-gray-400">Progress:</span>
+                      <span className="text-white font-semibold">{((selectedPool.soldTickets / selectedPool.maxTickets) * 100).toFixed(1)}%</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/5">
+                      <span className="text-gray-400">Remaining Tickets:</span>
+                      <span className="text-white font-semibold">{selectedPool.maxTickets - selectedPool.soldTickets}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/5">
+                      <span className="text-gray-400">Win Odds:</span>
+                      <span className="text-white font-semibold">1 in {selectedPool.maxTickets}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-gray-400">End Time:</span>
+                      <span className="text-white font-semibold">{selectedPool.endTime.toLocaleString()}</span>
                     </div>
                   </CardContent>
                 </Card>
-              )}
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3">
-              {selectedPool.isActive && (
+                {/* Winner Information */}
+                {selectedPool.winner && (
+                  <Card className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border-[#2DE582]/30">
+                    <CardHeader>
+                      <h3 className="text-[#2DE582] font-semibold flex items-center space-x-3">
+                        <div className="p-2 bg-[#2DE582]/20 rounded-lg">
+                          <Trophy className="w-5 h-5 text-[#2DE582]" />
+                        </div>
+                        <span>Winner Information</span>
+                      </h3>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/70">Winner Address:</span>
+                        <span className="text-white font-mono bg-[#2DE582]/20 px-3 py-1 rounded">{selectedPool.winner}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/70">Prize Amount:</span>
+                        <span className="text-[#2DE582] font-bold text-lg">${selectedPool.prizePool}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3">
+                {selectedPool.isActive && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      handlePausePool(selectedPool.id);
+                      closeModal();
+                    }}
+                    className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20 px-6 py-2"
+                  >
+                    <Pause className="w-4 h-4 mr-2" />
+                    Pause Pool
+                  </Button>
+                )}
+                
+                {selectedPool.canTriggerPayout && (
+                  <Button
+                    onClick={() => {
+                      handleTriggerPayout(selectedPool.id);
+                      closeModal();
+                    }}
+                    className="bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/80 hover:to-green-400/80 text-black font-semibold px-6 py-2"
+                  >
+                    <Trophy className="w-4 h-4 mr-2" />
+                    Trigger Payout
+                  </Button>
+                )}
+                
                 <Button
                   variant="outline"
                   onClick={() => {
-                    handlePausePool(selectedPool.id);
+                    handleDeletePool(selectedPool.id);
                     closeModal();
                   }}
-                  className="border-orange-500/30 text-orange-400 hover:text-orange-300 hover:bg-orange-600/20"
+                  className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20 px-6 py-2"
                 >
-                  <Pause className="w-4 h-4 mr-2" />
-                  Pause Pool
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete Pool
                 </Button>
-              )}
-              
-              {selectedPool.canTriggerPayout && (
-                <Button
-                  onClick={() => {
-                    handleTriggerPayout(selectedPool.id);
-                    closeModal();
-                  }}
-                  className="bg-[#2DE582] hover:bg-[#2DE582]/80 text-black font-semibold"
-                >
-                  <Trophy className="w-4 h-4 mr-2" />
-                  Trigger Payout
-                </Button>
-              )}
-              
-              <Button
-                variant="outline"
-                onClick={() => {
-                  handleDeletePool(selectedPool.id);
-                  closeModal();
-                }}
-                className="border-red-500/30 text-red-400 hover:text-red-300 hover:bg-red-600/20"
-              >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete Pool
-              </Button>
+              </div>
             </div>
           </DialogContent>
         </Dialog>

@@ -56,11 +56,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 The most fair and transparent decentralized lottery platform. 
                 Join thousands of players in our cosmic journey to the stars.
               </p>
-              <div className="flex items-center justify-start space-x-2 text-white/60 text-sm whitespace-nowrap">
-                <span>Made with</span>
-                <Heart className="w-4 h-4 text-red-400 fill-current" />
-                <span>for the crypto community</span>
-              </div>
             </div>
 
             {/* Footer Links */}
@@ -101,8 +96,15 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Bottom Footer */}
         <div className="border-t border-white/10 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-white/60 text-sm">
-              © 2025 Cosmic Lottery. All rights reserved.
+            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+              <div className="text-white/60 text-sm">
+                © 2025 Cosmic Lottery. All rights reserved.
+              </div>
+              <div className="flex items-center space-x-2 text-white/60 text-sm">
+                <span>Made with</span>
+                <Heart className="w-4 h-4 text-red-400 fill-current" />
+                <span>for the crypto community</span>
+              </div>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
               <span>Built on Ethereum</span>

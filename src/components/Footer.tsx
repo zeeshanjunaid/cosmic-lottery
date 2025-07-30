@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, ExternalLink } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate: (page: 'how-it-works' | 'faq' | 'terms' | 'privacy') => void;
+  onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy') => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
@@ -12,26 +12,22 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       links: [
         { name: 'How It Works', action: () => onNavigate('how-it-works') },
         { name: 'FAQ', action: () => onNavigate('faq') },
-        { name: 'Winners', href: '#winners' },
-        { name: 'Support', href: '#support', external: true }
+        { name: 'Winners', action: () => onNavigate('winners') }
       ]
     },
     {
       title: 'Legal',
       links: [
         { name: 'Terms of Service', action: () => onNavigate('terms') },
-        { name: 'Privacy Policy', action: () => onNavigate('privacy') },
-        { name: 'Disclaimer', href: '#disclaimer' },
-        { name: 'Responsible Gaming', href: '#responsible' }
+        { name: 'Privacy Policy', action: () => onNavigate('privacy') }
       ]
     },
     {
-      title: 'Community',
+      title: 'Resources',
       links: [
-        { name: 'Discord', href: '#discord', external: true },
-        { name: 'Twitter', href: '#twitter', external: true },
-        { name: 'Telegram', href: '#telegram', external: true },
-        { name: 'GitHub', href: '#github', external: true }
+        { name: 'Documentation', href: 'https://docs.ethereum.org', external: true },
+        { name: 'Blockchain Explorer', href: 'https://etherscan.io', external: true },
+        { name: 'Web3 Guide', href: 'https://ethereum.org/en/wallets/', external: true }
       ]
     }
   ];
@@ -70,14 +66,16 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                       {link.action ? (
                         <button
                           onClick={link.action}
-                          className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center space-x-1 group text-left"
+                          className="text-gray-400 hover:text-[#2DE582] text-sm transition-colors duration-200 flex items-center space-x-1 group text-left"
                         >
                           <span>{link.name}</span>
                         </button>
                       ) : (
                         <a
                           href={link.href}
-                          className="text-gray-400 hover:text-white text-sm transition-colors duration-200 flex items-center space-x-1 group"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-400 hover:text-[#2DE582] text-sm transition-colors duration-200 flex items-center space-x-1 group"
                         >
                           <span>{link.name}</span>
                           {link.external && (

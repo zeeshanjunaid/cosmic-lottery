@@ -69,6 +69,8 @@ const AdminPanel: React.FC = () => {
                 className={`relative group px-4 sm:px-6 py-3 sm:py-3.5 font-semibold transition-all duration-300 rounded-xl text-sm sm:text-base w-full sm:w-auto overflow-hidden ${
                   activeTab === tab.id
                     ? 'text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg shadow-[#2DE582]/25'
+                    : 'text-white hover:text-[#2DE582]'
+                }`}
               >
                 {/* Button background effects */}
                 {activeTab !== tab.id && (

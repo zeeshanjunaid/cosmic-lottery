@@ -22,11 +22,31 @@ type PageType =
   | "terms"
   | "privacy";
 
+// Get initial page from localStorage or default to "home"
+const getInitialPage = (): PageType => {
+  try {
+    const savedPage = localStorage.getItem('cosmic-lottery-current-page');
+    if (savedPage && ['home', 'admin', 'winners', 'settings', 'how-it-works', 'faq', 'terms', 'privacy'].includes(savedPage)) {
+      return savedPage as PageType;
+    }
+  } catch (error) {
+    console.warn('Failed to load page from localStorage:', error);
+  }
+  return "home";
+};
+
 function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>("home");
+  const [currentPage, setCurrentPage] = useState<PageType>(getInitialPage);
 
   const handleNavigate = (page: PageType) => {
     setCurrentPage(page);
+    
+    // Persist current page to localStorage
+    try {
+      localStorage.setItem('cosmic-lottery-current-page', page);
+    } catch (error) {
+      console.warn('Failed to save page to localStorage:', error);
+    }
   };
 
   const renderCurrentPage = () => {

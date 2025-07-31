@@ -218,13 +218,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             className="lg:hidden border-t border-white/10 bg-[#181830]/95 backdrop-blur-xl"
           >
-            <div className="py-6 px-4 space-y-3">
+            <div className="py-4 px-4 space-y-2">
               {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
@@ -233,16 +233,16 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   <motion.button
                     key={`mobile-nav-${item.id}-${index}`}
                     onClick={() => handleNavClick(item.id as any)}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                    transition={{ duration: 0.2, delay: index * 0.05, ease: "easeOut" }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
                       isActive
                         ? "text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg shadow-[#2DE582]/25"
                         : "text-white/80 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20"
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
                     <span>{item.label}</span>

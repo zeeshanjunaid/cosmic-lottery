@@ -63,7 +63,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
         {label}
       </span>
     </div>
-    </div>
   );
 
   if (isExpired) {

@@ -41,18 +41,19 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
   }, [endTime]);
 
   const TimeUnit: React.FC<{ value: number; label: string }> = ({ value, label }) => (
+    <div className="flex flex-col items-center">
       <motion.div 
         key={`${label}-${value}`}
-        initial={{ scale: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }}
+        initial={{ scale: 1, borderColor: 'rgba(255, 255, 255, 0.2)' }}
         animate={{ 
           scale: [1, 1.02, 1],
-          borderColor: ['rgba(255, 255, 255, 0.1)', 'rgba(45, 229, 130, 0.3)', 'rgba(255, 255, 255, 0.1)']
+          borderColor: ['rgba(255, 255, 255, 0.2)', 'rgba(45, 229, 130, 0.3)', 'rgba(255, 255, 255, 0.2)']
         }}
         transition={{ 
           duration: 0.4,
           ease: "easeInOut"
         }}
-        className="bg-[#1C1C1C] border rounded-lg px-3 py-2 min-w-[48px] sm:min-w-[52px] transition-all duration-200"
+        className="bg-[#2A2A2A] border rounded-lg px-3 py-2 min-w-[48px] sm:min-w-[52px] transition-all duration-200"
       >
         <div className="text-lg sm:text-xl font-bold text-white tabular-nums">
           {value.toString().padStart(2, '0')}
@@ -61,6 +62,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       <span className="text-xs text-white/60 mt-1 block font-medium uppercase tracking-wider">
         {label}
       </span>
+    </div>
     </div>
   );
 

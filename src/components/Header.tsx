@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X, Wallet, Home, Trophy, Settings, Shield, Star, HelpCircle, FileText } from 'lucide-react';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import toast from 'react-hot-toast';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Menu,
+  X,
+  Wallet,
+  Home,
+  Trophy,
+  Settings,
+  Shield,
+  Star,
+} from "lucide-react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
-  onNavigate: (page: 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy') => void;
-  currentPage: 'home' | 'admin' | 'winners' | 'settings' | 'how-it-works' | 'faq' | 'terms' | 'privacy';
+  onNavigate: (
+    page:
+      | "home"
+      | "admin"
+      | "winners"
+      | "settings"
+      | "how-it-works"
+      | "faq"
+      | "terms"
+      | "privacy"
+  ) => void;
+  currentPage:
+    | "home"
+    | "admin"
+    | "winners"
+    | "settings"
+    | "how-it-works"
+    | "faq"
+    | "terms"
+    | "privacy";
 }
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
@@ -17,48 +44,47 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { disconnect } = useDisconnect();
 
   const handleWalletConnect = () => {
-    const connector = connectors.find(c => c.name.includes('MetaMask')) || connectors[0];
+    const connector =
+      connectors.find((c) => c.name.includes("MetaMask")) || connectors[0];
     if (connector) {
-      connect({ connector }, {
-        onSuccess: () => {
-          toast.success('Wallet connected successfully!');
-        },
-        onError: (error) => {
-          toast.error('Failed to connect wallet: ' + error.message);
+      connect(
+        { connector },
+        {
+          onSuccess: () => {
+            toast.success("Wallet connected successfully!");
+          },
+          onError: (error) => {
+            toast.error("Failed to connect wallet: " + error.message);
+          },
         }
-      });
+      );
     } else {
-      toast.error('No wallet connector available');
+      toast.error("No wallet connector available");
     }
   };
 
   const handleWalletDisconnect = () => {
     disconnect();
-    toast.success('Wallet disconnected!');
+    toast.success("Wallet disconnected!");
   };
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
 
-  const handleNavClick = (page: 'home' | 'admin' | 'winners' | 'settings') => {
+  const handleNavClick = (page: "home" | "admin" | "winners" | "settings") => {
     onNavigate(page);
     setIsMenuOpen(false);
   };
 
-  const handleInfoNavClick = (page: 'how-it-works' | 'faq' | 'terms' | 'privacy') => {
-    onNavigate(page);
-    setIsMenuOpen(false);
-  };
-
-  // Mock admin check - in real app, this would check if connected address is admin
-  const isAdmin = address === '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88' || true; // Set to true for demo
+  // Mock admin check - in a real app, this would check if the connected address is the admin
+  const isAdmin = isConnected; // For demo purposes, any connected user is an admin
 
   const navItems = [
-    { id: 'home', label: 'Home', icon: Home },
-    ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: Shield }] : []),
-    { id: 'winners', label: 'Winners', icon: Trophy },
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: "home", label: "Home", icon: Home },
+    ...(isAdmin ? [{ id: "admin", label: "Admin", icon: Shield }] : []),
+    { id: "winners", label: "Winners", icon: Trophy },
+    { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -69,13 +95,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
       className="w-full bg-[#181830]/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50"
     >
       {/* Main Header Content */}
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          
           {/* Logo Section */}
-          <motion.div 
-            className="flex items-center cursor-pointer group py-4" 
-            onClick={() => handleNavClick('home')}
+          <motion.div
+            className="flex items-center cursor-pointer group py-4"
+            onClick={() => handleNavClick("home")}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
@@ -85,7 +110,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                 <Star className="w-5 h-5 sm:w-6 sm:h-6 text-black fill-current" />
               </div>
               <div className="text-lg sm:text-xl lg:text-2xl font-bold text-white group-hover:text-[#2DE582] transition-colors duration-300">
-                <span className="hidden sm:inline">Cosmic </span><span className="text-[#2DE582]">Lottery</span>
+                <span className="hidden sm:inline">Cosmic </span>
+                <span className="text-[#2DE582]">Lottery</span>
               </div>
             </div>
           </motion.div>
@@ -96,34 +122,42 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
-                
+
                 return (
                   <motion.button
                     key={item.id}
                     onClick={() => handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
-                      isActive 
-                        ? 'text-[#2DE582]' 
-                        : 'text-white/70 hover:text-white'
+                      isActive
+                        ? "text-[#2DE582]"
+                        : "text-white/70 hover:text-white"
                     }`}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Icon className={`w-4 h-4 transition-colors duration-300 ${
-                      isActive ? 'text-[#2DE582]' : 'text-white/60 group-hover:text-white'
-                    }`} />
-                    <span className="transition-colors duration-300">{item.label}</span>
-                    
-                    {/* Active indicator */}
+                    <Icon
+                      className={`w-4 h-4 transition-colors duration-300 ${
+                        isActive
+                          ? "text-[#2DE582]"
+                          : "text-white/60 group-hover:text-white"
+                      }`}
+                    />
+                    <span className="transition-colors duration-300">
+                      {item.label}
+                    </span>
+
                     {isActive && (
                       <motion.div
                         layoutId="activeTab"
                         className="absolute -bottom-2 left-0 right-0 h-0.5 bg-[#2DE582] rounded-full"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                        }}
                       />
                     )}
-                    
-                    {/* Hover indicator */}
+
                     {!isActive && (
                       <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white/30 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
                     )}
@@ -144,7 +178,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   className="flex items-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-sm sm:text-base font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
                 >
                   <Wallet className="w-4 h-4" />
-                  <span className="hidden sm:inline font-mono">{formatAddress(address!)}</span>
+                  <span className="hidden sm:inline font-mono">
+                    {formatAddress(address!)}
+                  </span>
                   <span className="sm:hidden">Wallet</span>
                 </button>
               ) : (
@@ -154,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   className="flex items-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 rounded-xl text-black text-sm sm:text-base font-semibold transition-all duration-300 shadow-lg disabled:opacity-50"
                 >
                   <Wallet className="w-4 h-4" />
-                  <span>{isPending ? 'Connecting...' : 'Connect Wallet'}</span>
+                  <span>{isPending ? "Connecting..." : "Connect Wallet"}</span>
                 </button>
               )}
             </motion.div>
@@ -183,7 +219,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="lg:hidden border-t border-white/10 py-8"
@@ -192,15 +228,15 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
-                
+
                 return (
                   <motion.button
                     key={`mobile-nav-${item.id}-${index}`}
                     onClick={() => handleNavClick(item.id as any)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-base transition-all duration-300 ${
-                      isActive 
-                        ? 'text-black bg-[#2DE582] shadow-lg' 
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                      isActive
+                        ? "text-black bg-[#2DE582] shadow-lg"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
                     }`}
                     whileTap={{ scale: 0.99 }}
                   >

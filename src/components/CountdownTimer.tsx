@@ -41,7 +41,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [endTime, timeLeft]);
+  }, [endTime]);
 
   const TimeUnit: React.FC<{ value: number; label: string; prevValue: number }> = ({ 
     value, 
@@ -52,47 +52,63 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
     
     return (
       <div className="flex flex-col items-center">
-        {/* Time Value with Flip Animation */}
-        <div className="relative w-12 h-12 sm:w-14 sm:h-14">
-          <motion.div 
-            className="absolute inset-0 bg-[#1C1C1C] border border-white/20 rounded-lg flex items-center justify-center"
-            whileHover={{ borderColor: "rgba(45, 229, 130, 0.4)" }}
-            transition={{ duration: 0.2 }}
-          >
-            <motion.span
-              key={value}
+        <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden">
+          <div className="absolute inset-0 bg-[#1C1C1C] border border-white/20 rounded-lg hover:border-white/40 transition-colors duration-200" />
+          
+          {/* Flip animation container */}
+          <div className="absolute inset-0 flex items-center justify-center perspective-1000">
+            <motion.div
+              key={`${label}-${value}`}
               className="text-lg sm:text-xl font-bold text-white tabular-nums"
-              initial={hasChanged ? { rotateX: -90, opacity: 0 } : false}
-              animate={{ rotateX: 0, opacity: 1 }}
+              initial={hasChanged ? { 
+                rotateX: -90, 
+                opacity: 0,
+                scale: 0.8
+              } : false}
+              animate={{ 
+                rotateX: 0, 
+                opacity: 1,
+                scale: 1
+              }}
               transition={{ 
-                duration: 0.4,
+                duration: 0.6,
                 type: "spring",
-                stiffness: 200,
-                damping: 15
+                stiffness: 300,
+                damping: 20
+              }}
+              style={{
+                transformStyle: 'preserve-3d',
               }}
             >
               {value.toString().padStart(2, '0')}
-            </motion.span>
-          </motion.div>
+            </motion.div>
+          </div>
           
-          {/* Flip animation background */}
+          {/* Flash effect on change */}
           {hasChanged && (
             <motion.div
-              className="absolute inset-0 bg-[#2DE582]/20 rounded-lg"
+              className="absolute inset-0 bg-[#2DE582]/20 rounded-lg pointer-events-none"
               initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.6, 0] }}
-              transition={{ duration: 0.5 }}
+              animate={{ opacity: [0, 0.8, 0] }}
+              transition={{ duration: 0.4 }}
             />
           )}
         </div>
         
-        {/* Label */}
-        <span className="text-xs text-white/60 mt-2 font-medium uppercase tracking-wide">
+        <span className="text-xs text-white/60 mt-2 font-medium uppercase tracking-wider">
           {label}
         </span>
       </div>
     );
   };
+
+  // Always show all time units, including days
+  const timeUnits = [
+    { value: timeLeft.days, label: 'Days', key: 'days' },
+    { value: timeLeft.hours, label: 'Hours', key: 'hours' },
+    { value: timeLeft.minutes, label: 'Min', key: 'minutes' },
+    { value: timeLeft.seconds, label: 'Sec', key: 'seconds' }
+  ];
 
   if (isExpired) {
     return (
@@ -109,19 +125,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
     );
   }
 
-  // Filter out zero values for cleaner display
-  const timeUnits = [
-    { value: timeLeft.days, label: 'Days', key: 'days' },
-    { value: timeLeft.hours, label: 'Hours', key: 'hours' },
-    { value: timeLeft.minutes, label: 'Min', key: 'minutes' },
-    { value: timeLeft.seconds, label: 'Sec', key: 'seconds' }
-  ].filter(unit => {
-    // Always show hours, minutes, seconds. Only show days if > 0
-    return unit.key !== 'days' || unit.value > 0;
-  });
-
   return (
-    <div className="flex items-center justify-center space-x-3 sm:space-x-4">
+    <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
       {timeUnits.map((unit, index) => (
         <React.Fragment key={unit.key}>
           <TimeUnit 
@@ -130,9 +135,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
             prevValue={prevTimeLeft[unit.key as keyof TimeLeft]}
           />
           {index < timeUnits.length - 1 && (
-            <div className="flex flex-col items-center justify-center h-12 sm:h-14">
+            <div className="flex flex-col items-center justify-center h-8 sm:h-10 px-1">
               <motion.div
-                className="w-1 h-1 bg-white/40 rounded-full mb-1"
+                className="w-1 h-1 bg-white/40 rounded-full mb-0.5"
                 animate={{ opacity: [0.4, 0.8, 0.4] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />

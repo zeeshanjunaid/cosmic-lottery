@@ -55,27 +55,46 @@ const AdminPanel: React.FC = () => {
 
       {/* Tab Navigation */}
       <div className="flex justify-center">
-        <Card className="bg-[#181830]/60 backdrop-blur-xl border-white/10 w-full sm:w-fit max-w-lg sm:p-2">
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:justify-center p-1 sm:p-2">
+        <div className="relative bg-gradient-to-r from-[#181830]/80 via-[#1C1C1C]/80 to-[#181830]/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl shadow-black/40 overflow-hidden w-full sm:w-fit max-w-2xl">
+          {/* Animated background glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <div className="relative flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-1 p-2 sm:p-3">
             {tabs.map((tab) => (
-              <Button
+              <motion.button
                 key={tab.id}
-                variant={activeTab === tab.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-4 sm:px-6 py-2.5 sm:py-3 font-semibold transition-all duration-300 hover:scale-102 text-sm sm:text-base w-full sm:w-auto ${
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative group px-4 sm:px-6 py-3 sm:py-3.5 font-semibold transition-all duration-300 rounded-xl text-sm sm:text-base w-full sm:w-auto overflow-hidden ${
                   activeTab === tab.id
-                    ? 'text-black bg-[#2DE582] hover:bg-[#2DE582]/80'
-                    : 'text-gray-400 hover:text-white'
-                }`}
+                    ? 'text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg shadow-[#2DE582]/25'
               >
-                <div className="flex items-center justify-center space-x-2">
+                {/* Button background effects */}
+                {activeTab !== tab.id && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#2DE582]/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                )}
+                
+                {/* Active state glow */}
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="activeGlow"
+                    className="absolute inset-0 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl"
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                  />
+                )}
+                
+                <div className="relative flex items-center justify-center space-x-2 z-10">
                   <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span>{tab.name}</span>
+                  <span className="font-bold tracking-wide">{tab.name}</span>
                 </div>
-              </Button>
+                
+                {/* Subtle shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              </motion.button>
             ))}
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* Tab Content */}

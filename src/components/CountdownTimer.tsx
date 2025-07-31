@@ -101,17 +101,17 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
   }
 
   return (
-    <div className="flex justify-center space-x-2">
+    <div className="flex justify-center space-x-1">
       <TimeUnit value={timeLeft.days} label="Days" prevValue={prevTimeLeft.days} index={0} />
-      <div className="flex items-center text-blue-400 font-bold">
+      <div className="flex items-center text-blue-400 font-bold px-1">
         :
       </div>
       <TimeUnit value={timeLeft.hours} label="Hours" prevValue={prevTimeLeft.hours} index={1} />
-      <div className="flex items-center text-blue-400 font-bold">
+      <div className="flex items-center text-blue-400 font-bold px-1">
         :
       </div>
       <TimeUnit value={timeLeft.minutes} label="Min" prevValue={prevTimeLeft.minutes} index={2} />
-      <div className="flex items-center text-blue-400 font-bold">
+      <div className="flex items-center text-blue-400 font-bold px-1">
         :
       </div>
       <TimeUnit value={timeLeft.seconds} label="Sec" prevValue={prevTimeLeft.seconds} index={3} />

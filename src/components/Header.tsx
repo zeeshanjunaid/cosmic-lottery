@@ -218,13 +218,13 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden border-t border-white/10 py-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="lg:hidden border-t border-white/10 bg-[#181830]/95 backdrop-blur-xl"
           >
-            <div className="space-y-4">
+            <div className="py-6 px-4 space-y-3">
               {navItems.map((item, index) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
@@ -233,15 +233,19 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                   <motion.button
                     key={`mobile-nav-${item.id}-${index}`}
                     onClick={() => handleNavClick(item.id as any)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-base transition-all duration-300 ${
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                       isActive
-                        ? "text-black bg-[#2DE582] shadow-lg"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
+                        ? "text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg shadow-[#2DE582]/25"
+                        : "text-white/80 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20"
                     }`}
-                    whileTap={{ scale: 0.99 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <Icon className="w-4 h-4 flex-shrink-0" />
-                    <span className="font-medium">{item.label}</span>
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    <span>{item.label}</span>
                   </motion.button>
                 );
               })}

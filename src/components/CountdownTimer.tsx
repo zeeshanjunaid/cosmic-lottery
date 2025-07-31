@@ -72,7 +72,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
           
           {/* Main container */}
           <motion.div 
-            className="relative bg-gradient-to-br from-[#181830]/90 via-[#1C1C1C]/90 to-[#181830]/90 backdrop-blur-xl rounded-2xl p-4 min-w-[56px] border border-white/10 shadow-2xl overflow-hidden"
+            className="relative bg-gradient-to-br from-[#181830]/90 via-[#1C1C1C]/90 to-[#181830]/90 backdrop-blur-xl rounded-xl p-2 sm:p-3 min-w-[44px] sm:min-w-[52px] border border-white/10 shadow-2xl overflow-hidden"
             animate={hasChanged ? {
               borderColor: ["rgba(255, 255, 255, 0.1)", "rgba(45, 229, 130, 0.5)", "rgba(255, 255, 255, 0.1)"],
               boxShadow: [
@@ -100,7 +100,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
             
             {/* Time value with flip animation */}
             <motion.div 
-              className="relative text-2xl sm:text-3xl font-black text-white text-center tabular-nums tracking-tight"
+              className="relative text-lg sm:text-xl font-black text-white text-center tabular-nums tracking-tight"
               key={value}
               initial={hasChanged ? { 
                 rotateX: -90, 
@@ -147,7 +147,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
         
         {/* Label with enhanced styling */}
         <motion.div 
-          className="text-xs sm:text-sm text-white/60 mt-3 font-semibold tracking-wide uppercase"
+          className="text-xs text-white/60 mt-2 font-semibold tracking-wide uppercase"
           animate={hasChanged ? { 
             color: ["rgba(255, 255, 255, 0.6)", "rgba(45, 229, 130, 0.8)", "rgba(255, 255, 255, 0.6)"]
           } : {}}
@@ -175,7 +175,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
   }
 
   return (
-    <div className="flex items-center justify-center gap-3 sm:gap-4">
+    <div className="flex items-center justify-center gap-1 sm:gap-2">
       <TimeUnit 
         value={timeLeft.days} 
         label="Days" 
@@ -185,7 +185,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       
       {/* Animated separator */}
       <motion.div 
-        className="flex flex-col items-center justify-center h-12 px-1"
+        className="flex flex-col items-center justify-center h-8 sm:h-10 px-0.5 sm:px-1"
         animate={{ 
           opacity: [0.5, 1, 0.5],
           scale: [1, 1.1, 1]
@@ -196,8 +196,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
           ease: "easeInOut"
         }}
       >
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-1 shadow-lg shadow-[#2DE582]/50" />
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-0.5 sm:mb-1 shadow-lg shadow-[#2DE582]/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
       </motion.div>
       
       <TimeUnit 
@@ -208,7 +208,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       />
       
       <motion.div 
-        className="flex flex-col items-center justify-center h-12 px-1"
+        className="flex flex-col items-center justify-center h-8 sm:h-10 px-0.5 sm:px-1"
         animate={{ 
           opacity: [0.5, 1, 0.5],
           scale: [1, 1.1, 1]
@@ -220,8 +220,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
           delay: 0.5
         }}
       >
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-1 shadow-lg shadow-[#2DE582]/50" />
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-0.5 sm:mb-1 shadow-lg shadow-[#2DE582]/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
       </motion.div>
       
       <TimeUnit 
@@ -232,7 +232,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
       />
       
       <motion.div 
-        className="flex flex-col items-center justify-center h-12 px-1"
+        className="flex flex-col items-center justify-center h-8 sm:h-10 px-0.5 sm:px-1"
         animate={{ 
           opacity: [0.5, 1, 0.5],
           scale: [1, 1.1, 1]
@@ -244,8 +244,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endTime }) => {
           delay: 1
         }}
       >
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-1 shadow-lg shadow-[#2DE582]/50" />
-        <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-[#2DE582] to-blue-400 rounded-full mb-0.5 sm:mb-1 shadow-lg shadow-[#2DE582]/50" />
+        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/50" />
       </motion.div>
       
       <TimeUnit 

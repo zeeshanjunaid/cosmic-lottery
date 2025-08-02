@@ -9,13 +9,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-interface PoolFeatures {
-  autoNotifications: boolean;
-  autoPayout: boolean;
-  priorityListing: boolean;
-}
-
-const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; features: PoolFeatures })[] = [
+const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; featured: boolean })[] = [
   {
     id: '1',
     name: 'Stellar Jackpot',
@@ -27,11 +21,7 @@ const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; features: Pool
     winner: null,
     prizePool: 800,
     canTriggerPayout: false,
-    features: {
-      autoNotifications: true,
-      autoPayout: false,
-      priorityListing: true,
-    },
+    featured: true,
   },
   {
     id: '2',
@@ -44,11 +34,7 @@ const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; features: Pool
     winner: null,
     prizePool: 1200,
     canTriggerPayout: false,
-    features: {
-      autoNotifications: false,
-      autoPayout: true,
-      priorityListing: false,
-    },
+    featured: false,
   },
   {
     id: '3',
@@ -61,11 +47,7 @@ const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; features: Pool
     winner: null,
     prizePool: 950,
     canTriggerPayout: true,
-    features: {
-      autoNotifications: true,
-      autoPayout: true,
-      priorityListing: false,
-    },
+    featured: false,
   },
   {
     id: '4',
@@ -78,25 +60,24 @@ const mockAdminPools: (LotteryPool & { canTriggerPayout: boolean; features: Pool
     winner: '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88',
     prizePool: 950,
     canTriggerPayout: false,
-    features: {
-      autoNotifications: true,
-      autoPayout: true,
-      priorityListing: true,
-    },
+    featured: true,
   },
 ];
 
 const PoolManagement: React.FC = () => {
   const [pools, setPools] = useState(mockAdminPools);
-  const [selectedPool, setSelectedPool] = useState<(LotteryPool & { canTriggerPayout: boolean; features: PoolFeatures }) | null>(null);
+  const [selectedPool, setSelectedPool] = useState<(LotteryPool & { canTriggerPayout: boolean; featured: boolean }) | null>(null);
 
-  const handleFeatureToggle = (poolId: string, feature: keyof PoolFeatures) => {
+  const handleFeatureToggle = (poolId: string) => {
     setPools(prev => prev.map(pool => 
       pool.id === poolId 
-        ? { ...pool, features: { ...pool.features, [feature]: !pool.features[feature] } }
+        ? { ...pool, featured: !pool.featured }
         : pool
     ));
-    toast.success(`Feature ${feature} toggled successfully`);
+    
+    const pool = pools.find(p => p.id === poolId);
+    const newStatus = pool ? !pool.featured : false;
+    toast.success(`Pool ${newStatus ? 'featured' : 'unfeatured'} successfully`);
   };
 
   const handlePausePool = (poolId: string) => {
@@ -148,7 +129,7 @@ const PoolManagement: React.FC = () => {
     }, 1500);
   };
 
-  const handleViewDetails = (pool: LotteryPool & { canTriggerPayout: boolean; features: PoolFeatures }) => {
+  const handleViewDetails = (pool: LotteryPool & { canTriggerPayout: boolean; featured: boolean }) => {
     setSelectedPool(pool);
   };
 
@@ -160,7 +141,7 @@ const PoolManagement: React.FC = () => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  const getPoolStatus = (pool: LotteryPool & { canTriggerPayout: boolean; features: PoolFeatures }) => {
+  const getPoolStatus = (pool: LotteryPool & { canTriggerPayout: boolean; featured: boolean }) => {
     if (pool.winner) return { status: 'Completed', color: 'text-[#2DE582]', icon: CheckCircle };
     if (pool.canTriggerPayout) return { status: 'Awaiting Payout', color: 'text-yellow-400', icon: AlertTriangle };
     if (!pool.isActive) return { status: 'Paused', color: 'text-red-400', icon: Pause };
@@ -198,10 +179,10 @@ const PoolManagement: React.FC = () => {
                           <StatusIcon className="w-2 h-2 sm:w-3 sm:h-3 mr-1" />
                           {statusInfo.status}
                         </Badge>
-                        {pool.features.priorityListing && (
+                        {pool.featured && (
                           <Badge className="bg-yellow-500/20 border-yellow-500/30 text-yellow-400 text-xs">
-                            <Zap className="w-2 h-2 mr-1" />
-                            PRIORITY
+                            <Star className="w-2 h-2 mr-1 fill-current" />
+                            FEATURED
                           </Badge>
                         )}
                       </div>
@@ -215,66 +196,35 @@ const PoolManagement: React.FC = () => {
                     <StatusIcon className="w-4 h-4 flex-shrink-0" />
                   </div>
                   
-                  {/* Feature Toggles */}
+                  {/* Featured Toggle */}
                   <Card className="bg-[#1C1C1C]/40 border-white/5 mb-4">
                     <CardHeader>
                       <h4 className="text-sm font-semibold text-white flex items-center space-x-2">
                         <Settings className="w-3 h-3 text-[#2DE582]" />
-                        <span>Pool Features</span>
+                        <span>Pool Settings</span>
                       </h4>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div className="flex items-center justify-between space-x-2 p-2 bg-white/5 rounded-lg">
-                          <div className="flex items-center space-x-2">
-                            <Bell className="w-3 h-3 text-blue-400" />
-                            <span className="text-xs text-white">Auto Notifications</span>
+                      <div className="flex items-center justify-between space-x-2 p-3 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          <div className="p-1.5 bg-yellow-500/20 rounded-lg">
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
                           </div>
-                          <button
-                            onClick={() => handleFeatureToggle(pool.id, 'autoNotifications')}
-                            className="flex-shrink-0"
-                          >
-                            {pool.features.autoNotifications ? (
-                              <ToggleRight className="w-4 h-4 text-[#2DE582]" />
-                            ) : (
-                              <ToggleLeft className="w-4 h-4 text-gray-400" />
-                            )}
-                          </button>
-                        </div>
-                        
-                        <div className="flex items-center justify-between space-x-2 p-2 bg-white/5 rounded-lg">
-                          <div className="flex items-center space-x-2">
-                            <Shield className="w-3 h-3 text-green-400" />
-                            <span className="text-xs text-white">Auto Payout</span>
+                          <div>
+                            <span className="text-sm font-semibold text-white">Featured Pool</span>
+                            <div className="text-xs text-yellow-200/70">Show pool prominently in frontend</div>
                           </div>
-                          <button
-                            onClick={() => handleFeatureToggle(pool.id, 'autoPayout')}
-                            className="flex-shrink-0"
-                          >
-                            {pool.features.autoPayout ? (
-                              <ToggleRight className="w-4 h-4 text-[#2DE582]" />
-                            ) : (
-                              <ToggleLeft className="w-4 h-4 text-gray-400" />
-                            )}
-                          </button>
                         </div>
-                        
-                        <div className="flex items-center justify-between space-x-2 p-2 bg-white/5 rounded-lg">
-                          <div className="flex items-center space-x-2">
-                            <Zap className="w-3 h-3 text-yellow-400" />
-                            <span className="text-xs text-white">Priority Listing</span>
-                          </div>
-                          <button
-                            onClick={() => handleFeatureToggle(pool.id, 'priorityListing')}
-                            className="flex-shrink-0"
-                          >
-                            {pool.features.priorityListing ? (
-                              <ToggleRight className="w-4 h-4 text-[#2DE582]" />
-                            ) : (
-                              <ToggleLeft className="w-4 h-4 text-gray-400" />
-                            )}
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => handleFeatureToggle(pool.id)}
+                          className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 ${
+                            pool.featured
+                              ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black hover:from-yellow-400 hover:to-orange-400'
+                              : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                          }`}
+                        >
+                          {pool.featured ? 'Featured' : 'Feature'}
+                        </button>
                       </div>
                     </CardContent>
                   </Card>
@@ -311,7 +261,8 @@ const PoolManagement: React.FC = () => {
                           </Button>
                         </div>
                       </CardContent>
-                    </Card>
+                    </CardContent>
+                  </Card>
                   )}
 
                   {/* Action Buttons */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Pause, Play, Trash2, Trophy, Eye, AlertTriangle, CheckCircle, X, Users, Clock, DollarSign, Ticket } from 'lucide-react';
+import { Settings, Pause, Play, Trash2, Trophy, Eye, AlertTriangle, CheckCircle, X, Users, Clock, DollarSign, Ticket, Star } from 'lucide-react';
 import { Bell, Shield, Zap, ToggleLeft, ToggleRight } from 'lucide-react';
 import { LotteryPool } from '../types/lottery';
 import toast from 'react-hot-toast';

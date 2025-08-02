@@ -261,7 +261,6 @@ const PoolManagement: React.FC = () => {
                           </Button>
                         </div>
                       </CardContent>
-                    </CardContent>
                   </Card>
                   )}
 

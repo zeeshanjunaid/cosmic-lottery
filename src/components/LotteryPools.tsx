@@ -102,6 +102,10 @@ const LotteryPools: React.FC = () => {
   const PoolCardView: React.FC<{ pool: LotteryPool; index: number }> = ({ pool, index }) => {
     const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
     
+    const formatAddress = (addr: string) => {
+      return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+    };
+    
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -133,21 +137,50 @@ const LotteryPools: React.FC = () => {
               )}
             </div>
 
+            {/* Pool ID */}
+            <div className="text-center text-xs text-white/50 font-mono">
+              Pool ID: {pool.id}
+            </div>
+
             {/* Prize Pool */}
             <div className="text-center bg-gradient-to-r from-[#2DE582]/10 to-blue-500/10 border border-[#2DE582]/20 rounded-xl p-4">
               <div className="text-2xl font-bold text-[#2DE582]">${pool.prizePool}</div>
               <div className="text-sm text-gray-400">Prize Pool</div>
             </div>
 
-            {/* Stats */}
+            {/* Enhanced Stats Grid */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white/5 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <Ticket className="w-4 h-4 text-purple-400" />
+                </div>
                 <div className="text-white font-bold">{pool.soldTickets}/{pool.maxTickets}</div>
-                <div className="text-xs text-gray-400">Tickets</div>
+                <div className="text-xs text-gray-400">sold</div>
               </div>
               <div className="bg-white/5 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <Target className="w-4 h-4 text-yellow-400" />
+                </div>
                 <div className="text-white font-bold">1:{pool.maxTickets}</div>
-                <div className="text-xs text-gray-400">Odds</div>
+                <div className="text-xs text-gray-400">win odds</div>
+              </div>
+            </div>
+
+            {/* Additional Stats */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <DollarSign className="w-4 h-4 text-[#2DE582]" />
+                </div>
+                <div className="text-white font-bold">${pool.ticketPrice}</div>
+                <div className="text-xs text-gray-400">per ticket</div>
+              </div>
+              <div className="bg-white/5 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <Users className="w-4 h-4 text-blue-400" />
+                </div>
+                <div className="text-white font-bold">{pool.maxTickets - pool.soldTickets}</div>
+                <div className="text-xs text-gray-400">remaining</div>
               </div>
             </div>
 
@@ -155,33 +188,35 @@ const LotteryPools: React.FC = () => {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Progress</span>
-                <span className="text-[#2DE582] font-bold">{progressPercentage.toFixed(0)}%</span>
+                <span className="text-[#2DE582] font-bold">{progressPercentage.toFixed(1)}%</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-2">
-                <div 
-                  className="bg-gradient-to-r from-[#2DE582] to-green-400 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercentage}%` }}
-                />
-              </div>
+              <Progress
+                value={progressPercentage}
+                className="h-3 bg-white/10 rounded-full [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:via-green-400 [&>div]:to-blue-400 [&>div]:rounded-full"
+              />
             </div>
 
             {/* Timer or Winner */}
             {pool.isActive ? (
               <div className="bg-white/5 rounded-lg p-3">
-                <div className="text-center">
-                  <div className="text-sm text-gray-400 mb-2">Ends in</div>
-                  <CountdownTimer endTime={pool.endTime} />
+                <div className="flex items-center space-x-2 mb-3">
+                  <Timer className="w-4 h-4 text-[#2DE582]" />
+                  <span className="text-white text-sm font-medium">Time Remaining</span>
                 </div>
+                <CountdownTimer endTime={pool.endTime} />
               </div>
             ) : (
               pool.winner && (
-                <div className="bg-[#2DE582]/10 border border-[#2DE582]/30 rounded-lg p-3">
+                <div className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border border-[#2DE582]/30 rounded-lg p-3">
                   <div className="flex items-center space-x-2">
                     <Trophy className="w-4 h-4 text-[#2DE582]" />
-                    <span className="text-[#2DE582] text-sm font-bold">Winner!</span>
+                    <span className="text-[#2DE582] text-sm font-bold">Winner</span>
                   </div>
-                  <div className="text-xs text-white/80 font-mono mt-1">
-                    {pool.winner.slice(0, 6)}...{pool.winner.slice(-4)}
+                  <div className="text-white font-mono text-sm bg-[#2DE582]/20 px-3 py-2 rounded-lg border border-[#2DE582]/30 mt-2 break-all">
+                    {formatAddress(pool.winner)}
+                  </div>
+                  <div className="mt-2 text-center">
+                    <div className="text-[#2DE582] font-bold text-lg">${pool.prizePool}</div>
                   </div>
                 </div>
               )
@@ -191,10 +226,21 @@ const LotteryPools: React.FC = () => {
             <Button
               onClick={() => handleJoinPool(pool)}
               disabled={!pool.isActive}
-              className="w-full bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black font-bold disabled:from-gray-600 disabled:to-gray-700 disabled:text-gray-400"
+              className={`w-full font-bold transition-all duration-300 ${
+                pool.isActive
+                  ? "bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black hover:shadow-lg hover:shadow-[#2DE582]/25"
+                  : "bg-gradient-to-r from-gray-600/50 to-gray-700/50 text-gray-400 cursor-not-allowed"
+              }`}
             >
-              {pool.isActive ? 'Join Pool' : 'View Results'}
+              {pool.isActive ? '🚀 Buy Ticket' : '⏰ Lottery Ended'}
             </Button>
+
+            {/* Additional Pool Information */}
+            <div className="pt-2 border-t border-white/10">
+              <div className="text-xs text-gray-400 text-center">
+                Ends: {pool.endTime.toLocaleDateString()} {pool.endTime.toLocaleTimeString()}
+              </div>
+            </div>
           </CardContent>
         </Card>
       </motion.div>

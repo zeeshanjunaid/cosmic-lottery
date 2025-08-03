@@ -9,11 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import CountdownTimer from './CountdownTimer';
 
-type ViewMode = 'detailed' | 'card';
-
 const LotteryPools: React.FC = () => {
   const { address, isConnected } = useAccount();
-  const [viewMode, setViewMode] = useState<ViewMode>('detailed');
 
   const handleJoinPool = (pool: LotteryPool) => {
     console.log('Joining pool:', pool);
@@ -314,319 +311,143 @@ const LotteryPools: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* View Toggle */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="flex justify-center"
-      >
-        <div className="relative bg-[#181830]/80 backdrop-blur-xl border border-white/20 rounded-2xl p-2 shadow-2xl">
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setViewMode('detailed')}
-              className={`relative flex items-center space-x-2 px-6 py-3 font-semibold transition-all duration-300 rounded-xl ${
-                viewMode === 'detailed'
-                  ? 'text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg'
-                  : 'text-white hover:text-[#2DE582] hover:bg-white/5'
-              }`}
-            >
-              <List className="w-5 h-5" />
-              <span>Detailed View</span>
-            </button>
-            <button
-              onClick={() => setViewMode('card')}
-              className={`relative flex items-center space-x-2 px-6 py-3 font-semibold transition-all duration-300 rounded-xl ${
-                viewMode === 'card'
-                  ? 'text-black bg-gradient-to-r from-[#2DE582] to-green-400 shadow-lg'
-                  : 'text-white hover:text-[#2DE582] hover:bg-white/5'
-              }`}
-            >
-              <Grid3X3 className="w-5 h-5" />
-              <span>Card View</span>
-            </button>
-          </div>
-        </div>
-      </motion.div>
 
-      <AnimatePresence mode="wait">
-        {viewMode === 'detailed' ? (
+      {/* Pool Sections - Auto-switching views */}
+      <div className="space-y-12">
+        {/* Featured Pool - Always Detailed View (single pool) */}
+        {featuredPool && (
           <motion.div
-            key="detailed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
-            className="space-y-12"
+            className="space-y-8"
           >
-            {/* Featured Pool - Detailed */}
-            {featuredPool && (
-              <motion.div className="space-y-8">
-                <div className="bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 border border-yellow-500/20 rounded-2xl p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="p-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl shadow-lg">
-                        <Star className="w-7 h-7 text-white fill-current" />
-                      </div>
-                      <div>
-                        <h2 className="text-3xl font-bold text-white">🌟 Featured Jackpot</h2>
-                        <p className="text-yellow-200/80 text-sm">The biggest prize pool waiting for you!</p>
-                      </div>
-                    </div>
+            <div className="bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 border border-yellow-500/20 rounded-2xl p-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl shadow-lg">
+                    <Star className="w-7 h-7 text-white fill-current" />
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-white">🌟 Featured Jackpot</h2>
+                    <p className="text-yellow-200/80 text-sm">The biggest prize pool waiting for you!</p>
                   </div>
                 </div>
-                <PoolCard pool={featuredPool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-              </motion.div>
-            )}
-
-            {/* Other pools in detailed view */}
-            {quickDrawPools.length > 0 && (
-              <motion.div className="space-y-8">
-                <div className="bg-gradient-to-r from-[#2DE582]/10 via-green-500/10 to-emerald-500/10 border border-[#2DE582]/20 rounded-2xl p-8">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
-                      <Zap className="w-7 h-7 text-black" />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-bold text-white">⚡ Quick Draw</h2>
-                      <p className="text-green-200/80 text-sm">Jump in fast! Low cost, instant fun, quick results</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-8">
-                  {quickDrawPools.map((pool, index) => (
-                    <motion.div
-                      key={pool.id}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* High Stakes - Detailed */}
-            {highStakesPools.length > 0 && (
-              <motion.div className="space-y-8">
-                <div className="bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-indigo-600/10 border border-purple-500/20 rounded-2xl p-8">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-gradient-to-r from-purple-500 to-blue-600 rounded-xl shadow-lg">
-                      <Trophy className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-bold text-white">🏆 High Stakes</h2>
-                      <p className="text-purple-200/80 text-sm">VIP experience with premium pools and mega prizes</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-8">
-                  {highStakesPools.map((pool, index) => (
-                    <motion.div
-                      key={pool.id}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Recent Winners - Detailed */}
-            {endedPools.length > 0 && (
-              <motion.div className="space-y-8">
-                <div className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-rose-500/10 border border-orange-500/20 rounded-2xl p-8">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl shadow-lg">
-                      <Clock className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-bold text-white">🎉 Recent Winners</h2>
-                      <p className="text-orange-200/80 text-sm">Celebrate with our lucky winners! You could be next</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-8">
-                  {endedPools.map((pool, index) => (
-                    <motion.div
-                      key={pool.id}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+              </div>
+            </div>
+            <PoolCard pool={featuredPool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
           </motion.div>
-        ) : (
+        )}
+
+        {/* Quick Draw - Card View (multiple pools) */}
+        {quickDrawPools.length > 0 && (
           <motion.div
-            key="card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-12"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="space-y-8"
           >
-            {/* Featured Pool - Card View */}
-            {featuredPool && (
-              <motion.div className="space-y-6">
-                <div className="bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-red-500/10 border border-yellow-500/20 rounded-2xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg">
-                        <Star className="w-6 h-6 text-white fill-current" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-white">🌟 Featured Jackpot</h2>
-                        <p className="text-yellow-200/80 text-sm">The biggest prize pool!</p>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => setViewMode('detailed')}
-                      variant="outline"
-                      size="sm"
-                      className="border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/10"
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      View Details
-                    </Button>
-                  </div>
+            <div className="bg-gradient-to-r from-[#2DE582]/10 via-green-500/10 to-emerald-500/10 border border-[#2DE582]/20 rounded-2xl p-8">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-xl shadow-lg">
+                  <Zap className="w-7 h-7 text-black" />
                 </div>
-                <div className="max-w-md mx-auto">
-                  <PoolCardView pool={featuredPool} index={0} />
+                <div>
+                  <h2 className="text-3xl font-bold text-white">⚡ Quick Draw</h2>
+                  <p className="text-green-200/80 text-sm">Jump in fast! Low cost, instant fun, quick results ({quickDrawPools.length} pools)</p>
                 </div>
-              </motion.div>
-            )}
-
-            {/* Quick Draw - Card View */}
-            {quickDrawPools.length > 0 && (
-              <motion.div className="space-y-6">
-                <div className="bg-gradient-to-r from-[#2DE582]/10 via-green-500/10 to-emerald-500/10 border border-[#2DE582]/20 rounded-2xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-gradient-to-r from-[#2DE582] to-green-400 rounded-lg">
-                        <Zap className="w-6 h-6 text-black" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-white">⚡ Quick Draw</h2>
-                        <p className="text-green-200/80 text-sm">Low cost, quick results ({quickDrawPools.length} pools)</p>
-                      </div>
-                    </div>
-                    {quickDrawPools.length > 2 && (
-                      <Button
-                        onClick={() => setViewMode('detailed')}
-                        variant="outline"  
-                        size="sm"
-                        className="border-[#2DE582]/30 text-[#2DE582] hover:bg-[#2DE582]/10"
-                      >
-                        View All <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                
-                {quickDrawPools.length <= 2 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    {quickDrawPools.map((pool, index) => (
-                      <PoolCardView key={pool.id} pool={pool} index={index} />
+              </div>
+            </div>
+            
+            {quickDrawPools.length === 1 ? (
+              <PoolCard pool={quickDrawPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+            ) : (
+              <div className="space-y-8">
+                {splitPoolsIntoPairs(quickDrawPools).map((pair, pairIndex) => (
+                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {pair.map((pool, index) => (
+                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
                     ))}
                   </div>
-                ) : (
-                  <div className="space-y-8">
-                    {splitPoolsIntoPairs(quickDrawPools.slice(0, 4)).map((pair, pairIndex) => (
-                      <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        {pair.map((pool, index) => (
-                          <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {/* High Stakes - Card View */}
-            {highStakesPools.length > 0 && (
-              <motion.div className="space-y-6">
-                <div className="bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-indigo-600/10 border border-purple-500/20 rounded-2xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-lg">
-                        <Trophy className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-white">🏆 High Stakes</h2>
-                        <p className="text-purple-200/80 text-sm">VIP pools with mega prizes ({highStakesPools.length} pools)</p>
-                      </div>
-                    </div>
-                    {highStakesPools.length > 2 && (
-                      <Button
-                        onClick={() => setViewMode('detailed')}
-                        variant="outline"
-                        size="sm"
-                        className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
-                      >
-                        View All <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                
-                {highStakesPools.length <= 2 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    {highStakesPools.map((pool, index) => (
-                      <PoolCardView key={pool.id} pool={pool} index={index} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    {splitPoolsIntoPairs(highStakesPools.slice(0, 4)).map((pair, pairIndex) => (
-                      <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        {pair.map((pool, index) => (
-                          <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {/* Recent Winners - Card View */}
-            {endedPools.length > 0 && (
-              <motion.div className="space-y-6">
-                <div className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-rose-500/10 border border-orange-500/20 rounded-2xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg">
-                        <Clock className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-bold text-white">🎉 Recent Winners</h2>
-                        <p className="text-orange-200/80 text-sm">Celebrate with our winners!</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                  {endedPools.slice(0, 2).map((pool, index) => (
-                    <PoolCardView key={pool.id} pool={pool} index={index} />
-                  ))}
-                </div>
-              </motion.div>
+                ))}
+              </div>
             )}
           </motion.div>
         )}
-      </AnimatePresence>
+
+        {/* High Stakes - Card View (multiple pools) */}
+        {highStakesPools.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-8"
+          >
+            <div className="bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-indigo-600/10 border border-purple-500/20 rounded-2xl p-8">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-purple-500 to-blue-600 rounded-xl shadow-lg">
+                  <Trophy className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">🏆 High Stakes</h2>
+                  <p className="text-purple-200/80 text-sm">VIP experience with premium pools and mega prizes ({highStakesPools.length} pools)</p>
+                </div>
+              </div>
+            </div>
+            
+            {highStakesPools.length === 1 ? (
+              <PoolCard pool={highStakesPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+            ) : (
+              <div className="space-y-8">
+                {splitPoolsIntoPairs(highStakesPools).map((pair, pairIndex) => (
+                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {pair.map((pool, index) => (
+                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Recent Winners - Card View (multiple pools) */}
+        {endedPools.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="space-y-8"
+          >
+            <div className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-rose-500/10 border border-orange-500/20 rounded-2xl p-8">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl shadow-lg">
+                  <Clock className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white">🎉 Recent Winners</h2>
+                  <p className="text-orange-200/80 text-sm">Celebrate with our lucky winners! You could be next ({endedPools.length} pools)</p>
+                </div>
+              </div>
+            </div>
+            
+            {endedPools.length === 1 ? (
+              <PoolCard pool={endedPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+            ) : (
+              <div className="space-y-8">
+                {splitPoolsIntoPairs(endedPools).map((pair, pairIndex) => (
+                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {pair.map((pool, index) => (
+                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </div>
+
     </motion.div>
   );
 };

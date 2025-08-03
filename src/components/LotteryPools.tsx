@@ -5,9 +5,19 @@ import { Clock, Trophy, Star, Zap } from 'lucide-react';
 import PoolCard from './PoolCard';
 import { LotteryPool } from '../types/lottery';
 
-
+// Add missing onJoin and onViewWinner functions
 const LotteryPools: React.FC = () => {
   const { address, isConnected } = useAccount();
+
+  const handleJoinPool = (pool: LotteryPool) => {
+    console.log('Joining pool:', pool);
+    // Pool joining logic would go here
+  };
+
+  const handleViewWinner = (pool: LotteryPool) => {
+    console.log('Viewing winner for pool:', pool);
+    // Winner viewing logic would go here
+  };
 
   const mockPools: LotteryPool[] = [
     {
@@ -156,7 +166,7 @@ const LotteryPools: React.FC = () => {
               </div>
             </div>
           </div>
-          <PoolCard pool={featuredPool} />
+          <PoolCard pool={featuredPool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
         </motion.div>
       )}
 
@@ -213,7 +223,7 @@ const LotteryPools: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
               >
-                <PoolCard pool={pool} />
+                <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
               </motion.div>
             ))}
           </div>
@@ -273,7 +283,7 @@ const LotteryPools: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
               >
-                <PoolCard pool={pool} />
+                <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
               </motion.div>
             ))}
           </div>
@@ -333,7 +343,7 @@ const LotteryPools: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
               >
-                <PoolCard pool={pool} />
+                <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
               </motion.div>
             ))}
           </div>

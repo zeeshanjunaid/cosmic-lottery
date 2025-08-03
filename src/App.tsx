@@ -11,12 +11,14 @@ import HowItWorks from "./components/HowItWorks";
 import FAQ from "./components/FAQ";
 import Terms from "./components/Terms";
 import Privacy from "./components/Privacy";
+import MyTickets from "./components/MyTickets";
 
 type PageType =
   | "home"
   | "admin"
   | "winners"
   | "settings"
+  | "my-tickets"
   | "how-it-works"
   | "faq"
   | "terms"
@@ -26,7 +28,7 @@ type PageType =
 const getInitialPage = (): PageType => {
   try {
     const savedPage = localStorage.getItem('cosmic-lottery-current-page');
-    if (savedPage && ['home', 'admin', 'winners', 'settings', 'how-it-works', 'faq', 'terms', 'privacy'].includes(savedPage)) {
+    if (savedPage && ['home', 'admin', 'winners', 'settings', 'my-tickets', 'how-it-works', 'faq', 'terms', 'privacy'].includes(savedPage)) {
       return savedPage as PageType;
     }
   } catch (error) {
@@ -59,6 +61,8 @@ function App() {
         return <WinnersPage />;
       case "settings":
         return <SettingsPage />;
+      case "my-tickets":
+        return <MyTickets />;
       case "how-it-works":
         return <HowItWorks />;
       case "faq":

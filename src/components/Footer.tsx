@@ -8,6 +8,7 @@ interface FooterProps {
       | "admin"
       | "winners"
       | "settings"
+      | "my-tickets"
       | "how-it-works"
       | "faq"
       | "terms"

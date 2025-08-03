@@ -9,6 +9,7 @@ import {
   Settings,
   Shield,
   Star,
+  Ticket,
 } from "lucide-react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import toast from "react-hot-toast";
@@ -21,6 +22,7 @@ interface HeaderProps {
       | "admin"
       | "winners"
       | "settings"
+      | "my-tickets"
       | "how-it-works"
       | "faq"
       | "terms"
@@ -31,6 +33,7 @@ interface HeaderProps {
     | "admin"
     | "winners"
     | "settings"
+    | "my-tickets"
     | "how-it-works"
     | "faq"
     | "terms"
@@ -77,12 +80,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     setIsMenuOpen(false);
   };
 
+  const handleMyTicketsClick = () => {
+    onNavigate("my-tickets");
+    setIsMenuOpen(false);
+  };
+
   // Mock admin check - in a real app, this would check if the connected address is the admin
   const isAdmin = isConnected; // For demo purposes, any connected user is an admin
 
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     ...(isAdmin ? [{ id: "admin", label: "Admin", icon: Shield }] : []),
+    { id: "my-tickets", label: "My Tickets", icon: Ticket },
     { id: "winners", label: "Winners", icon: Trophy },
     { id: "settings", label: "Settings", icon: Settings },
   ];
@@ -126,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                 return (
                   <motion.button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id as any)}
+                    onClick={() => item.id === "my-tickets" ? handleMyTicketsClick() : handleNavClick(item.id as any)}
                     className={`relative flex items-center space-x-2 px-3 py-2 text-sm font-medium transition-all duration-300 group ${
                       isActive
                         ? "text-[#2DE582]"
@@ -232,7 +241,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
                 return (
                   <motion.button
                     key={`mobile-nav-${item.id}-${index}`}
-                    onClick={() => handleNavClick(item.id as any)}
+                    onClick={() => item.id === "my-tickets" ? handleMyTicketsClick() : handleNavClick(item.id as any)}
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.05, ease: "easeOut" }}

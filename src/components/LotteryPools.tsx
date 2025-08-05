@@ -24,6 +24,7 @@ const LotteryPools: React.FC = () => {
   };
 
   const mockPools: LotteryPool[] = [
+    // 1. ACTIVE - Normal active pool
     {
       id: '1',
       name: 'Stellar Jackpot',
@@ -34,7 +35,10 @@ const LotteryPools: React.FC = () => {
       isActive: true,
       winner: null,
       prizePool: 800,
+      featured: false,
+      paused: false,
     },
+    // 2. FEATURED - Highlighted active pool
     {
       id: '2',
       name: 'Galactic Prize',
@@ -45,40 +49,53 @@ const LotteryPools: React.FC = () => {
       isActive: true,
       winner: null,
       prizePool: 1200,
+      featured: true,
+      paused: false,
     },
+    // 3. PAUSED - Temporarily stopped by admin
     {
       id: '3',
-      name: 'Nebula Millions',
-      ticketPrice: 5,
-      maxTickets: 200,
-      soldTickets: 145,
-      endTime: new Date(Date.now() + 1 * 60 * 60 * 1000),
-      isActive: true,
-      winner: null,
-      prizePool: 900,
-    },
-    {
-      id: '4',
-      name: 'Aurora Dreams',
+      name: 'Aurora Dreams (Paused)',
       ticketPrice: 8,
       maxTickets: 150,
       soldTickets: 89,
       endTime: new Date(Date.now() + 6 * 60 * 60 * 1000),
-      isActive: true,
+      isActive: false,
       winner: null,
       prizePool: 1140,
+      featured: false,
+      paused: true,
     },
+    // 4. ALL TICKETS SOLD - Waiting for time to end
+    {
+      id: '4',
+      name: 'Quick Fill Express',
+      ticketPrice: 5,
+      maxTickets: 200,
+      soldTickets: 200,
+      endTime: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      isActive: true,
+      winner: null,
+      prizePool: 950,
+      featured: false,
+      paused: false,
+    },
+    // 5. AWAITING PAYOUT - Ended but no winner selected yet
     {
       id: '5',
-      name: 'Cosmic Fortune',
-      ticketPrice: 50,
-      maxTickets: 20,
-      soldTickets: 20,
-      endTime: new Date(Date.now() - 1 * 60 * 60 * 1000),
+      name: 'Nebula Millions',
+      ticketPrice: 5,
+      maxTickets: 150,
+      soldTickets: 150,
+      endTime: new Date(Date.now() - 30 * 60 * 1000),
       isActive: false,
-      winner: isConnected && address ? address : '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88',
-      prizePool: 950,
+      winner: null,
+      prizePool: 712,
+      featured: false,
+      paused: false,
+      canTriggerPayout: true,
     },
+    // 6. USER PARTICIPATED - User has tickets in this pool
     {
       id: '6',
       name: 'Starlight Express',
@@ -89,15 +106,111 @@ const LotteryPools: React.FC = () => {
       isActive: true,
       winner: null,
       prizePool: 1330,
+      featured: false,
+      paused: false,
+      userTickets: 3,
+    },
+    // 7. PURCHASING TICKETS - User currently buying tickets
+    {
+      id: '7',
+      name: 'Cosmic Journey',
+      ticketPrice: 12,
+      maxTickets: 80,
+      soldTickets: 45,
+      endTime: new Date(Date.now() + 4 * 60 * 60 * 1000),
+      isActive: true,
+      winner: null,
+      prizePool: 912,
+      featured: false,
+      paused: false,
+      isPurchasing: true,
+    },
+    // 8. COMPLETED WITH WINNER - Regular winner (not current user)
+    {
+      id: '8',
+      name: 'Cosmic Fortune',
+      ticketPrice: 50,
+      maxTickets: 20,
+      soldTickets: 20,
+      endTime: new Date(Date.now() - 1 * 60 * 60 * 1000),
+      isActive: false,
+      winner: '0x742d35Cc6634C0532925a3b8D1C7d8B3b19d6B88',
+      prizePool: 950,
+      featured: false,
+      paused: false,
+    },
+    // 9. USER WON - Current user won and can claim
+    {
+      id: '9',
+      name: 'Lucky Stars',
+      ticketPrice: 20,
+      maxTickets: 30,
+      soldTickets: 30,
+      endTime: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      isActive: false,
+      winner: isConnected && address ? address : '0x1234567890123456789012345678901234567890',
+      prizePool: 570,
+      featured: false,
+      paused: false,
+      userTickets: 2,
+    },
+    // 10. CLAIMING REWARD - User is claiming their reward
+    {
+      id: '10',
+      name: 'Diamond Jackpot',
+      ticketPrice: 100,
+      maxTickets: 10,
+      soldTickets: 10,
+      endTime: new Date(Date.now() - 3 * 60 * 60 * 1000),
+      isActive: false,
+      winner: isConnected && address ? address : '0x9876543210987654321098765432109876543210',
+      prizePool: 950,
+      featured: false,
+      paused: false,
+      userTickets: 1,
+      isClaiming: true,
+    },
+    // 11. REWARD CLAIMED - User has already claimed their reward
+    {
+      id: '11',
+      name: 'Moonbeam Lottery',
+      ticketPrice: 15,
+      maxTickets: 60,
+      soldTickets: 60,
+      endTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      isActive: false,
+      winner: isConnected && address ? address : '0x1111222233334444555566667777888899990000',
+      prizePool: 855,
+      featured: false,
+      paused: false,
+      userTickets: 4,
+      rewardClaimed: true,
     },
   ];
 
   // Categorize pools
-  const activePools = mockPools.filter(pool => pool.isActive);
-  const endedPools = mockPools.filter(pool => !pool.isActive);
-  const featuredPool = activePools.find(pool => pool.prizePool >= 1200);
-  const quickDrawPools = activePools.filter(pool => pool.ticketPrice <= 10 && pool.id !== featuredPool?.id);
-  const highStakesPools = activePools.filter(pool => pool.ticketPrice > 10 && pool.id !== featuredPool?.id);
+  // Group pools by state for demonstration
+  const activePools = mockPools.filter(pool => pool.isActive && !pool.paused && !pool.featured);
+  const featuredPools = mockPools.filter(pool => pool.featured);
+  const pausedPools = mockPools.filter(pool => pool.paused);
+  const awaitingPayoutPools = mockPools.filter(pool => pool.canTriggerPayout);
+  const completedPools = mockPools.filter(pool => !pool.isActive && !pool.canTriggerPayout && !pool.paused);
+  const userParticipationPools = mockPools.filter(pool => pool.userTickets && pool.userTickets > 0);
+  const specialStatePools = mockPools.filter(pool => pool.isPurchasing || pool.isClaiming || pool.rewardClaimed);
+
+  const getStateDescription = (pool: LotteryPool) => {
+    if (pool.rewardClaimed) return "✅ Reward Already Claimed";
+    if (pool.isClaiming) return "⏳ Currently Claiming Reward";
+    if (pool.isPurchasing) return "💳 Purchasing Tickets in Progress";
+    if (pool.userTickets && pool.userTickets > 0 && pool.isActive) return `🎫 You Have ${pool.userTickets} Ticket${pool.userTickets > 1 ? 's' : ''}`;
+    if (pool.paused) return "⏸️ Paused by Admin";
+    if (pool.canTriggerPayout) return "⏰ Awaiting Payout";
+    if (pool.featured) return "⭐ Featured Pool";
+    if (pool.soldTickets >= pool.maxTickets && pool.isActive) return "🎫 All Tickets Sold - Waiting for Draw";
+    if (pool.isActive) return "🟢 Active";
+    if (pool.winner) return "🏆 Completed with Winner";
+    return "❓ Unknown State";
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -203,8 +316,44 @@ const LotteryPools: React.FC = () => {
 
       {/* Pool Sections - Auto-switching views */}
       <div className="space-y-12">
-        {/* Featured Pool - Always Detailed View (single pool) */}
-        {featuredPool && (
+        {/* All Pool States Demo */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-8"
+        >
+          <div className="bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-red-500/10 border border-purple-500/20 rounded-2xl p-8">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-lg">
+                <Star className="w-7 h-7 text-white fill-current" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold text-white">🎭 All Pool States Demo</h2>
+                <p className="text-purple-200/80 text-sm">See all possible states a lottery pool can be in ({mockPools.length} total pools)</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="space-y-8">
+            {mockPools.map((pool, index) => (
+              <div key={pool.id} className="space-y-4">
+                {/* State Label */}
+                <div className="flex items-center space-x-3 px-4">
+                  <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-4 py-2 text-sm font-semibold">
+                    STATE {index + 1}
+                  </Badge>
+                  <span className="text-white font-medium text-lg">{getStateDescription(pool)}</span>
+                </div>
+                <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Old sections commented out for demo - uncomment to restore original layout */}
+        {/* Featured Pool */}
+        {false && featuredPools.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -224,12 +373,14 @@ const LotteryPools: React.FC = () => {
                 </div>
               </div>
             </div>
-            <PoolCard pool={featuredPool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+            {featuredPools.map(pool => (
+              <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+            ))}
           </motion.div>
         )}
 
-        {/* Quick Draw - Card View (multiple pools) */}
-        {quickDrawPools.length > 0 && (
+        {/* Active Pools */}
+        {false && activePools.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -242,88 +393,47 @@ const LotteryPools: React.FC = () => {
                   <Zap className="w-7 h-7 text-black" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-white">⚡ Quick Draw</h2>
-                  <p className="text-green-200/80 text-sm">Jump in fast! Low cost, instant fun, quick results ({quickDrawPools.length} pools)</p>
+                  <h2 className="text-3xl font-bold text-white">⚡ Active Pools</h2>
+                  <p className="text-green-200/80 text-sm">Currently running lottery pools ({activePools.length} pools)</p>
                 </div>
               </div>
             </div>
             
-            {quickDrawPools.length === 1 ? (
-              <PoolCard pool={quickDrawPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-            ) : (
-              <div className="space-y-6">
-                {quickDrawPools.map((pool, index) => (
-                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                ))}
-              </div>
-            )}
+            <div className="space-y-6">
+              {activePools.map((pool, index) => (
+                <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+              ))}
+            </div>
           </motion.div>
         )}
 
-        {/* High Stakes - Card View (multiple pools) */}
-        {highStakesPools.length > 0 && (
+        {/* Completed Pools */}
+        {false && completedPools.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-8"
           >
-            <div className="bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-indigo-600/10 border border-purple-500/20 rounded-2xl p-8">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-r from-purple-500 to-blue-600 rounded-xl shadow-lg">
-                  <Trophy className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-3xl font-bold text-white">🏆 High Stakes</h2>
-                  <p className="text-purple-200/80 text-sm">VIP experience with premium pools and mega prizes ({highStakesPools.length} pools)</p>
-                </div>
-              </div>
-            </div>
-            
-            {highStakesPools.length === 1 ? (
-              <PoolCard pool={highStakesPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-            ) : (
-              <div className="space-y-6">
-                {highStakesPools.map((pool, index) => (
-                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                ))}
-              </div>
-            )}
-          </motion.div>
-        )}
-
-        {/* Recent Winners - Card View (multiple pools) */}
-        {endedPools.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="space-y-8"
-          >
             <div className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-rose-500/10 border border-orange-500/20 rounded-2xl p-8">
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl shadow-lg">
-                  <Clock className="w-7 h-7 text-white" />
+                  <Trophy className="w-7 h-7 text-white" />
                 </div>
                 <div>
                   <h2 className="text-3xl font-bold text-white">🎉 Recent Winners</h2>
-                  <p className="text-orange-200/80 text-sm">Celebrate with our lucky winners! You could be next ({endedPools.length} pools)</p>
+                  <p className="text-orange-200/80 text-sm">Celebrate with our lucky winners! ({completedPools.length} pools)</p>
                 </div>
               </div>
             </div>
             
-            {endedPools.length === 1 ? (
-              <PoolCard pool={endedPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-            ) : (
-              <div className="space-y-6">
-                {endedPools.map((pool, index) => (
-                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-                ))}
-              </div>
-            )}
+            <div className="space-y-6">
+              {completedPools.map((pool, index) => (
+                <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
+              ))}
+            </div>
           </motion.div>
         )}
-      </div>
 
     </motion.div>
   );

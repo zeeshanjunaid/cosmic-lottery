@@ -43,6 +43,20 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
 
+  // Use pool state from props
+  React.useEffect(() => {
+    if (pool.userTickets) {
+      setUserTickets(pool.userTickets);
+      setHasParticipated(true);
+    }
+    if (pool.isPurchasing) {
+      setIsPurchasing(true);
+    }
+    if (pool.isClaiming) {
+      setIsClaiming(true);
+    }
+  }, [pool.userTickets, pool.isPurchasing, pool.isClaiming]);
+
   // A safe function to create sound effects
   const createCelebrationSound = () => {
     try {
@@ -474,7 +488,46 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
 
             {/* Status Badge */}
             <div className="flex-shrink-0">
-              {pool.isActive ? (
+              {pool.paused ? (
+                <div className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40">
+                  <motion.div
+                    className="w-2.5 h-2.5 bg-orange-500 rounded-full"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <span className="text-orange-400 text-sm font-bold tracking-wide">
+                    PAUSED
+                  </span>
+                </div>
+              ) : pool.canTriggerPayout ? (
+                <div className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40">
+                  <motion.div
+                    className="w-2.5 h-2.5 bg-yellow-500 rounded-full"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <span className="text-yellow-400 text-sm font-bold tracking-wide">
+                    AWAITING PAYOUT
+                  </span>
+                </div>
+              ) : pool.featured ? (
+                <div className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40">
+                  <motion.div
+                    className="w-2.5 h-2.5 bg-purple-500 rounded-full"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <span className="text-purple-400 text-sm font-bold tracking-wide">
+                    FEATURED
+                  </span>
+                </div>
+              ) : pool.soldTickets >= pool.maxTickets && pool.isActive ? (
+                <div className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40">
+                  <span className="text-blue-400 text-sm font-bold tracking-wide">
+                    SOLD OUT
+                  </span>
+                </div>
+              ) : pool.isActive ? (
                 <div className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#2DE582]/20 to-green-500/20 border border-[#2DE582]/40">
                   <motion.div
                     className="w-2.5 h-2.5 bg-[#2DE582] rounded-full"
@@ -590,7 +643,24 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
             <div className="lg:col-span-1 space-y-4 sm:space-y-6">
               {/* Timer or Winner Section */}
               <div className="w-full">
-                {pool.isActive ? (
+                {pool.canTriggerPayout ? (
+                  <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-3 sm:p-4">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+                      <span className="text-yellow-400 text-sm sm:text-base font-bold">
+                        Awaiting Payout
+                      </span>
+                    </div>
+                    <div className="text-white text-sm bg-yellow-500/20 px-2 sm:px-3 py-2 rounded-lg border border-yellow-500/30 mb-3">
+                      Winner selection in progress...
+                    </div>
+                    <div className="mb-3 pt-2 border-t border-yellow-500/20">
+                      <div className="text-xs sm:text-sm text-gray-300 text-center">
+                        <span className="text-white font-medium">Ended:</span> {pool.endTime.toLocaleDateString()} {pool.endTime.toLocaleTimeString()}
+                      </div>
+                    </div>
+                  </div>
+                ) : pool.isActive ? (
                   <div className="bg-white/5 border border-white/10 rounded-xl p-3 sm:p-4">
                     <div className="flex items-center space-x-2 mb-4">
                       <Timer className="w-4 h-4 sm:w-5 sm:h-5 text-[#2DE582]" />
@@ -623,7 +693,7 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                     </div>
 
                     {/* Claim button for winners */}
-                    {isConnected &&
+                    {!pool.rewardClaimed && isConnected &&
                       address &&
                       pool.winner &&
                       address.toLowerCase() === pool.winner.toLowerCase() && (
@@ -643,6 +713,16 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                             : `Claim $${pool.prizePool}`}
                         </button>
                       )}
+
+                    {/* Already claimed indicator */}
+                    {pool.rewardClaimed && isConnected &&
+                      address &&
+                      pool.winner &&
+                      address.toLowerCase() === pool.winner.toLowerCase() && (
+                        <div className="w-full py-3 text-sm font-bold rounded-lg bg-gradient-to-r from-green-600/50 to-emerald-600/50 text-green-200 text-center border border-green-500/30">
+                          ✅ Reward Already Claimed
+                        </div>
+                      )}
                   </div>
                 )}
               </div>
@@ -652,9 +732,9 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                 {/* Main Buy Ticket Button */}
                 <Button
                   onClick={handleBuyTicket}
-                  disabled={!pool.isActive || isPurchasing || hasParticipated}
+                  disabled={!pool.isActive || isPurchasing || hasParticipated || pool.paused || pool.soldTickets >= pool.maxTickets}
                   className={`w-full py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 ${
-                    pool.isActive && !isPurchasing && !hasParticipated
+                    pool.isActive && !isPurchasing && !hasParticipated && !pool.paused && pool.soldTickets < pool.maxTickets
                       ? "bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black hover:shadow-lg hover:shadow-[#2DE582]/25"
                       : hasParticipated && pool.isActive
                       ? "bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white"
@@ -678,6 +758,10 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                     `✨ Joined (${userTickets} ticket${
                       userTickets > 1 ? "s" : ""
                     })`
+                  ) : pool.paused ? (
+                    "⏸️ Pool Paused"
+                  ) : pool.soldTickets >= pool.maxTickets && pool.isActive ? (
+                    "🎫 All Tickets Sold"
                   ) : pool.isActive ? (
                     "🚀 Buy Ticket"
                   ) : (

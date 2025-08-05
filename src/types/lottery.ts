@@ -8,6 +8,13 @@ export interface LotteryPool {
   isActive: boolean;
   winner: string | null;
   prizePool: number;
+  featured?: boolean;
+  paused?: boolean;
+  canTriggerPayout?: boolean;
+  userTickets?: number;
+  isPurchasing?: boolean;
+  isClaiming?: boolean;
+  rewardClaimed?: boolean;
 }
 
 export interface User {

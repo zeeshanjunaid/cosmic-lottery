@@ -344,16 +344,7 @@ const LotteryPools: React.FC = () => {
           
           <div className="space-y-8">
             {mockPools.map((pool, index) => (
-              <div key={pool.id} className="space-y-4">
-                {/* State Label */}
-                <div className="flex items-center space-x-3 px-4">
-                  <Badge className="bg-blue-500/20 border-blue-500/30 text-blue-400 px-4 py-2 text-sm font-semibold">
-                    STATE {index + 1}
-                  </Badge>
-                  <span className="text-white font-medium text-lg">{getStateDescription(pool)}</span>
-                </div>
-                <PoolCard pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
-              </div>
+              <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
             ))}
           </div>
         </motion.div>

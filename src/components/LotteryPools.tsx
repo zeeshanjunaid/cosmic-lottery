@@ -55,7 +55,7 @@ const LotteryPools: React.FC = () => {
     // 3. PAUSED - Temporarily stopped by admin
     {
       id: '3',
-      name: 'Aurora Dreams (Paused)',
+      name: 'Aurora Dreams',
       ticketPrice: 8,
       maxTickets: 150,
       soldTickets: 89,
@@ -129,7 +129,7 @@ const LotteryPools: React.FC = () => {
     // 8. COMPLETED WITH WINNER - Regular winner (not current user)
     {
       id: '8',
-      name: 'Cosmic Fortune (Completed)',
+      name: 'Cosmic Fortune',
       ticketPrice: 50,
       maxTickets: 20,
       soldTickets: 20,
@@ -143,7 +143,7 @@ const LotteryPools: React.FC = () => {
     // 9. USER WON - Current user won and can claim
     {
       id: '9',
-      name: 'Lucky Stars (YOU WON!)',
+      name: 'Lucky Stars',
       ticketPrice: 20,
       maxTickets: 30,
       soldTickets: 30,
@@ -159,7 +159,7 @@ const LotteryPools: React.FC = () => {
     // 10. CLAIMING REWARD - User is claiming their reward
     {
       id: '10',
-      name: 'Diamond Jackpot (Claiming...)',
+      name: 'Diamond Jackpot',
       ticketPrice: 100,
       maxTickets: 10,
       soldTickets: 10,
@@ -175,7 +175,7 @@ const LotteryPools: React.FC = () => {
     // 11. REWARD CLAIMED - User has already claimed their reward
     {
       id: '11',
-      name: 'Moonbeam Lottery (Claimed ✅)',
+      name: 'Moonbeam Lottery',
       ticketPrice: 15,
       maxTickets: 60,
       soldTickets: 60,

@@ -434,7 +434,7 @@ const LotteryPools: React.FC = () => {
             </div>
           </motion.div>
         )}
-
+      </div>
     </motion.div>
   );
 };

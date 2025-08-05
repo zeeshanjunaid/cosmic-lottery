@@ -694,25 +694,35 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                     </div>
 
                     {/* Claim button for winners */}
-                    {!pool.rewardClaimed && isConnected &&
+                    {!pool.rewardClaimed && !pool.isClaiming && pool.canClaim && isConnected &&
                       address &&
                       pool.winner &&
                       address.toLowerCase() === pool.winner.toLowerCase() && (
                         <button
                           onClick={handleClaimReward}
                           disabled={isClaiming || showCelebration}
-                          className={`w-full py-3 text-sm font-bold rounded-lg transition-all duration-300 ${
+                          className={`w-full py-3 text-sm font-bold rounded-lg transition-all duration-300 animate-pulse ${
                             isClaiming || showCelebration
                               ? "bg-gradient-to-r from-gray-500 to-gray-600 cursor-not-allowed text-white"
-                              : "bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black"
+                              : "bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-black shadow-lg shadow-yellow-400/25"
                           }`}
                         >
                           {isClaiming
                             ? "Processing..."
                             : showCelebration
                             ? "✅ Claimed!"
-                            : `Claim $${pool.prizePool}`}
+                            : `🎉 CLAIM $${pool.prizePool} NOW!`}
                         </button>
+                      )}
+
+                    {/* Currently claiming indicator */}
+                    {pool.isClaiming && isConnected &&
+                      address &&
+                      pool.winner &&
+                      address.toLowerCase() === pool.winner.toLowerCase() && (
+                        <div className="w-full py-3 text-sm font-bold rounded-lg bg-gradient-to-r from-blue-500/50 to-purple-500/50 text-blue-200 text-center border border-blue-500/30 animate-pulse">
+                          ⏳ Claiming Reward in Progress...
+                        </div>
                       )}
 
                     {/* Already claimed indicator */}
@@ -720,7 +730,8 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                       address &&
                       pool.winner &&
                       address.toLowerCase() === pool.winner.toLowerCase() && (
-                        <div className="w-full py-3 text-sm font-bold rounded-lg bg-gradient-to-r from-green-600/50 to-emerald-600/50 text-green-200 text-center border border-green-500/30">
+                        <div className="w-full py-3 text-sm font-bold rounded-lg bg-gradient-to-r from-green-600/50 to-emerald-600/50 text-green-200 text-center border border-green-500/30 relative overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-400/20 to-transparent animate-pulse"></div>
                           ✅ Reward Already Claimed
                         </div>
                       )}

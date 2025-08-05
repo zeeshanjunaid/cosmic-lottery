@@ -99,164 +99,6 @@ const LotteryPools: React.FC = () => {
   const quickDrawPools = activePools.filter(pool => pool.ticketPrice <= 10 && pool.id !== featuredPool?.id);
   const highStakesPools = activePools.filter(pool => pool.ticketPrice > 10 && pool.id !== featuredPool?.id);
 
-  // Card View Component
-  const PoolCardView: React.FC<{ pool: LotteryPool; index: number }> = ({ pool, index }) => {
-    const progressPercentage = (pool.soldTickets / pool.maxTickets) * 100;
-    
-    const formatAddress = (addr: string) => {
-      return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-    };
-    
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        whileHover={{ y: -4 }}
-        className="group"
-      >
-        <Card className="bg-gradient-to-br from-[#181830]/95 via-[#1C1C1C]/90 to-[#181830]/95 backdrop-blur-xl border-white/10 hover:border-[#2DE582]/30 transition-all duration-500 overflow-hidden h-full">
-          <CardContent className="p-6 space-y-4">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-r from-[#2DE582]/20 to-green-400/20 rounded-lg">
-                  <Star className="w-5 h-5 text-[#2DE582] fill-current" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white line-clamp-1">{pool.name}</h3>
-                  <div className="text-sm text-gray-400">${pool.ticketPrice} per ticket</div>
-                </div>
-              </div>
-              {pool.isActive ? (
-                <Badge className="bg-[#2DE582]/20 border-[#2DE582]/30 text-[#2DE582] text-xs">
-                  <div className="w-2 h-2 bg-[#2DE582] rounded-full mr-1 animate-pulse" />
-                  LIVE
-                </Badge>
-              ) : (
-                <Badge variant="destructive" className="text-xs">ENDED</Badge>
-              )}
-            </div>
-
-            {/* Pool ID */}
-            <div className="text-center text-xs text-white/50 font-mono">
-              Pool ID: {pool.id}
-            </div>
-
-            {/* Prize Pool */}
-            <div className="text-center bg-gradient-to-r from-[#2DE582]/10 to-blue-500/10 border border-[#2DE582]/20 rounded-xl p-4">
-              <div className="text-2xl font-bold text-[#2DE582]">${pool.prizePool}</div>
-              <div className="text-sm text-gray-400">Prize Pool</div>
-            </div>
-
-            {/* Enhanced Stats Grid */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Ticket className="w-4 h-4 text-purple-400" />
-                </div>
-                <div className="text-white font-bold">{pool.soldTickets}/{pool.maxTickets}</div>
-                <div className="text-xs text-gray-400">sold</div>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Target className="w-4 h-4 text-yellow-400" />
-                </div>
-                <div className="text-white font-bold">1:{pool.maxTickets}</div>
-                <div className="text-xs text-gray-400">win odds</div>
-              </div>
-            </div>
-
-            {/* Additional Stats */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <DollarSign className="w-4 h-4 text-[#2DE582]" />
-                </div>
-                <div className="text-white font-bold">${pool.ticketPrice}</div>
-                <div className="text-xs text-gray-400">per ticket</div>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Users className="w-4 h-4 text-blue-400" />
-                </div>
-                <div className="text-white font-bold">{pool.maxTickets - pool.soldTickets}</div>
-                <div className="text-xs text-gray-400">remaining</div>
-              </div>
-            </div>
-
-            {/* Progress */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Progress</span>
-                <span className="text-[#2DE582] font-bold">{progressPercentage.toFixed(1)}%</span>
-              </div>
-              <Progress
-                value={progressPercentage}
-                className="h-3 bg-white/10 rounded-full [&>div]:bg-gradient-to-r [&>div]:from-[#2DE582] [&>div]:via-green-400 [&>div]:to-blue-400 [&>div]:rounded-full"
-              />
-            </div>
-
-            {/* Timer or Winner */}
-            {pool.isActive ? (
-              <div className="bg-white/5 rounded-lg p-3">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Timer className="w-4 h-4 text-[#2DE582]" />
-                  <span className="text-white text-sm font-medium">Time Remaining</span>
-                </div>
-                <CountdownTimer endTime={pool.endTime} />
-              </div>
-            ) : (
-              pool.winner && (
-                <div className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border border-[#2DE582]/30 rounded-lg p-3">
-                  <div className="flex items-center space-x-2">
-                    <Trophy className="w-4 h-4 text-[#2DE582]" />
-                    <span className="text-[#2DE582] text-sm font-bold">Winner</span>
-                  </div>
-                  <div className="text-white font-mono text-sm bg-[#2DE582]/20 px-3 py-2 rounded-lg border border-[#2DE582]/30 mt-2 break-all">
-                    {formatAddress(pool.winner)}
-                  </div>
-                  <div className="mt-2 text-center">
-                    <div className="text-[#2DE582] font-bold text-lg">${pool.prizePool}</div>
-                  </div>
-                </div>
-              )
-            )}
-
-            {/* Action Button */}
-            <Button
-              onClick={() => handleJoinPool(pool)}
-              disabled={!pool.isActive}
-              className={`w-full font-bold transition-all duration-300 ${
-                pool.isActive
-                  ? "bg-gradient-to-r from-[#2DE582] to-green-400 hover:from-[#2DE582]/90 hover:to-green-400/90 text-black hover:shadow-lg hover:shadow-[#2DE582]/25"
-                  : "bg-gradient-to-r from-gray-600/50 to-gray-700/50 text-gray-400 cursor-not-allowed"
-              }`}
-            >
-              {pool.isActive ? '🚀 Buy Ticket' : '⏰ Lottery Ended'}
-            </Button>
-
-            {/* Additional Pool Information */}
-            <div className="pt-2 border-t border-white/10">
-              <div className="text-xs text-gray-400 text-center">
-                Ends: {pool.endTime.toLocaleDateString()} {pool.endTime.toLocaleTimeString()}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  };
-
-  // Split pools into pairs for card view
-  const splitPoolsIntoPairs = (pools: LotteryPool[]) => {
-    const pairs = [];
-    for (let i = 0; i < pools.length; i += 2) {
-      pairs.push(pools.slice(i, i + 2));
-    }
-    return pairs;
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -409,13 +251,9 @@ const LotteryPools: React.FC = () => {
             {quickDrawPools.length === 1 ? (
               <PoolCard pool={quickDrawPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
             ) : (
-              <div className="space-y-8">
-                {splitPoolsIntoPairs(quickDrawPools).map((pair, pairIndex) => (
-                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    {pair.map((pool, index) => (
-                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
-                    ))}
-                  </div>
+              <div className="space-y-6">
+                {quickDrawPools.map((pool, index) => (
+                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
                 ))}
               </div>
             )}
@@ -445,13 +283,9 @@ const LotteryPools: React.FC = () => {
             {highStakesPools.length === 1 ? (
               <PoolCard pool={highStakesPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
             ) : (
-              <div className="space-y-8">
-                {splitPoolsIntoPairs(highStakesPools).map((pair, pairIndex) => (
-                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    {pair.map((pool, index) => (
-                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
-                    ))}
-                  </div>
+              <div className="space-y-6">
+                {highStakesPools.map((pool, index) => (
+                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
                 ))}
               </div>
             )}
@@ -481,13 +315,9 @@ const LotteryPools: React.FC = () => {
             {endedPools.length === 1 ? (
               <PoolCard pool={endedPools[0]} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
             ) : (
-              <div className="space-y-8">
-                {splitPoolsIntoPairs(endedPools).map((pair, pairIndex) => (
-                  <div key={pairIndex} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    {pair.map((pool, index) => (
-                      <PoolCardView key={pool.id} pool={pool} index={pairIndex * 2 + index} />
-                    ))}
-                  </div>
+              <div className="space-y-6">
+                {endedPools.map((pool, index) => (
+                  <PoolCard key={pool.id} pool={pool} onJoin={handleJoinPool} onViewWinner={handleViewWinner} />
                 ))}
               </div>
             )}

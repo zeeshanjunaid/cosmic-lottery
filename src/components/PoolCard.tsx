@@ -599,6 +599,11 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                       </span>
                     </div>
                     <CountdownTimer endTime={pool.endTime} />
+                    <div className="mt-4 pt-3 border-t border-white/10">
+                      <div className="text-xs sm:text-sm text-gray-400 text-center">
+                        <span className="text-white font-medium">Ends:</span> {pool.endTime.toLocaleDateString()} {pool.endTime.toLocaleTimeString()}
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="bg-gradient-to-r from-[#2DE582]/10 to-green-500/10 border border-[#2DE582]/30 rounded-xl p-3 sm:p-4">
@@ -610,6 +615,11 @@ const PoolCard: React.FC<PoolCardProps> = ({ pool, onJoin, onViewWinner }) => {
                     </div>
                     <div className="text-white font-mono text-xs sm:text-sm bg-[#2DE582]/20 px-2 sm:px-3 py-2 rounded-lg border border-[#2DE582]/30 mb-3 break-all">
                       {formatAddress(pool.winner)}
+                    </div>
+                    <div className="mb-3 pt-2 border-t border-[#2DE582]/20">
+                      <div className="text-xs sm:text-sm text-gray-300 text-center">
+                        <span className="text-white font-medium">Ended:</span> {pool.endTime.toLocaleDateString()} {pool.endTime.toLocaleTimeString()}
+                      </div>
                     </div>
 
                     {/* Claim button for winners */}

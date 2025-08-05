@@ -11,6 +11,7 @@ import {
   Target,
   Eye,
   Timer,
+  AlertTriangle,
 } from "lucide-react";
 import { LotteryPool } from "../types/lottery";
 import { useAccount } from "wagmi";

@@ -98,17 +98,18 @@ const LotteryPools: React.FC = () => {
     // 6. USER PARTICIPATED - User has tickets in this pool
     {
       id: '6',
-      name: 'Starlight Express',
-      ticketPrice: 35,
-      maxTickets: 40,
-      soldTickets: 28,
+      name: 'Last Call Express',
+      ticketPrice: 20,
+      maxTickets: 100,
+      soldTickets: 97,
       endTime: new Date(Date.now() + 3 * 60 * 60 * 1000),
       isActive: true,
       winner: null,
-      prizePool: 1330,
+      prizePool: 1940,
       featured: false,
       paused: false,
-      userTickets: 3,
+      maxTicketsPerUser: 1,
+      userTickets: 0,
     },
     // 7. PURCHASING TICKETS - User currently buying tickets
     {
@@ -128,7 +129,7 @@ const LotteryPools: React.FC = () => {
     // 8. COMPLETED WITH WINNER - Regular winner (not current user)
     {
       id: '8',
-      name: 'Cosmic Fortune',
+      name: 'Cosmic Fortune (Completed)',
       ticketPrice: 50,
       maxTickets: 20,
       soldTickets: 20,
@@ -142,7 +143,7 @@ const LotteryPools: React.FC = () => {
     // 9. USER WON - Current user won and can claim
     {
       id: '9',
-      name: 'Lucky Stars',
+      name: 'Lucky Stars (YOU WON!)',
       ticketPrice: 20,
       maxTickets: 30,
       soldTickets: 30,
@@ -153,11 +154,12 @@ const LotteryPools: React.FC = () => {
       featured: false,
       paused: false,
       userTickets: 2,
+      canClaim: true,
     },
     // 10. CLAIMING REWARD - User is claiming their reward
     {
       id: '10',
-      name: 'Diamond Jackpot',
+      name: 'Diamond Jackpot (Claiming...)',
       ticketPrice: 100,
       maxTickets: 10,
       soldTickets: 10,
@@ -173,7 +175,7 @@ const LotteryPools: React.FC = () => {
     // 11. REWARD CLAIMED - User has already claimed their reward
     {
       id: '11',
-      name: 'Moonbeam Lottery',
+      name: 'Moonbeam Lottery (Claimed ✅)',
       ticketPrice: 15,
       maxTickets: 60,
       soldTickets: 60,
@@ -202,13 +204,18 @@ const LotteryPools: React.FC = () => {
     if (pool.rewardClaimed) return "✅ Reward Already Claimed";
     if (pool.isClaiming) return "⏳ Currently Claiming Reward";
     if (pool.isPurchasing) return "💳 Purchasing Tickets in Progress";
+    if (pool.maxTicketsPerUser === 1 && pool.soldTickets >= pool.maxTickets - 5) return "🎫 Only Few Tickets Left - 1 Per User";
     if (pool.userTickets && pool.userTickets > 0 && pool.isActive) return `🎫 You Have ${pool.userTickets} Ticket${pool.userTickets > 1 ? 's' : ''}`;
     if (pool.paused) return "⏸️ Paused by Admin";
     if (pool.canTriggerPayout) return "⏰ Awaiting Payout";
     if (pool.featured) return "⭐ Featured Pool";
     if (pool.soldTickets >= pool.maxTickets && pool.isActive) return "🎫 All Tickets Sold - Waiting for Draw";
     if (pool.isActive) return "🟢 Active";
-    if (pool.winner) return "🏆 Completed with Winner";
+    if (pool.canClaim) return "🎉 YOU WON! Click to Claim";
+    if (pool.isClaiming) return "⏳ Claiming Your Reward...";
+    if (pool.rewardClaimed) return "✅ Reward Successfully Claimed";
+    if (pool.winner && isConnected && address && address.toLowerCase() === pool.winner.toLowerCase()) return "🏆 You Won This Pool";
+    if (pool.winner) return "🏆 Pool Completed - Someone Else Won";
     return "❓ Unknown State";
   };
 

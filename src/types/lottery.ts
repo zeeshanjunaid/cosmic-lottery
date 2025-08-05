@@ -15,6 +15,8 @@ export interface LotteryPool {
   isPurchasing?: boolean;
   isClaiming?: boolean;
   rewardClaimed?: boolean;
+  maxTicketsPerUser?: number;
+  canClaim?: boolean;
 }
 
 export interface User {
